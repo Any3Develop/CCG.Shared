@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Game.Context.EventProcessors
+﻿namespace CCG_Shared.Abstractions.Game.Context.EventProcessors
 {
     public interface IContextEventProcessor
     {

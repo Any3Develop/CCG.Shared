@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shared.Common.Network.Exceptions
+﻿namespace CCG_Shared.Common.Network.Exceptions
 {
     public class NotConnectedException : Exception
     {

@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Abstractions.Game.Runtime.Players;
-using Shared.Game.Events.Context.Players;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Abstractions.Game.Runtime.Players;
+using CCG_Shared.Game.Events.Context.Players;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Runtime.Players
+namespace CCG_Shared.Game.Runtime.Players
 {
     public class RuntimePlayer : IRuntimePlayer
     {

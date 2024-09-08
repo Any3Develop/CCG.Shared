@@ -1,7 +1,7 @@
-﻿using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Runtime.Players;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Runtime.Players;
 
-namespace Shared.Game.Collections
+namespace CCG_Shared.Game.Collections
 {
     public class PlayersCollection : RuntimeCollectionBase<IRuntimePlayer>, IPlayersCollection
     {

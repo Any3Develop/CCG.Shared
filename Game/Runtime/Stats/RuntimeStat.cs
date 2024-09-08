@@ -1,13 +1,12 @@
-﻿using System;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Abstractions.Game.Runtime.Stats;
-using Shared.Game.Data;
-using Shared.Game.Events.Context.Stats;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Abstractions.Game.Runtime.Stats;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Events.Context.Stats;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Runtime.Stats
+namespace CCG_Shared.Game.Runtime.Stats
 {
     public class RuntimeStat : IRuntimeStat
     {

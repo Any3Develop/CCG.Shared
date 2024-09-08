@@ -1,4 +1,4 @@
-﻿namespace Shared.Game.Data
+﻿namespace CCG_Shared.Game.Data
 {
     public class CardData : ObjectData
     {

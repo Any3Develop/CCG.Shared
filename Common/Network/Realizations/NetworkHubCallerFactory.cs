@@ -1,7 +1,6 @@
-﻿using System;
-using Shared.Abstractions.Common.Network;
+﻿using CCG_Shared.Abstractions.Common.Network;
 
-namespace Shared.Common.Network
+namespace CCG_Shared.Common.Network.Realizations
 {
     public class NetworkHubCallerFactory : INetworkHubCallerFactory
     {

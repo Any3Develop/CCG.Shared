@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Shared.Game.Utils
+﻿namespace CCG_Shared.Game.Utils
 {
     public static class StringExtensions
     {

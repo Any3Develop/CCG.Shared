@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Cards;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Cards;
 
-namespace Shared.Game.Events.Context.Cards
+namespace CCG_Shared.Game.Events.Context.Cards
 {
     public readonly struct BeforeCardPositionChangeEvent
     {

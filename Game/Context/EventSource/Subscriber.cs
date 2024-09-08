@@ -1,6 +1,4 @@
-using System;
-
-namespace Shared.Game.Context.EventSource
+namespace CCG_Shared.Game.Context.EventSource
 {
     public class Subscriber : IDisposable, IComparable<Subscriber>
     {

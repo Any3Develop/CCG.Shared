@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Events;
-using Shared.Game.Events.Context.Commands;
-using Shared.Game.Events.Context.Queue;
+﻿using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Events;
+using CCG_Shared.Game.Events.Context.Commands;
+using CCG_Shared.Game.Events.Context.Queue;
 
-namespace Shared.Game.Context
+namespace CCG_Shared.Game.Context
 {
     public class GameQueueCollector : IGameQueueCollector
     {

@@ -1,11 +1,11 @@
-﻿using Shared.Abstractions.Game.Runtime.Cards;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Game.Data;
-using Shared.Game.Events.Context.Cards;
-using Shared.Game.Runtime.Objects;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Cards;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Events.Context.Cards;
+using CCG_Shared.Game.Runtime.Objects;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Runtime.Cards
+namespace CCG_Shared.Game.Runtime.Cards
 {
     public abstract class RuntimeCardBase : RuntimeObject, IRuntimeCard
     {

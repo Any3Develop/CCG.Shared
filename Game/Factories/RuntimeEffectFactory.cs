@@ -1,17 +1,16 @@
-﻿using System;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.Providers;
-using Shared.Abstractions.Game.Factories;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Effects;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Game.Data;
-using Shared.Game.Data.Enums;
-using Shared.Game.Runtime.Data;
-using Shared.Game.Runtime.Effects;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.Providers;
+using CCG_Shared.Abstractions.Game.Factories;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Effects;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Data.Enums;
+using CCG_Shared.Game.Runtime.Data;
+using CCG_Shared.Game.Runtime.Effects;
 
-namespace Shared.Game.Factories
+namespace CCG_Shared.Game.Factories
 {
     public class RuntimeEffectFactory : IRuntimeEffectFactory
     {

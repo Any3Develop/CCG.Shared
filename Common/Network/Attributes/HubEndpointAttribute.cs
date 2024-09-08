@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shared.Common.Network.Attributes
+﻿namespace CCG_Shared.Common.Network.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class HubEndpointAttribute : Attribute

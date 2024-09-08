@@ -1,7 +1,6 @@
-﻿using System;
-using Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
 
-namespace Shared.Abstractions.Game.Context.Providers
+namespace CCG_Shared.Abstractions.Game.Context.Providers
 {
     public interface IRuntimeIdProvider : IDisposable
     {

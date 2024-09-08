@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Context.Providers;
-using Shared.Abstractions.Game.Factories;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Players;
-using Shared.Game.Data;
-using Shared.Game.Runtime.Data;
-using Shared.Game.Runtime.Players;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Context.Providers;
+using CCG_Shared.Abstractions.Game.Factories;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Players;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Runtime.Data;
+using CCG_Shared.Game.Runtime.Players;
 
-namespace Shared.Game.Factories
+namespace CCG_Shared.Game.Factories
 {
     public class RuntimePlayerFactory : IRuntimePlayerFactory
     {

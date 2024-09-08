@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Objects;
 
-namespace Shared.Game.Events.Context.Objects
+namespace CCG_Shared.Game.Events.Context.Objects
 {
     public readonly struct BeforeObjectStateChangeEvent
     {

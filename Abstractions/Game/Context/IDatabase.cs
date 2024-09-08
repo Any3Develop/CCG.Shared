@@ -1,8 +1,8 @@
-﻿using Shared.Abstractions.Game.Collections;
-using Shared.Common.Network.Data;
-using Shared.Game.Data;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Common.Network.Data;
+using CCG_Shared.Game.Data;
 
-namespace Shared.Abstractions.Game.Context
+namespace CCG_Shared.Abstractions.Game.Context
 {
     public interface IDatabase
     {

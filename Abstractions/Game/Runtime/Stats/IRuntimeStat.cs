@@ -1,8 +1,8 @@
-﻿using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Game.Data;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Game.Data;
 
-namespace Shared.Abstractions.Game.Runtime.Stats
+namespace CCG_Shared.Abstractions.Game.Runtime.Stats
 {
     public interface IRuntimeStat : IRuntimeObjectBase
     {

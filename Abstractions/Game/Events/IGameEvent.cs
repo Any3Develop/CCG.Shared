@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Game.Events
+﻿namespace CCG_Shared.Abstractions.Game.Events
 {
     public interface IGameEvent
     {

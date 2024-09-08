@@ -1,11 +1,10 @@
-﻿using System;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.EventProcessors;
-using Shared.Abstractions.Game.Events;
-using Shared.Abstractions.Game.Runtime.Cards;
-using Shared.Game.Events.Output;
+﻿using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.EventProcessors;
+using CCG_Shared.Abstractions.Game.Events;
+using CCG_Shared.Abstractions.Game.Runtime.Cards;
+using CCG_Shared.Game.Events.Output;
 
-namespace Shared.Game.Context.EventProcessors
+namespace CCG_Shared.Game.Context.EventProcessors
 {
     public class GameEventProcessor : IGameEventProcessor
     {

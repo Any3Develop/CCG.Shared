@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Shared.Abstractions.Game.Collections;
-using Shared.Common.Logger;
+﻿using System.Reflection;
+using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Common.Logger;
 
-namespace Shared.Game.Collections
+namespace CCG_Shared.Game.Collections
 {
     /// <summary>
     /// Use it only as project singleton to prevent iteration whole assembly every scope creation.

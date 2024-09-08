@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Shared.Game.Context.EventSource
+﻿namespace CCG_Shared.Game.Context.EventSource
 {
     public class SubscribersCollection : List<Subscriber>, IDisposable
     {

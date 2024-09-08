@@ -1,7 +1,7 @@
-﻿using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
 
-namespace Shared.Abstractions.Game.Factories
+namespace CCG_Shared.Abstractions.Game.Factories
 {
     public interface IRuntimeObjectFactory : IRuntimeFactory<IRuntimeObject, IRuntimeObjectData>{}
 }

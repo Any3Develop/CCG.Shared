@@ -1,7 +1,7 @@
-﻿using Shared.Abstractions.Game.Data;
-using Shared.Game.Data.Enums;
+﻿using CCG_Shared.Abstractions.Game.Data;
+using CCG_Shared.Game.Data.Enums;
 
-namespace Shared.Game.Data
+namespace CCG_Shared.Game.Data
 {
     public class EffectData : IData
     {

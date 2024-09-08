@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Shared.Game.Data.Enums;
+﻿using CCG_Shared.Game.Data.Enums;
 
-namespace Shared.Abstractions.Game.Runtime.Data
+namespace CCG_Shared.Abstractions.Game.Runtime.Data
 {
     public interface IRuntimeObjectData : IRuntimeDataBase
     {

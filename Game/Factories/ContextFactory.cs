@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.EventProcessors;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Context.Providers;
-using Shared.Abstractions.Game.Factories;
-using Shared.Game.Collections;
-using Shared.Game.Context;
-using Shared.Game.Context.EventProcessors;
-using Shared.Game.Context.Providers;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.EventProcessors;
+using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Context.Providers;
+using CCG_Shared.Abstractions.Game.Factories;
+using CCG_Shared.Game.Collections;
+using CCG_Shared.Game.Context;
+using CCG_Shared.Game.Context.EventProcessors;
+using CCG_Shared.Game.Context.Providers;
 
-namespace Shared.Game.Factories
+namespace CCG_Shared.Game.Factories
 {
     public class ContextFactory : IContextFactory
     {

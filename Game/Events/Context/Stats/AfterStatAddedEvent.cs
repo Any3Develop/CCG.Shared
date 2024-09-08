@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Stats;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Stats;
 
-namespace Shared.Game.Events.Context.Stats
+namespace CCG_Shared.Game.Events.Context.Stats
 {
     public readonly struct AfterStatAddedEvent
     {

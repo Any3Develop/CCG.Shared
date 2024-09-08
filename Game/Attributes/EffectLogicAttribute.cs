@@ -1,7 +1,6 @@
-﻿using System;
-using Shared.Game.Data.Enums;
+﻿using CCG_Shared.Game.Data.Enums;
 
-namespace Shared.Game.Attributes
+namespace CCG_Shared.Game.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class EffectLogicAttribute : Attribute

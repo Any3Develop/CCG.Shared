@@ -1,6 +1,6 @@
-﻿using Shared.Game.Data;
+﻿using CCG_Shared.Game.Data;
 
-namespace Shared.Abstractions.Game.Context
+namespace CCG_Shared.Abstractions.Game.Context
 {
     public interface ISession
     {

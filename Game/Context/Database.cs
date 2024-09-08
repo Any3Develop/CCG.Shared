@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context;
-using Shared.Common.Network;
-using Shared.Common.Network.Data;
-using Shared.Game.Collections;
-using Shared.Game.Data;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Common.Network.Data;
+using CCG_Shared.Game.Collections;
+using CCG_Shared.Game.Data;
 
-namespace Shared.Game.Context
+namespace CCG_Shared.Game.Context
 {
     public class Database : IDatabase
     {

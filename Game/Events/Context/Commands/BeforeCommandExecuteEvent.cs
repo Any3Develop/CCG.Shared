@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Commands;
+﻿using CCG_Shared.Abstractions.Game.Commands;
 
-namespace Shared.Game.Events.Context.Commands
+namespace CCG_Shared.Game.Events.Context.Commands
 {
     public readonly struct BeforeCommandExecuteEvent
     {

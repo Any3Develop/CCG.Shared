@@ -1,7 +1,7 @@
-﻿using Shared.Abstractions.Game.Commands;
-using Shared.Abstractions.Game.Context;
+﻿using CCG_Shared.Abstractions.Game.Commands;
+using CCG_Shared.Abstractions.Game.Context;
 
-namespace Shared.Game.Commands.Base
+namespace CCG_Shared.Game.Commands.Base
 {
     public abstract class Command<T> : Command, ICommand<T> where T : ICommandModel
     {

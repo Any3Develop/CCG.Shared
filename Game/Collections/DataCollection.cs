@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Data;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Data;
 
-namespace Shared.Game.Collections
+namespace CCG_Shared.Game.Collections
 {
     public class DataCollection<TData> : List<TData>, IDataCollection<TData> where TData : IData
     {

@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Events;
+﻿using CCG_Shared.Abstractions.Game.Events;
 
-namespace Shared.Abstractions.Game.Context.EventProcessors
+namespace CCG_Shared.Abstractions.Game.Context.EventProcessors
 {
     public interface IGameEventProcessor
     {

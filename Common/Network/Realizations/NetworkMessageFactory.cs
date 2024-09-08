@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using Shared.Abstractions.Common.Network;
-using Shared.Common.Network.Data;
+﻿using CCG_Shared.Abstractions.Common.Network;
+using CCG_Shared.Common.Network.Data;
 
-namespace Shared.Common.Network
+namespace CCG_Shared.Common.Network.Realizations
 {
     public class NetworkMessageFactory : INetworkMessageFactory
     {

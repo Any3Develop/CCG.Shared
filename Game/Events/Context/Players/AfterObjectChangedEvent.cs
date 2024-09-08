@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Players;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Players;
 
-namespace Shared.Game.Events.Context.Players
+namespace CCG_Shared.Game.Events.Context.Players
 {
     public readonly struct AfterPlayerChangedEvent
     {

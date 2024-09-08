@@ -1,10 +1,10 @@
-﻿using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.EventProcessors;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Context.Providers;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.EventProcessors;
+using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Context.Providers;
 
-namespace Shared.Abstractions.Game.Factories
+namespace CCG_Shared.Abstractions.Game.Factories
 {
     public interface IContextFactory
     {

@@ -1,8 +1,6 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Shared.Common.Network.Data;
+﻿using CCG_Shared.Common.Network.Data;
 
-namespace Shared.Abstractions.Common.Network
+namespace CCG_Shared.Abstractions.Common.Network
 {
     public interface INetworkStream
     {

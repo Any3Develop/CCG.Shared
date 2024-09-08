@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Shared.Abstractions.Common.Network;
+﻿using CCG_Shared.Abstractions.Common.Network;
 
-namespace Shared.Common.Network
+namespace CCG_Shared.Common.Network.Realizations
 {
     public class NetworkDelaySimulator : INetworkSimulator
     {

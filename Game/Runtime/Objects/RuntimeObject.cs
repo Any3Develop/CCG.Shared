@@ -1,13 +1,13 @@
-﻿using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Game.Data;
-using Shared.Game.Data.Enums;
-using Shared.Game.Events.Context.Objects;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Data.Enums;
+using CCG_Shared.Game.Events.Context.Objects;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Runtime.Objects
+namespace CCG_Shared.Game.Runtime.Objects
 {
     public abstract class RuntimeObject : IRuntimeObject
     {

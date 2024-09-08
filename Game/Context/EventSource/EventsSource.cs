@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Common.Logger;
+﻿using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Common.Logger;
 
-namespace Shared.Game.Context.EventSource
+namespace CCG_Shared.Game.Context.EventSource
 {
     public class EventsSource : IEventsSource, IEventPublisher
     {

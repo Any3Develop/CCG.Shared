@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Common.Network
+﻿namespace CCG_Shared.Abstractions.Common.Network
 {
     public interface INetworkStreamFactory
     {

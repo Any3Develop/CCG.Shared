@@ -1,9 +1,9 @@
 ﻿using System.Text;
+using CCG_Shared.Abstractions.Common.Network;
+using CCG_Shared.Game.Utils;
 using Newtonsoft.Json;
-using Shared.Abstractions.Common.Network;
-using Shared.Game.Utils;
 
-namespace Shared.Common.Network
+namespace CCG_Shared.Common.Network.Realizations
 {
     public class NetworkSerializer : INetworkSerializer
     {

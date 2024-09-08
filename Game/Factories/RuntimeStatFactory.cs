@@ -1,16 +1,15 @@
-﻿using System;
-using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.Providers;
-using Shared.Abstractions.Game.Factories;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Abstractions.Game.Runtime.Stats;
-using Shared.Game.Data;
-using Shared.Game.Runtime.Data;
-using Shared.Game.Runtime.Stats;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.Providers;
+using CCG_Shared.Abstractions.Game.Factories;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Abstractions.Game.Runtime.Stats;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Runtime.Data;
+using CCG_Shared.Game.Runtime.Stats;
 
-namespace Shared.Game.Factories
+namespace CCG_Shared.Game.Factories
 {
     public class RuntimeStatFactory : IRuntimeStatFactory
     {

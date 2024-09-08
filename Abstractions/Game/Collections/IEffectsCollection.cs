@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Effects;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Effects;
 
-namespace Shared.Abstractions.Game.Collections
+namespace CCG_Shared.Abstractions.Game.Collections
 {
     public interface IEffectsCollection : IRuntimeCollection<IRuntimeEffect> {}
 }

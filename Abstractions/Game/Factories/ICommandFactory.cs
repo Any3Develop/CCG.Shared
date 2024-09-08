@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Commands;
+﻿using CCG_Shared.Abstractions.Game.Commands;
 
-namespace Shared.Abstractions.Game.Factories
+namespace CCG_Shared.Abstractions.Game.Factories
 {
     public interface ICommandFactory
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Shared.Abstractions.Game.Collections
+﻿namespace CCG_Shared.Abstractions.Game.Collections
 {
     public interface IRuntimeCollection<TRuntime> : IDisposable, IEnumerable<TRuntime>
     {

@@ -1,11 +1,10 @@
-﻿using System;
-using Shared.Abstractions.Game.Commands;
-using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Factories;
-using Shared.Common.Logger;
-using Shared.Game.Events.Context.Commands;
+﻿using CCG_Shared.Abstractions.Game.Commands;
+using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Factories;
+using CCG_Shared.Common.Logger;
+using CCG_Shared.Game.Events.Context.Commands;
 
-namespace Shared.Game.Context
+namespace CCG_Shared.Game.Context
 {
     public class CommandProcessor : ICommandProcessor
     {

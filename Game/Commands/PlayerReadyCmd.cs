@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using Shared.Common.Logger;
-using Shared.Game.Commands.Base;
-using Shared.Game.Events.Context;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Common.Logger;
+using CCG_Shared.Game.Commands.Base;
+using CCG_Shared.Game.Events.Context;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Commands
+namespace CCG_Shared.Game.Commands
 {
     public class PlayerReadyCmd : Command
     {

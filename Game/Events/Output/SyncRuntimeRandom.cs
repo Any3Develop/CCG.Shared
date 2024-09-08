@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
 
-namespace Shared.Game.Events.Output
+namespace CCG_Shared.Game.Events.Output
 {
     public class SyncRuntimeRandom : GameEvent
     {

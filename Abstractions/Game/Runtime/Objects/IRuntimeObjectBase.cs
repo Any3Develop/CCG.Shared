@@ -1,8 +1,7 @@
-﻿using System;
-using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
 
-namespace Shared.Abstractions.Game.Runtime.Objects
+namespace CCG_Shared.Abstractions.Game.Runtime.Objects
 {
     public interface IRuntimeObjectBase : IDisposable
     {

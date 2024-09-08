@@ -1,7 +1,6 @@
-﻿using System;
-using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.Serialization;
 
-namespace Shared.Game.Utils
+namespace CCG_Shared.Game.Utils
 {
 	public interface ISharedSerializationBinder : ISerializationBinder
 	{

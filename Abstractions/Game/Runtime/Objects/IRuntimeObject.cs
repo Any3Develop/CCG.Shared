@@ -1,9 +1,9 @@
-﻿using Shared.Abstractions.Game.Collections;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Game.Data;
-using Shared.Game.Data.Enums;
+﻿using CCG_Shared.Abstractions.Game.Collections;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Data.Enums;
 
-namespace Shared.Abstractions.Game.Runtime.Objects
+namespace CCG_Shared.Abstractions.Game.Runtime.Objects
 {
     public interface IRuntimeObject : IRuntimeObjectBase
     {

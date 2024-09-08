@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Linq;
-using Shared.Abstractions.Common.Network;
+﻿using CCG_Shared.Abstractions.Common.Network;
 
-namespace Shared.Common.Network
+namespace CCG_Shared.Common.Network.Realizations
 {
     public class NetworkStreamFactory : INetworkStreamFactory
     {

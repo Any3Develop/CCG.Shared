@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Game.Runtime.Data
+﻿namespace CCG_Shared.Abstractions.Game.Runtime.Data
 {
     public interface IRuntimeIdData
     {

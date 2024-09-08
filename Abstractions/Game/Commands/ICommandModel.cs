@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Game.Commands
+﻿namespace CCG_Shared.Abstractions.Game.Commands
 {
     
     public interface ICommandModel

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Shared.Abstractions.Game.Context.EventSource
+﻿namespace CCG_Shared.Abstractions.Game.Context.EventSource
 {
     public interface IEventsSource : IDisposable
     {

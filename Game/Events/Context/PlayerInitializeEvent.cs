@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Runtime.Players;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Players;
 
-namespace Shared.Game.Events.Context
+namespace CCG_Shared.Game.Events.Context
 {
     public readonly struct PlayerInitializeEvent
     {

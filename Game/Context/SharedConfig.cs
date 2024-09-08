@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Game.Context;
+﻿using CCG_Shared.Abstractions.Game.Context;
 
-namespace Shared.Game.Context
+namespace CCG_Shared.Game.Context
 {
     public class SharedConfig : ISharedConfig
     {

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Collections;
 using System.Reflection;
-using Shared.Common.Logger;
+using CCG_Shared.Common.Logger;
 
-namespace Shared.Game.Utils
+namespace CCG_Shared.Game.Utils
 {
     public static class ExtensionMethods
     {

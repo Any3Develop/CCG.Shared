@@ -1,14 +1,14 @@
-﻿using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.EventProcessors;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Game.Events.Context.Cards;
-using Shared.Game.Events.Context.Effects;
-using Shared.Game.Events.Context.Objects;
-using Shared.Game.Events.Context.Stats;
-using Shared.Game.Events.Output;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.EventProcessors;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Game.Events.Context.Cards;
+using CCG_Shared.Game.Events.Context.Effects;
+using CCG_Shared.Game.Events.Context.Objects;
+using CCG_Shared.Game.Events.Context.Stats;
+using CCG_Shared.Game.Events.Output;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Context.EventProcessors
+namespace CCG_Shared.Game.Context.EventProcessors
 {
     public class ObjectEventProcessor : IObjectEventProcessor
     {

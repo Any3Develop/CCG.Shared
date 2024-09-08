@@ -1,6 +1,6 @@
-﻿using Shared.Game.Data;
+﻿using CCG_Shared.Game.Data;
 
-namespace Shared.Common.Network.Data
+namespace CCG_Shared.Common.Network.Data
 {
     public class DatabaseModel
     {

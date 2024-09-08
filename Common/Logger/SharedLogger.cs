@@ -1,6 +1,6 @@
-﻿using Shared.Abstractions.Common.Logger;
+﻿using CCG_Shared.Abstractions.Common.Logger;
 
-namespace Shared.Common.Logger
+namespace CCG_Shared.Common.Logger
 {
     public static class SharedLogger
     {

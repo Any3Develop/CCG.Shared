@@ -1,4 +1,4 @@
-namespace Shared.Common.Network.Data
+namespace CCG_Shared.Common.Network.Data
 {
     public readonly struct StreamResult
     {

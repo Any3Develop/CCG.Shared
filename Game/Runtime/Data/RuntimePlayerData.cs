@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
 
-namespace Shared.Game.Runtime.Data
+namespace CCG_Shared.Game.Runtime.Data
 {
     public class RuntimePlayerData : IRuntimePlayerData
     {

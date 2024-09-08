@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shared.Abstractions.Game.Context
+﻿namespace CCG_Shared.Abstractions.Game.Context
 {
     public interface ISharedTime
     {

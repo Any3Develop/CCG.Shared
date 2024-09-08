@@ -1,4 +1,4 @@
-﻿namespace Shared.Abstractions.Game.Data
+﻿namespace CCG_Shared.Abstractions.Game.Data
 {
     public interface IData
     {

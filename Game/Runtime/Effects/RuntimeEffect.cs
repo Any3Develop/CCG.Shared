@@ -1,12 +1,12 @@
-﻿using Shared.Abstractions.Game.Context.EventSource;
-using Shared.Abstractions.Game.Runtime.Data;
-using Shared.Abstractions.Game.Runtime.Effects;
-using Shared.Abstractions.Game.Runtime.Objects;
-using Shared.Game.Data;
-using Shared.Game.Events.Context.Effects;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Context.EventSource;
+using CCG_Shared.Abstractions.Game.Runtime.Data;
+using CCG_Shared.Abstractions.Game.Runtime.Effects;
+using CCG_Shared.Abstractions.Game.Runtime.Objects;
+using CCG_Shared.Game.Data;
+using CCG_Shared.Game.Events.Context.Effects;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Runtime.Effects
+namespace CCG_Shared.Game.Runtime.Effects
 {
     public abstract class RuntimeEffect : IRuntimeEffect
     {

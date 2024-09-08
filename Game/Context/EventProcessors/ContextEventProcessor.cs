@@ -1,10 +1,10 @@
-﻿using Shared.Abstractions.Game.Context;
-using Shared.Abstractions.Game.Context.EventProcessors;
-using Shared.Game.Events.Context.Queue;
-using Shared.Game.Events.Output;
-using Shared.Game.Utils;
+﻿using CCG_Shared.Abstractions.Game.Context;
+using CCG_Shared.Abstractions.Game.Context.EventProcessors;
+using CCG_Shared.Game.Events.Context.Queue;
+using CCG_Shared.Game.Events.Output;
+using CCG_Shared.Game.Utils;
 
-namespace Shared.Game.Context.EventProcessors
+namespace CCG_Shared.Game.Context.EventProcessors
 {
     public class ContextEventProcessor : IContextEventProcessor
     {

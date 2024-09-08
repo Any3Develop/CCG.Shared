@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using Shared.Abstractions.Game.Events;
+﻿using CCG_Shared.Abstractions.Game.Events;
+using Newtonsoft.Json;
 
-namespace Shared.Game.Events.Output
+namespace CCG_Shared.Game.Events.Output
 {
     public abstract class GameEvent : IGameEvent
     {
