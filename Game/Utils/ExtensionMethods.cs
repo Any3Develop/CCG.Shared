@@ -6,7 +6,7 @@ namespace CCG.Shared.Game.Utils
 {
     public static class ExtensionMethods
     {
-        public static T Map<T>(this T destination, object from)
+        public static T Map<T>(this T destination, object from) // TODO remove or remake because it looks bad
         {
             if (destination == null)
                 throw new NullReferenceException($"{nameof(Map)} cannot executed, {nameof(destination)} '{typeof(T).Name}' object is null");
@@ -37,7 +37,7 @@ namespace CCG.Shared.Game.Utils
             return destination;
         }
         
-        public static bool CompareValues<T>(this T value1, T value2) // T is contract to equal type
+        public static bool CompareValues<T>(this T value1, T value2) // T it is contract to equal types
         {
             try
             {
@@ -71,7 +71,9 @@ namespace CCG.Shared.Game.Utils
             if (value1 is IEnumerable collection1 && value2 is IEnumerable collection2)
                 return Compare(collection1, collection2);
 
-            return value1.Equals(value2) || (value1.GetType().IsClass && CompareValues(value1, value2));
+            return value1.GetType().IsValueType || value1 is string
+                ? value1.Equals(value2) 
+                : CompareValues(value1, value2);
         }
 
         private static bool Compare(IEnumerable collection1, IEnumerable collection2)
