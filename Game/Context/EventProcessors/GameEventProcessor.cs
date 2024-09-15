@@ -33,7 +33,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
 
                 case EffectChanged changedObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(changedObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                    if (!context.ObjectsCollection.TryGet(changedObjectEffect.RuntimeModel.RuntimeOwnerId, out var runtimeObject)
                         || !runtimeObject.EffectsCollection.TryGet(changedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
@@ -81,7 +81,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case EffectDeleted deletedObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(deletedObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                    if (!context.ObjectsCollection.TryGet(deletedObjectEffect.RuntimeModel.RuntimeOwnerId, out var runtimeObject)
                         || !runtimeObject.EffectsCollection.TryGet(deletedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
@@ -103,7 +103,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case EffectEnded endedObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(endedObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                    if (!context.ObjectsCollection.TryGet(endedObjectEffect.RuntimeModel.RuntimeOwnerId, out var runtimeObject)
                         || !runtimeObject.EffectsCollection.TryGet(endedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
                     
@@ -119,7 +119,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case EffectStarted startObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(startObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                    if (!context.ObjectsCollection.TryGet(startObjectEffect.RuntimeModel.RuntimeOwnerId, out var runtimeObject)
                         || !runtimeObject.EffectsCollection.TryGet(startObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
                     

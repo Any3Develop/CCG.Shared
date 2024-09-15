@@ -47,8 +47,8 @@ namespace CCG.Shared.Game.Factories
 
         public IRuntimeEffect Create(IRuntimeEffectModel runtimeModel, bool notify = true)
         {
-            if (!objectsCollection.TryGet(runtimeModel.EffectOwnerId, out var runtimeEffectOwnerObject))
-                throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeModel.EffectOwnerId}, not found in {nameof(IObjectsCollection)}");
+            if (!objectsCollection.TryGet(runtimeModel.RuntimeOwnerId, out var runtimeEffectOwnerObject))
+                throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeModel.RuntimeOwnerId}, not found in {nameof(IObjectsCollection)}");
 
             if (runtimeEffectOwnerObject.EffectsCollection.TryGet(runtimeModel.Id, out var runtimeEffect))
                 return runtimeEffect.Sync(runtimeModel, notify);
