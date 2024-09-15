@@ -1,12 +1,12 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Context.EventSource;
-using CCG_Shared.Abstractions.Game.Runtime.Data;
-using CCG_Shared.Abstractions.Game.Runtime.Objects;
-using CCG_Shared.Abstractions.Game.Runtime.Players;
-using CCG_Shared.Game.Events.Context.Players;
-using CCG_Shared.Game.Utils;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Runtime.Data;
+using CCG.Shared.Abstractions.Game.Runtime.Objects;
+using CCG.Shared.Abstractions.Game.Runtime.Players;
+using CCG.Shared.Game.Events.Context.Players;
+using CCG.Shared.Game.Utils;
 
-namespace CCG_Shared.Game.Runtime.Players
+namespace CCG.Shared.Game.Runtime.Players
 {
     public class RuntimePlayer : IRuntimePlayer
     {

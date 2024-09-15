@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Objects;
 
-namespace CCG_Shared.Game.Events.Context.Objects
+namespace CCG.Shared.Game.Events.Context.Objects
 {
     public readonly struct AfterObjectAddedEvent
     {

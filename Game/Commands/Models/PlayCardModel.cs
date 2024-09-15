@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Game.Commands.Base;
+﻿using CCG.Shared.Game.Commands.Base;
 
-namespace CCG_Shared.Game.Commands.Models
+namespace CCG.Shared.Game.Commands.Models
 {
     public class PlayCardModel : CommandModelBase
     {

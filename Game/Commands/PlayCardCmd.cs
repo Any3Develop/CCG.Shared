@@ -1,10 +1,10 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Cards;
-using CCG_Shared.Game.Commands.Base;
-using CCG_Shared.Game.Commands.Models;
-using CCG_Shared.Game.Data.Enums;
-using CCG_Shared.Game.Exceptions;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Cards;
+using CCG.Shared.Game.Commands.Base;
+using CCG.Shared.Game.Commands.Models;
+using CCG.Shared.Game.Data.Enums;
+using CCG.Shared.Game.Exceptions;
 
-namespace CCG_Shared.Game.Commands
+namespace CCG.Shared.Game.Commands
 {
     public class PlayCardCmd : Command<PlayCardModel>
     {

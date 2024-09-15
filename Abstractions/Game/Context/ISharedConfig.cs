@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Abstractions.Game.Context
+﻿namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface ISharedConfig
     {

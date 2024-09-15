@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Objects;
 
-namespace CCG_Shared.Abstractions.Game.Collections
+namespace CCG.Shared.Abstractions.Game.Collections
 {
     public interface IObjectsCollection : IRuntimeCollection<IRuntimeObject>
     {

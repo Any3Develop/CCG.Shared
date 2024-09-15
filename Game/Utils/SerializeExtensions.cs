@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CCG_Shared.Game.Utils
+namespace CCG.Shared.Game.Utils
 {
     public static class SerializeExtensions
     {

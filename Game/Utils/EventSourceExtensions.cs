@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Context.EventSource;
+﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
 
-namespace CCG_Shared.Game.Utils
+namespace CCG.Shared.Game.Utils
 {
     public static class EventSourceExtensions
     {

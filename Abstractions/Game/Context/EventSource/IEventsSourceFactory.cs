@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Abstractions.Game.Context.EventSource
+﻿namespace CCG.Shared.Abstractions.Game.Context.EventSource
 {
     public interface IEventsSourceFactory
     {

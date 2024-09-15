@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Common.Network;
+﻿using CCG.Shared.Abstractions.Common.Network;
 
-namespace CCG_Shared.Common.Network.Realizations
+namespace CCG.Shared.Common.Network.Realizations
 {
     public class NetworkDelaySimulator : INetworkSimulator
     {

@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Data;
+﻿using CCG.Shared.Abstractions.Game.Data;
 
-namespace CCG_Shared.Abstractions.Game.Collections
+namespace CCG.Shared.Abstractions.Game.Collections
 {
     public interface IDataCollection<TData> : IList<TData> where TData : IData
     {

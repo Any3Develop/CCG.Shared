@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Abstractions.Game.Factories
+﻿namespace CCG.Shared.Abstractions.Game.Factories
 {
     public interface IRuntimeFactory<out TRuntime, TRuntimeData>
     {

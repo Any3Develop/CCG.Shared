@@ -1,7 +1,7 @@
-﻿using CCG_Shared.Abstractions.Common.Network;
-using CCG_Shared.Common.Network.Data;
+﻿using CCG.Shared.Abstractions.Common.Network;
+using CCG.Shared.Common.Network.Data;
 
-namespace CCG_Shared.Common.Network.Realizations
+namespace CCG.Shared.Common.Network.Realizations
 {
     public class NetworkStream : INetworkStream
     {

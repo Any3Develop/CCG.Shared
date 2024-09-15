@@ -1,7 +1,7 @@
-﻿using CCG_Shared.Abstractions.Game.Context.EventSource;
-using CCG_Shared.Common.Logger;
+﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Common.Logger;
 
-namespace CCG_Shared.Game.Context.EventSource
+namespace CCG.Shared.Game.Context.EventSource
 {
     public class EventsSource : IEventsSource, IEventPublisher
     {

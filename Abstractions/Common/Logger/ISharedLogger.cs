@@ -1,4 +1,4 @@
-namespace CCG_Shared.Abstractions.Common.Logger
+namespace CCG.Shared.Abstractions.Common.Logger
 {
     public interface ISharedLogger
     {

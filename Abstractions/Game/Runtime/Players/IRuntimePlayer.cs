@@ -1,8 +1,8 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Runtime.Data;
-using CCG_Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Runtime.Data;
+using CCG.Shared.Abstractions.Game.Runtime.Objects;
 
-namespace CCG_Shared.Abstractions.Game.Runtime.Players
+namespace CCG.Shared.Abstractions.Game.Runtime.Players
 {
     public interface IRuntimePlayer : IRuntimeObjectBase
     {

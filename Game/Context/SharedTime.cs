@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Context;
+﻿using CCG.Shared.Abstractions.Game.Context;
 
-namespace CCG_Shared.Game.Context
+namespace CCG.Shared.Game.Context
 {
     public class SharedTime : ISharedTime
     {

@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Game.Events.Output
+﻿namespace CCG.Shared.Game.Events.Output
 {
     public class CardPositionChanged : GameEvent
     {

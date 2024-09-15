@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Objects;
 
-namespace CCG_Shared.Abstractions.Game.Context.EventProcessors
+namespace CCG.Shared.Abstractions.Game.Context.EventProcessors
 {
     public interface IObjectEventProcessor
     {

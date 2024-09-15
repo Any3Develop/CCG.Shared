@@ -1,10 +1,10 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Commands;
-using CCG_Shared.Abstractions.Game.Context;
-using CCG_Shared.Abstractions.Game.Factories;
-using CCG_Shared.Game.Commands.Base;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Commands;
+using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Factories;
+using CCG.Shared.Game.Commands.Base;
 
-namespace CCG_Shared.Game.Factories
+namespace CCG.Shared.Game.Factories
 {
     public class CommandFactory : ICommandFactory
     {

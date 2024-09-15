@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Events;
+﻿using CCG.Shared.Abstractions.Game.Events;
 
-namespace CCG_Shared.Game.Events.Context.Queue
+namespace CCG.Shared.Game.Events.Context.Queue
 {
     public class AfterGameQueueReleasedEvent
     {

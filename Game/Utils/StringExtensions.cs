@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Game.Utils
+﻿namespace CCG.Shared.Game.Utils
 {
     public static class StringExtensions
     {

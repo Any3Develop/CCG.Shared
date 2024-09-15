@@ -1,7 +1,7 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
-using CCG_Shared.Game.Data.Enums;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+using CCG.Shared.Game.Data.Enums;
 
-namespace CCG_Shared.Game.Runtime.Data
+namespace CCG.Shared.Game.Runtime.Data
 {
     public abstract class RuntimeObjectData : IRuntimeObjectData
     {

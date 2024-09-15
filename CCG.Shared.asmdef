@@ -1,6 +1,6 @@
 {
-    "name": "CCG_Shared",
-    "rootNamespace": "CCG_Shared",
+    "name": "CCG.Shared",
+    "rootNamespace": "CCG.Shared",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

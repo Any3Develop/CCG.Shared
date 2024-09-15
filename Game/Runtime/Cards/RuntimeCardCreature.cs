@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Game.Runtime.Cards
+﻿namespace CCG.Shared.Game.Runtime.Cards
 {
     public class RuntimeCardCreature : RuntimeCardBase
     {

@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Common.Network.Data;
+﻿using CCG.Shared.Common.Network.Data;
 
-namespace CCG_Shared.Abstractions.Common.Network
+namespace CCG.Shared.Abstractions.Common.Network
 {
     public interface INetworkStream
     {

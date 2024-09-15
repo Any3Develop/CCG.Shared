@@ -1,9 +1,9 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Context.EventSource;
-using CCG_Shared.Abstractions.Game.Context.Providers;
-using CCG_Shared.Abstractions.Game.Factories;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Providers;
+using CCG.Shared.Abstractions.Game.Factories;
 
-namespace CCG_Shared.Abstractions.Game.Context
+namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface IContext
     {

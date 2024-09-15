@@ -1,15 +1,15 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Context;
-using CCG_Shared.Abstractions.Game.Context.EventProcessors;
-using CCG_Shared.Abstractions.Game.Context.EventSource;
-using CCG_Shared.Abstractions.Game.Context.Providers;
-using CCG_Shared.Abstractions.Game.Factories;
-using CCG_Shared.Game.Collections;
-using CCG_Shared.Game.Context;
-using CCG_Shared.Game.Context.EventProcessors;
-using CCG_Shared.Game.Context.Providers;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Context.EventProcessors;
+using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Providers;
+using CCG.Shared.Abstractions.Game.Factories;
+using CCG.Shared.Game.Collections;
+using CCG.Shared.Game.Context;
+using CCG.Shared.Game.Context.EventProcessors;
+using CCG.Shared.Game.Context.Providers;
 
-namespace CCG_Shared.Game.Factories
+namespace CCG.Shared.Game.Factories
 {
     public class ContextFactory : IContextFactory
     {

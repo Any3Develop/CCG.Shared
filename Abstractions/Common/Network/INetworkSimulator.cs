@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Abstractions.Common.Network
+﻿namespace CCG.Shared.Abstractions.Common.Network
 {
     public interface INetworkSimulator
     {

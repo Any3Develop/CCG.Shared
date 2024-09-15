@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Commands;
+﻿using CCG.Shared.Abstractions.Game.Commands;
 
-namespace CCG_Shared.Abstractions.Game.Context
+namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface ICommandProcessor
     {

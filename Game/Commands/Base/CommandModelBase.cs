@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Commands;
+﻿using CCG.Shared.Abstractions.Game.Commands;
 
-namespace CCG_Shared.Game.Commands.Base
+namespace CCG.Shared.Game.Commands.Base
 {
     public class CommandModelBase : ICommandModel
     {

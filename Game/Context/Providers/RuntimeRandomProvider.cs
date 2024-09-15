@@ -1,7 +1,7 @@
-﻿using CCG_Shared.Abstractions.Game.Context.Providers;
-using CCG_Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Context.Providers;
+using CCG.Shared.Abstractions.Game.Runtime.Data;
 
-namespace CCG_Shared.Game.Context.Providers
+namespace CCG.Shared.Game.Context.Providers
 {
     public class RuntimeRandomProvider : IRuntimeRandomProvider
     {

@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using CCG_Shared.Abstractions.Common.Network;
-using CCG_Shared.Common.Network.Attributes;
+using CCG.Shared.Abstractions.Common.Network;
+using CCG.Shared.Common.Network.Attributes;
 
-namespace CCG_Shared.Common.Network.Realizations
+namespace CCG.Shared.Common.Network.Realizations
 {
     public class NetworkHubCaller : INetworkHubCaller
     {

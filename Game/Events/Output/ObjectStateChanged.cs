@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Game.Data.Enums;
+﻿using CCG.Shared.Game.Data.Enums;
 
-namespace CCG_Shared.Game.Events.Output
+namespace CCG.Shared.Game.Events.Output
 {
     public class ObjectStateChanged : GameEvent
     {

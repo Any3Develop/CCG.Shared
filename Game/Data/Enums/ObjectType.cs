@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Game.Data.Enums
+﻿namespace CCG.Shared.Game.Data.Enums
 {
     public enum ObjectType
     {

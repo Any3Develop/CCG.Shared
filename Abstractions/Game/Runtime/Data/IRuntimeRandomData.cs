@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Abstractions.Game.Runtime.Data
+﻿namespace CCG.Shared.Abstractions.Game.Runtime.Data
 {
     public interface IRuntimeRandomData
     {

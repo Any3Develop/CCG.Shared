@@ -1,10 +1,10 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Context.EventSource;
-using CCG_Shared.Abstractions.Game.Runtime.Effects;
-using CCG_Shared.Game.Events.Context.Effects;
-using CCG_Shared.Game.Utils;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Runtime.Effects;
+using CCG.Shared.Game.Events.Context.Effects;
+using CCG.Shared.Game.Utils;
 
-namespace CCG_Shared.Game.Collections
+namespace CCG.Shared.Game.Collections
 {
     public class EffectsCollection : RuntimeCollectionBase<IRuntimeEffect>, IEffectsCollection
     {

@@ -1,9 +1,9 @@
-﻿using CCG_Shared.Abstractions.Game.Context;
-using CCG_Shared.Abstractions.Game.Events;
-using CCG_Shared.Game.Events.Context.Commands;
-using CCG_Shared.Game.Events.Context.Queue;
+﻿using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Events;
+using CCG.Shared.Game.Events.Context.Commands;
+using CCG.Shared.Game.Events.Context.Queue;
 
-namespace CCG_Shared.Game.Context
+namespace CCG.Shared.Game.Context
 {
     public class GameQueueCollector : IGameQueueCollector
     {

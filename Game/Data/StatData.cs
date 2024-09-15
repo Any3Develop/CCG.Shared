@@ -1,6 +1,6 @@
-using CCG_Shared.Abstractions.Game.Data;
+using CCG.Shared.Abstractions.Game.Data;
 
-namespace CCG_Shared.Game.Data
+namespace CCG.Shared.Game.Data
 {
     public class StatData : IData
     {

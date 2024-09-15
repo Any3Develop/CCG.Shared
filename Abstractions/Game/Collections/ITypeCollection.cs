@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Abstractions.Game.Collections
+﻿namespace CCG.Shared.Abstractions.Game.Collections
 {
     public interface ITypeCollection<in TKey>
     {

@@ -1,9 +1,9 @@
-﻿using CCG_Shared.Common.Logger;
-using CCG_Shared.Game.Commands.Base;
-using CCG_Shared.Game.Events.Context;
-using CCG_Shared.Game.Utils;
+﻿using CCG.Shared.Common.Logger;
+using CCG.Shared.Game.Commands.Base;
+using CCG.Shared.Game.Events.Context;
+using CCG.Shared.Game.Utils;
 
-namespace CCG_Shared.Game.Commands
+namespace CCG.Shared.Game.Commands
 {
     public class PlayerReadyCmd : Command
     {

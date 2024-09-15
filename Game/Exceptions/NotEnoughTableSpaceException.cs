@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Game.Exceptions
+﻿namespace CCG.Shared.Game.Exceptions
 {
     public class NotEnoughTableSpaceException : Exception
     {

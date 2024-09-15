@@ -1,7 +1,7 @@
-﻿using CCG_Shared.Abstractions.Game.Collections;
-using CCG_Shared.Abstractions.Game.Data;
+﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Data;
 
-namespace CCG_Shared.Game.Collections
+namespace CCG.Shared.Game.Collections
 {
     public class DataCollection<TData> : List<TData>, IDataCollection<TData> where TData : IData
     {

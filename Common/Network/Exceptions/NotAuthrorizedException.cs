@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Common.Network.Exceptions
+﻿namespace CCG.Shared.Common.Network.Exceptions
 {
     public class NotAuthrorizedException : Exception
     {

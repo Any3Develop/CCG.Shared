@@ -1,4 +1,4 @@
-﻿namespace CCG_Shared.Game.Context.EventSource
+﻿namespace CCG.Shared.Game.Context.EventSource
 {
     public class SubscribersCollection : List<Subscriber>, IDisposable
     {

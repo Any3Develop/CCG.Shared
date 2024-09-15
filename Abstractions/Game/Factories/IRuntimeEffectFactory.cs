@@ -1,7 +1,7 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Data;
-using CCG_Shared.Abstractions.Game.Runtime.Effects;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+using CCG.Shared.Abstractions.Game.Runtime.Effects;
 
-namespace CCG_Shared.Abstractions.Game.Factories
+namespace CCG.Shared.Abstractions.Game.Factories
 {
     public interface IRuntimeEffectFactory : IRuntimeFactory<IRuntimeEffect, IRuntimeEffectData>{}
 }

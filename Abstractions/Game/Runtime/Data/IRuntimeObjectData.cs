@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Game.Data.Enums;
+﻿using CCG.Shared.Game.Data.Enums;
 
-namespace CCG_Shared.Abstractions.Game.Runtime.Data
+namespace CCG.Shared.Abstractions.Game.Runtime.Data
 {
     public interface IRuntimeObjectData : IRuntimeDataBase
     {

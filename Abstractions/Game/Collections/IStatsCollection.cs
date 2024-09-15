@@ -1,6 +1,6 @@
-﻿using CCG_Shared.Abstractions.Game.Runtime.Stats;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Stats;
 
-namespace CCG_Shared.Abstractions.Game.Collections
+namespace CCG.Shared.Abstractions.Game.Collections
 {
     public interface IStatsCollection : IRuntimeCollection<IRuntimeStat> {}
 }

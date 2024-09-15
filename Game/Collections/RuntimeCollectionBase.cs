@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using CCG_Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Collections;
 
-namespace CCG_Shared.Game.Collections
+namespace CCG.Shared.Game.Collections
 {
     public abstract class RuntimeCollectionBase<TRuntime> : IRuntimeCollection<TRuntime>
     {
