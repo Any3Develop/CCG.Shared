@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class AddedObject : GameEvent
+    public class AddedObject : GameEventBase
     {
         public IRuntimeObjectModel RuntimeModel { get; set; }
     }

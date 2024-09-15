@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class EffectStarted : GameEvent
+    public class EffectStarted : GameEventBase
     {
         public IRuntimeEffectModel RuntimeModel { get; set; }
     }

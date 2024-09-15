@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class ObjectStateChanged : GameEvent
+    public class ObjectStateChanged : GameEventBase
     {
         public int Id { get; set; }
         public ObjectState Previous { get; set; }

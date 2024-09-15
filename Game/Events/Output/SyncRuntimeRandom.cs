@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class SyncRuntimeRandom : GameEvent
+    public class SyncRuntimeRandom : GameEventBase
     {
         public IRuntimeRandomModel RuntimeModel { get; set; }
     }

@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class SyncRuntimeId : GameEvent
+    public class SyncRuntimeId : GameEventBase
     {
         public IRuntimeIdModel RuntimeModel { get; set; }
     }

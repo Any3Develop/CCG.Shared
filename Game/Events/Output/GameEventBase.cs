@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public abstract class GameEvent : IGameEvent
+    public abstract class GameEventBase : IGameEvent
     {
         public int Order { get; set; }
         public string PredictionId { get; set; }

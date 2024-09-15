@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class StatDeleted : GameEvent
+    public class StatDeleted : GameEventBase
     {
         public IRuntimeStatModel RuntimeModel { get; set; }
     }

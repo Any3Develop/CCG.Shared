@@ -1,4 +1,4 @@
 ﻿namespace CCG.Shared.Game.Events.Output
 {
-    public class Inititalize : GameEvent {}
+    public class Inititalize : GameEventBase {}
 }

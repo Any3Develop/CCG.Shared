@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class SyncRuntimeOrder : GameEvent
+    public class SyncRuntimeOrder : GameEventBase
     {
         public IRuntimeOrderModel RuntimeModel { get; set; }
     }
