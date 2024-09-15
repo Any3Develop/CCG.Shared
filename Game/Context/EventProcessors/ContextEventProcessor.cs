@@ -33,8 +33,8 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 var syncIdEvent = new SyncRuntimeId();
                 syncOrderEvent.Order = context.RuntimeOrderProvider.Next();
                 syncIdEvent.Order = context.RuntimeOrderProvider.Next();
-                syncOrderEvent.RuntimeData = context.RuntimeOrderProvider.RuntimeData.Clone();
-                syncIdEvent.RuntimeData = context.RuntimeIdProvider.RuntimeData.Clone();
+                syncOrderEvent.RuntimeModel = context.RuntimeOrderProvider.RuntimeModel.Clone();
+                syncIdEvent.RuntimeModel = context.RuntimeIdProvider.RuntimeModel.Clone();
                 
                 data.Queue.Add(syncOrderEvent);
                 data.Queue.Add(syncIdEvent);

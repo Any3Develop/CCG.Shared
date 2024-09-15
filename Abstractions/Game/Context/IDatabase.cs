@@ -1,15 +1,15 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Common.Network.Data;
-using CCG.Shared.Game.Data;
+using CCG.Shared.Game.Config;
+using CCG.Shared.Game.Context;
 
 namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface IDatabase
     {
-        IDataCollection<ObjectData> Objects { get; }
-        IDataCollection<EffectData> Effects { get; }
-        IDataCollection<StatData> Stats { get; }
-        IDataCollection<PlayerData> Players { get; }
+        IConfigCollection<ObjectConfig> Objects { get; }
+        IConfigCollection<EffectConfig> Effects { get; }
+        IConfigCollection<StatConfig> Stats { get; }
+        IConfigCollection<PlayerConfig> Players { get; }
 
         DatabaseModel GetModel();
     }

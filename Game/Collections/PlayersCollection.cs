@@ -1,27 +1,27 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Runtime.Players;
+using CCG.Shared.Abstractions.Game.Runtime;
 
 namespace CCG.Shared.Game.Collections
 {
     public class PlayersCollection : RuntimeCollectionBase<IRuntimePlayer>, IPlayersCollection
     {
         protected override int GetId(IRuntimePlayer value) =>
-            value?.RuntimeData?.Id ?? int.MinValue;
+            value?.RuntimeModel?.Id ?? int.MinValue;
         
         public IRuntimePlayer Get(string ownerId)
         {
-            return GetFirst(x => x.RuntimeData.OwnerId == ownerId);
+            return GetFirst(x => x.RuntimeModel.OwnerId == ownerId);
         }
 
         public IRuntimePlayer GetOpposite(string ownerId)
         {
-            return GetFirst(x => x.RuntimeData.OwnerId != ownerId);
+            return GetFirst(x => x.RuntimeModel.OwnerId != ownerId);
         }
 
         public IRuntimePlayer GetOpposite(IRuntimePlayer runtimePlayer)
         {
-            return runtimePlayer?.RuntimeData != null 
-                ? GetFirst(x => x.RuntimeData.OwnerId != runtimePlayer.RuntimeData.OwnerId) 
+            return runtimePlayer?.RuntimeModel != null 
+                ? GetFirst(x => x.RuntimeModel.OwnerId != runtimePlayer.RuntimeModel.OwnerId) 
                 : default;
         }
 

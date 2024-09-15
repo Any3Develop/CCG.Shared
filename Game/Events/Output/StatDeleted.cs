@@ -1,9 +1,9 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Events.Output
 {
     public class StatDeleted : GameEvent
     {
-        public IRuntimeStatData RuntimeData { get; set; }
+        public IRuntimeStatModel RuntimeModel { get; set; }
     }
 }

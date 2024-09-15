@@ -2,16 +2,16 @@
 using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Common.Network.Data;
 using CCG.Shared.Game.Collections;
-using CCG.Shared.Game.Data;
+using CCG.Shared.Game.Config;
 
 namespace CCG.Shared.Game.Context
 {
     public class Database : IDatabase
     {
-        public IDataCollection<ObjectData> Objects { get; } = new DataCollection<ObjectData>();
-        public IDataCollection<EffectData> Effects { get; } = new DataCollection<EffectData>();
-        public IDataCollection<StatData> Stats{ get; } = new DataCollection<StatData>();
-        public IDataCollection<PlayerData> Players{ get; } = new DataCollection<PlayerData>();
+        public IConfigCollection<ObjectConfig> Objects { get; } = new ConfigCollection<ObjectConfig>();
+        public IConfigCollection<EffectConfig> Effects { get; } = new ConfigCollection<EffectConfig>();
+        public IConfigCollection<StatConfig> Stats{ get; } = new ConfigCollection<StatConfig>();
+        public IConfigCollection<PlayerConfig> Players{ get; } = new ConfigCollection<PlayerConfig>();
         
         public DatabaseModel GetModel()
         {

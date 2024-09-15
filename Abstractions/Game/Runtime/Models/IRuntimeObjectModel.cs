@@ -1,0 +1,13 @@
+﻿using CCG.Shared.Game.Config.Enums;
+
+namespace CCG.Shared.Abstractions.Game.Runtime.Models
+{
+    public interface IRuntimeObjectModel : IRuntimeModelBase
+    {
+        List<string> EffectIds { get; }
+        List<IRuntimeEffectModel> Applied { get; }
+        List<IRuntimeStatModel> Stats { get; }
+        ObjectState PreviousState { get; set; }
+        ObjectState State { get; set; }
+    }
+}

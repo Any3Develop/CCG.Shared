@@ -2,13 +2,12 @@
 using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
-using CCG.Shared.Abstractions.Game.Runtime.Data;
-using CCG.Shared.Abstractions.Game.Runtime.Effects;
-using CCG.Shared.Abstractions.Game.Runtime.Objects;
-using CCG.Shared.Game.Data;
-using CCG.Shared.Game.Data.Enums;
-using CCG.Shared.Game.Runtime.Data;
+using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Game.Config;
+using CCG.Shared.Game.Config.Enums;
 using CCG.Shared.Game.Runtime.Effects;
+using CCG.Shared.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -31,14 +30,14 @@ namespace CCG.Shared.Game.Factories
             this.logicTypeCollection = logicTypeCollection;
         }
 
-        public IRuntimeEffectData Create(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeEffectModel Create(int? runtimeId, string ownerId, string dataId, bool notify = true)
         {           
             if (!database.Effects.TryGet(dataId, out var data))
-                throw new NullReferenceException($"{nameof(EffectData)} with id {dataId}, not found in {nameof(IDataCollection<EffectData>)}");
+                throw new NullReferenceException($"{nameof(EffectConfig)} with id {dataId}, not found in {nameof(IConfigCollection<EffectConfig>)}");
             
-            return new RuntimeEffectData // TODO: use keyword to create specified runtime data
+            return new RuntimeEffectModel // TODO: use keyword to create specified runtime data
             {
-                DataId = data.Id,
+                ConfigId = data.Id,
                 Id = runtimeId ?? runtimeIdProvider.Next(),
                 OwnerId = ownerId,
                 Lifetime = data.Lifetime,
@@ -46,24 +45,24 @@ namespace CCG.Shared.Game.Factories
             };
         }
 
-        public IRuntimeEffect Create(IRuntimeEffectData runtimeData, bool notify = true)
+        public IRuntimeEffect Create(IRuntimeEffectModel runtimeModel, bool notify = true)
         {
-            if (!objectsCollection.TryGet(runtimeData.EffectOwnerId, out var runtimeEffectOwnerObject))
-                throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeData.EffectOwnerId}, not found in {nameof(IObjectsCollection)}");
+            if (!objectsCollection.TryGet(runtimeModel.EffectOwnerId, out var runtimeEffectOwnerObject))
+                throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeModel.EffectOwnerId}, not found in {nameof(IObjectsCollection)}");
 
-            if (runtimeEffectOwnerObject.EffectsCollection.TryGet(runtimeData.Id, out var runtimeEffect))
-                return runtimeEffect.Sync(runtimeData, notify);
+            if (runtimeEffectOwnerObject.EffectsCollection.TryGet(runtimeModel.Id, out var runtimeEffect))
+                return runtimeEffect.Sync(runtimeModel, notify);
             
-            if (!database.Effects.TryGet(runtimeData.DataId, out var data))
-                throw new NullReferenceException($"{nameof(EffectData)} with id {runtimeData.DataId}, not found in {nameof(IDataCollection<EffectData>)}");
+            if (!database.Effects.TryGet(runtimeModel.ConfigId, out var data))
+                throw new NullReferenceException($"{nameof(EffectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<EffectConfig>)}");
             
-            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeData, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource);
+            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeModel, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource);
             runtimeEffectOwnerObject.EffectsCollection.Add(runtimeEffect, notify);
             
             return runtimeEffect;
         }
 
-        private RuntimeEffect CreateEffectInstance(LogicId logicId)
+        private RuntimeEffectBase CreateEffectInstance(LogicId logicId)
         {
             if (!logicTypeCollection.TryGet(logicId, out var effectType))
                 throw new NullReferenceException($"{nameof(Type)} with {nameof(LogicId)} {logicId}, not found in {nameof(ITypeCollection<LogicId>)}");
@@ -73,7 +72,7 @@ namespace CCG.Shared.Game.Factories
             if (constructorInfo == null)
                 throw new NullReferenceException($"{effectType.Name} with {nameof(LogicId)} {logicId}, default constructor not found.");
           
-            return (RuntimeEffect)constructorInfo.Invoke(Array.Empty<object>());
+            return (RuntimeEffectBase)constructorInfo.Invoke(Array.Empty<object>());
         }
     }
 }

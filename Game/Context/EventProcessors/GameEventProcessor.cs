@@ -1,7 +1,7 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Events;
-using CCG.Shared.Abstractions.Game.Runtime.Cards;
+using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Events.Output;
 
 namespace CCG.Shared.Game.Context.EventProcessors
@@ -21,23 +21,23 @@ namespace CCG.Shared.Game.Context.EventProcessors
             {
                 case EffectAdded addedObjectEffect:
                 {
-                    context.EffectFactory.Create(addedObjectEffect.RuntimeData, false);
+                    context.EffectFactory.Create(addedObjectEffect.RuntimeModel, false);
                     return;
                 }
 
                 case StatAdded addedObjectStat:
                 {
-                    context.StatFactory.Create(addedObjectStat.RuntimeData, false);
+                    context.StatFactory.Create(addedObjectStat.RuntimeModel, false);
                     return;
                 }
 
                 case EffectChanged changedObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(changedObjectEffect.RuntimeData.EffectOwnerId, out var runtimeObject)
-                        || !runtimeObject.EffectsCollection.TryGet(changedObjectEffect.RuntimeData.Id, out var runtimeEffect))
+                    if (!context.ObjectsCollection.TryGet(changedObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                        || !runtimeObject.EffectsCollection.TryGet(changedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
-                    runtimeEffect.Sync(changedObjectEffect.RuntimeData, false);
+                    runtimeEffect.Sync(changedObjectEffect.RuntimeModel, false);
                     return;
                 }
                 
@@ -52,11 +52,11 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case StatChanged changedObjectStat:
                 {
-                    if (!context.ObjectsCollection.TryGet(changedObjectStat.RuntimeData.RuntimeOwnerId, out var runtimeObject)
-                        || !runtimeObject.StatsCollection.TryGet(changedObjectStat.RuntimeData.Id, out var runtimeStat))
+                    if (!context.ObjectsCollection.TryGet(changedObjectStat.RuntimeModel.RuntimeOwnerId, out var runtimeObject)
+                        || !runtimeObject.StatsCollection.TryGet(changedObjectStat.RuntimeModel.Id, out var runtimeStat))
                         return;
                     
-                    runtimeStat.Sync(changedObjectStat.RuntimeData, false);
+                    runtimeStat.Sync(changedObjectStat.RuntimeModel, false);
                     return;
                 }
                 
@@ -71,7 +71,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case ObjectDeleted deletedObject:
                 {
-                    if (!context.ObjectsCollection.TryGet(deletedObject.RuntimeData.Id, out var runtimeObject))
+                    if (!context.ObjectsCollection.TryGet(deletedObject.RuntimeModel.Id, out var runtimeObject))
                         return;
                     
                     context.ObjectsCollection.Remove(runtimeObject, false);
@@ -81,8 +81,8 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case EffectDeleted deletedObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(deletedObjectEffect.RuntimeData.EffectOwnerId, out var runtimeObject)
-                        || !runtimeObject.EffectsCollection.TryGet(deletedObjectEffect.RuntimeData.Id, out var runtimeEffect))
+                    if (!context.ObjectsCollection.TryGet(deletedObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                        || !runtimeObject.EffectsCollection.TryGet(deletedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
                     runtimeObject.EffectsCollection.Remove(runtimeEffect, false);
@@ -92,8 +92,8 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case StatDeleted deletedObjectStat:
                 {
-                    if (!context.ObjectsCollection.TryGet(deletedObjectStat.RuntimeData.RuntimeOwnerId, out var runtimeObject)
-                        || !runtimeObject.StatsCollection.TryGet(deletedObjectStat.RuntimeData.Id, out var runtimeStat))
+                    if (!context.ObjectsCollection.TryGet(deletedObjectStat.RuntimeModel.RuntimeOwnerId, out var runtimeObject)
+                        || !runtimeObject.StatsCollection.TryGet(deletedObjectStat.RuntimeModel.Id, out var runtimeStat))
                         return;
 
                     runtimeObject.StatsCollection.Remove(runtimeStat, false);
@@ -103,44 +103,44 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case EffectEnded endedObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(endedObjectEffect.RuntimeData.EffectOwnerId, out var runtimeObject)
-                        || !runtimeObject.EffectsCollection.TryGet(endedObjectEffect.RuntimeData.Id, out var runtimeEffect))
+                    if (!context.ObjectsCollection.TryGet(endedObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                        || !runtimeObject.EffectsCollection.TryGet(endedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
                     
-                    runtimeEffect.Sync(endedObjectEffect.RuntimeData, false);
+                    runtimeEffect.Sync(endedObjectEffect.RuntimeModel, false);
                     return;
                 }
                 
                 case AddedObject addedObject:
                 {
-                    context.ObjectFactory.Create(addedObject.RuntimeData, false);
+                    context.ObjectFactory.Create(addedObject.RuntimeModel, false);
                     return;
                 }
                 
                 case EffectStarted startObjectEffect:
                 {
-                    if (!context.ObjectsCollection.TryGet(startObjectEffect.RuntimeData.EffectOwnerId, out var runtimeObject)
-                        || !runtimeObject.EffectsCollection.TryGet(startObjectEffect.RuntimeData.Id, out var runtimeEffect))
+                    if (!context.ObjectsCollection.TryGet(startObjectEffect.RuntimeModel.EffectOwnerId, out var runtimeObject)
+                        || !runtimeObject.EffectsCollection.TryGet(startObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
                     
-                    runtimeEffect.Sync(startObjectEffect.RuntimeData, false);
+                    runtimeEffect.Sync(startObjectEffect.RuntimeModel, false);
                     return;
                 }
                 
                 case SyncRuntimeId syncRuntimeId:
                 {
-                    context.RuntimeIdProvider.Sync(syncRuntimeId.RuntimeData);
+                    context.RuntimeIdProvider.Sync(syncRuntimeId.RuntimeModel);
                     return;
                 }
                 
                 case SyncRuntimeOrder syncRuntimeOrder:
                 {
-                    context.RuntimeOrderProvider.Sync(syncRuntimeOrder.RuntimeData);
+                    context.RuntimeOrderProvider.Sync(syncRuntimeOrder.RuntimeModel);
                     return;
                 }
                 
                 case SyncRuntimeRandom syncRuntimeRandom: 
-                    context.RuntimeRandomProvider.Sync(syncRuntimeRandom.RuntimeData); break;
+                    context.RuntimeRandomProvider.Sync(syncRuntimeRandom.RuntimeModel); break;
 
                 default: throw new NotImplementedException($"{GetType().Name}, Unknown {nameof(IGameEvent)} '{gameEvent?.GetType().FullName}'");
             }

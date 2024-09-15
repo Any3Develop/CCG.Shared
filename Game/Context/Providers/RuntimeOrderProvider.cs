@@ -1,19 +1,19 @@
 ﻿using CCG.Shared.Abstractions.Game.Context.Providers;
-using CCG.Shared.Abstractions.Game.Runtime.Data;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Context.Providers
 {
     public class RuntimeOrderProvider : IRuntimeOrderProvider
     {
-        public IRuntimeOrderData RuntimeData { get; private set; }
+        public IRuntimeOrderModel RuntimeModel { get; private set; }
         private object orderLock;
         
-        public void Sync(IRuntimeOrderData runtimeData)
+        public void Sync(IRuntimeOrderModel runtimeModel)
         {
             orderLock ??= new object();
             lock (orderLock)
             {
-                RuntimeData = runtimeData ?? throw new Exception($"{GetType().Name} not initialized.");
+                RuntimeModel = runtimeModel ?? throw new Exception($"{GetType().Name} not initialized.");
             }
         }
 
@@ -24,14 +24,14 @@ namespace CCG.Shared.Game.Context.Providers
 
             lock (orderLock)
             {
-                return RuntimeData.NextOrder ++;
+                return RuntimeModel.NextOrder ++;
             }
         }
 
         public void Dispose()
         {
             orderLock = null;
-            RuntimeData = null;
+            RuntimeModel = null;
         }
     }
 }

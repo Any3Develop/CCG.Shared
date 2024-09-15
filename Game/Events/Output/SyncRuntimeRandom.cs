@@ -1,9 +1,9 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Events.Output
 {
     public class SyncRuntimeRandom : GameEvent
     {
-        public IRuntimeRandomData RuntimeData { get; set; }
+        public IRuntimeRandomModel RuntimeModel { get; set; }
     }
 }

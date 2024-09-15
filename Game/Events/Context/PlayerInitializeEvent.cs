@@ -1,4 +1,4 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Players;
+﻿using CCG.Shared.Abstractions.Game.Runtime;
 
 namespace CCG.Shared.Game.Events.Context
 {

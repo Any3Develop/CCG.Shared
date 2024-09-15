@@ -1,7 +1,7 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Cards;
+﻿using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Commands.Base;
 using CCG.Shared.Game.Commands.Models;
-using CCG.Shared.Game.Data.Enums;
+using CCG.Shared.Game.Config.Enums;
 using CCG.Shared.Game.Exceptions;
 
 namespace CCG.Shared.Game.Commands

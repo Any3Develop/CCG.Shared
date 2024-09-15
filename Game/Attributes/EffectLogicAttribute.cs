@@ -1,4 +1,4 @@
-﻿using CCG.Shared.Game.Data.Enums;
+﻿using CCG.Shared.Game.Config.Enums;
 
 namespace CCG.Shared.Game.Attributes
 {

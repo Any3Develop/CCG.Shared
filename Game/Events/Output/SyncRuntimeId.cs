@@ -1,9 +1,9 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Events.Output
 {
     public class SyncRuntimeId : GameEvent
     {
-        public IRuntimeIdData RuntimeData { get; set; }
+        public IRuntimeIdModel RuntimeModel { get; set; }
     }
 }

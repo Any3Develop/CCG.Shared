@@ -17,7 +17,7 @@ namespace CCG.Shared.Game.Context
             this.context = context;
             queue = new Queue<IGameEvent>();
             commandExecutionListener = context.EventSource
-                .Subscribe<BeforeCommandExecuteEvent>(ev => predictionId = ev.Command.Model.PredictionId);
+                .Subscribe<BeforeCommandExecuteEvent>(SetupPredictions);
         }
 
         public void Register(IGameEvent value)
@@ -40,6 +40,15 @@ namespace CCG.Shared.Game.Context
             commandExecutionListener?.Dispose();
             commandExecutionListener = null;
             queue.Clear();
+        }
+
+        private void SetupPredictions(BeforeCommandExecuteEvent eventData)
+        {
+            var cmdModel = eventData.Command.Model;
+            if (cmdModel.IsNested)
+                return;
+            
+            predictionId = eventData.Command.Model.PredictionId;
         }
     }
 }

@@ -3,11 +3,11 @@ using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
-using CCG.Shared.Abstractions.Game.Runtime.Data;
-using CCG.Shared.Abstractions.Game.Runtime.Players;
-using CCG.Shared.Game.Data;
-using CCG.Shared.Game.Runtime.Data;
-using CCG.Shared.Game.Runtime.Players;
+using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Game.Config;
+using CCG.Shared.Game.Runtime;
+using CCG.Shared.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -21,45 +21,49 @@ namespace CCG.Shared.Game.Factories
 
         public RuntimePlayerFactory(
             IDatabase database,
-            IRuntimeStatFactory runtimeStatFactory,
             IContextFactory contextFactory,
             IPlayersCollection playersCollection,
-            IRuntimeIdProvider runtimeIdProvider)
+            IRuntimeIdProvider runtimeIdProvider,
+            IRuntimeStatFactory runtimeStatFactory)
         {
             this.database = database;
-            this.runtimeStatFactory = runtimeStatFactory;
             this.contextFactory = contextFactory;
             this.playersCollection = playersCollection;
             this.runtimeIdProvider = runtimeIdProvider;
+            this.runtimeStatFactory = runtimeStatFactory;
         }
         
-        public IRuntimePlayerData Create(int? runtimeId, string ownerId, string dataId = "default-player", bool notify = true)
+        public IRuntimePlayerModel Create(int? runtimeId, string ownerId, string dataId = "default-player", bool notify = true)
         {
             if (!database.Players.TryGet(dataId, out var data))
-                throw new NullReferenceException($"{nameof(PlayerData)} with id {dataId}, not found in {nameof(IDataCollection<PlayerData>)}");
+                throw new NullReferenceException($"{nameof(PlayerConfig)} with id {dataId}, not found in {nameof(IConfigCollection<PlayerConfig>)}");
 
             runtimeId ??= runtimeIdProvider.Next();
-            return new RuntimePlayerData
+            return new RuntimePlayerModel
             {
                 Id = runtimeId.Value,
                 OwnerId = ownerId,
-                DataId = dataId,
-                Stats = data.StatIds.Select(statId => runtimeStatFactory.Create(runtimeId.Value, ownerId, statId, notify)).ToList()
+                ConfigId = dataId,
+                Stats = data.Stats.Select(statId => runtimeStatFactory.Create(runtimeId.Value, ownerId, statId, notify)).ToList()
             };
         }
 
-        public IRuntimePlayer Create(IRuntimePlayerData runtimeData, bool notify = true)
+        public IRuntimePlayer Create(IRuntimePlayerModel runtimeModel, bool notify = true)
         {
-            if (playersCollection.TryGet(runtimeData.Id, out var runtimePlayer))
-                return runtimePlayer.Sync(runtimeData, notify);
+            if (playersCollection.TryGet(runtimeModel.Id, out var runtimePlayer))
+                return runtimePlayer.Sync(runtimeModel, notify);
+            
+            if (!database.Players.TryGet(runtimeModel.ConfigId, out var config))
+                throw new NullReferenceException($"{nameof(PlayerConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<PlayerConfig>)}");
             
             var eventSource = contextFactory.CreateEventsSource();
             var eventPublisher = (IEventPublisher)eventSource;
             var statsCollection = contextFactory.CreateStatsCollection(eventSource);
-            runtimePlayer = new RuntimePlayer(statsCollection, eventPublisher, eventSource).Sync(runtimeData, notify);
+            
+            runtimePlayer = new RuntimePlayer(config, statsCollection, eventPublisher, eventSource).Sync(runtimeModel, notify);
             playersCollection.Add(runtimePlayer, notify);
             
-            foreach (var runtimeStatData in runtimeData.Stats)
+            foreach (var runtimeStatData in runtimeModel.Stats)
                 runtimeStatFactory.Create(runtimeStatData, notify);
             
             return runtimePlayer;

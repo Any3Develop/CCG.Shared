@@ -1,4 +1,4 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Cards;
+﻿using CCG.Shared.Abstractions.Game.Runtime;
 
 namespace CCG.Shared.Game.Events.Context.Cards
 {

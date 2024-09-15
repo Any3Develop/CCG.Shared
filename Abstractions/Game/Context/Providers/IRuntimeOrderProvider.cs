@@ -1,11 +1,11 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Context.Providers
 {
     public interface IRuntimeOrderProvider : IDisposable
     {
-        IRuntimeOrderData RuntimeData { get; }
-        void Sync(IRuntimeOrderData runtimeData);
+        IRuntimeOrderModel RuntimeModel { get; }
+        void Sync(IRuntimeOrderModel runtimeModel);
         int Next();
     }
 }

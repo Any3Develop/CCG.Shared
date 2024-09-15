@@ -1,9 +1,9 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Events.Output
 {
     public class EffectStarted : GameEvent
     {
-        public IRuntimeEffectData RuntimeData { get; set; }
+        public IRuntimeEffectModel RuntimeModel { get; set; }
     }
 }

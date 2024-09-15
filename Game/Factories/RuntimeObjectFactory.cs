@@ -2,12 +2,12 @@
 using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
-using CCG.Shared.Abstractions.Game.Runtime.Data;
-using CCG.Shared.Abstractions.Game.Runtime.Objects;
-using CCG.Shared.Game.Data;
-using CCG.Shared.Game.Data.Enums;
+using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Game.Config;
+using CCG.Shared.Game.Config.Enums;
 using CCG.Shared.Game.Runtime.Cards;
-using CCG.Shared.Game.Runtime.Data;
+using CCG.Shared.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -33,32 +33,32 @@ namespace CCG.Shared.Game.Factories
             this.contextFactory = contextFactory;
         }
 
-        public IRuntimeObjectData Create(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeObjectModel Create(int? runtimeId, string ownerId, string dataId, bool notify = true)
         {
             if (!database.Objects.TryGet(dataId, out var data))
-                throw new NullReferenceException($"{nameof(ObjectData)} with id {dataId}, not found in {nameof(IDataCollection<ObjectData>)}");
+                throw new NullReferenceException($"{nameof(ObjectConfig)} with id {dataId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");
 
             runtimeId ??= runtimeIdProvider.Next();
             return data.Type switch
             {
-                ObjectType.Creature or ObjectType.Spell => new RuntimeCardData
+                ObjectType.Creature or ObjectType.Spell => new RuntimeCardModel
                 {
-                    DataId = data.Id,
+                    ConfigId = data.Id,
                     Id = runtimeId.Value,
                     OwnerId = ownerId,
-                    Stats = data.StatIds.Select(id => runtimeStatFactory.Create(runtimeId.Value, ownerId, id, notify)).ToList(),
+                    Stats = data.Stats.Select(id => runtimeStatFactory.Create(runtimeId.Value, ownerId, id, notify)).ToList(),
                 },
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
         }
         
-        public IRuntimeObject Create(IRuntimeObjectData runtimeData, bool notify = true)
+        public IRuntimeObject Create(IRuntimeObjectModel runtimeModel, bool notify = true)
         {
-            if (objectsCollection.TryGet(runtimeData.Id, out var runtimeObject))
-                return runtimeObject.Sync(runtimeData, notify);
+            if (objectsCollection.TryGet(runtimeModel.Id, out var runtimeObject))
+                return runtimeObject.Sync(runtimeModel, notify);
             
-            if (!database.Objects.TryGet(runtimeData.DataId, out var data))
-                throw new NullReferenceException($"{nameof(ObjectData)} with id {runtimeData.DataId}, not found in {nameof(IDataCollection<ObjectData>)}");
+            if (!database.Objects.TryGet(runtimeModel.ConfigId, out var data))
+                throw new NullReferenceException($"{nameof(ObjectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");
             
             var eventSource = contextFactory.CreateEventsSource();
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
@@ -66,14 +66,14 @@ namespace CCG.Shared.Game.Factories
             var effectsCollection = contextFactory.CreateEffectsCollection(eventSource);
             runtimeObject = data.Type switch
             {
-                ObjectType.Creature => new RuntimeCardCreature().Init(data, runtimeData, statsCollection, effectsCollection, eventPublisher, eventSource),
-                ObjectType.Spell => new RuntimeCardSpell().Init(data, runtimeData, statsCollection, effectsCollection, eventPublisher, eventSource),
+                ObjectType.Creature => new RuntimeCardCreature().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),
+                ObjectType.Spell => new RuntimeCardSpell().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
             
             objectsCollection.Add(runtimeObject, notify);
             
-            foreach (var runtimeStatData in runtimeData.Stats)
+            foreach (var runtimeStatData in runtimeModel.Stats)
                 runtimeStatFactory.Create(runtimeStatData, notify);
             
             return runtimeObject;

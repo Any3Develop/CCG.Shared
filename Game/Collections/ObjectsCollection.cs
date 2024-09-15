@@ -1,8 +1,7 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
-using CCG.Shared.Abstractions.Game.Runtime.Cards;
-using CCG.Shared.Abstractions.Game.Runtime.Objects;
-using CCG.Shared.Game.Data.Enums;
+using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Game.Config.Enums;
 using CCG.Shared.Game.Events.Context.Objects;
 using CCG.Shared.Game.Utils;
 
@@ -18,13 +17,13 @@ namespace CCG.Shared.Game.Collections
         }
         
         protected override int GetId(IRuntimeObject value) =>
-            value?.RuntimeData?.Id ?? int.MinValue;
+            value?.RuntimeModel?.Id ?? int.MinValue;
         
         public int GetOccupiedTableSpace(string ownerId) // TODO: move to conditions
         {
             var checkOwner = !string.IsNullOrWhiteSpace(ownerId); 
-            return GetAll<IRuntimeCard>().Count(x => (!checkOwner || x.RuntimeData.OwnerId == ownerId) 
-                                                     && x.RuntimeData.State == ObjectState.InTable);
+            return GetAll<IRuntimeCard>().Count(x => (!checkOwner || x.RuntimeModel.OwnerId == ownerId) 
+                                                     && x.RuntimeModel.State == ObjectState.InTable);
         }
         
         public override bool Add(IRuntimeObject value, bool notify = true)

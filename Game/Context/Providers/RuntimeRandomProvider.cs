@@ -1,21 +1,21 @@
 ﻿using CCG.Shared.Abstractions.Game.Context.Providers;
-using CCG.Shared.Abstractions.Game.Runtime.Data;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Context.Providers
 {
     public class RuntimeRandomProvider : IRuntimeRandomProvider
     {
-        public IRuntimeRandomData RuntimeData { get; private set; }
+        public IRuntimeRandomModel RuntimeModel { get; private set; }
         private object randomLock;
         private Random random;
 
-        public void Sync(IRuntimeRandomData runtimeData)
+        public void Sync(IRuntimeRandomModel runtimeModel)
         {
             randomLock ??= new object();
             lock (randomLock)
             {
-                RuntimeData = runtimeData ?? throw new Exception($"{GetType().Name} not initialized.");
-                random = new Random(runtimeData.Seed);
+                RuntimeModel = runtimeModel ?? throw new Exception($"{GetType().Name} not initialized.");
+                random = new Random(runtimeModel.Seed);
             }
         }
 
@@ -33,7 +33,7 @@ namespace CCG.Shared.Game.Context.Providers
         public void Dispose()
         {
             randomLock = null;
-            RuntimeData = null;
+            RuntimeModel = null;
             random = null;
         }
     }

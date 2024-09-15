@@ -1,6 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
-using CCG.Shared.Abstractions.Game.Runtime.Effects;
+using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Events.Context.Effects;
 using CCG.Shared.Game.Utils;
 
@@ -16,7 +16,7 @@ namespace CCG.Shared.Game.Collections
         }
         
         protected override int GetId(IRuntimeEffect value) =>
-            value?.RuntimeData?.Id ?? int.MinValue;
+            value?.RuntimeModel?.Id ?? int.MinValue;
         
         public override bool Add(IRuntimeEffect value, bool notify = true)
         {

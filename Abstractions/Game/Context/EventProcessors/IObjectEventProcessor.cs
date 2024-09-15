@@ -1,4 +1,4 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Objects;
+﻿using CCG.Shared.Abstractions.Game.Runtime;
 
 namespace CCG.Shared.Abstractions.Game.Context.EventProcessors
 {

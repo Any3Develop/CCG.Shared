@@ -1,9 +1,9 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Events.Output
 {
     public class AddedObject : GameEvent
     {
-        public IRuntimeObjectData RuntimeData { get; set; }
+        public IRuntimeObjectModel RuntimeModel { get; set; }
     }
 }

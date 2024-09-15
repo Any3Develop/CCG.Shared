@@ -1,11 +1,11 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Data;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Context.Providers
 {
     public interface IRuntimeRandomProvider : IDisposable
     {
-        IRuntimeRandomData RuntimeData { get; }
-        void Sync(IRuntimeRandomData runtimeData);
+        IRuntimeRandomModel RuntimeModel { get; }
+        void Sync(IRuntimeRandomModel runtimeModel);
         int Next();
     }
 }
