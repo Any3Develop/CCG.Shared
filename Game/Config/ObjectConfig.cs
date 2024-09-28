@@ -1,15 +1,15 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Game.Config.Enums;
+using CCG.Shared.Game.Enums;
 
 namespace CCG.Shared.Game.Config
 {
     public abstract class ObjectConfig : IConfig
     {
-        public string Id { get; set; }
-        public ObjectType Type { get; set; }
-        public string Title { get; set; }
-        public string ArtId { get; set; }
-        public string[] Stats { get; set; } = Array.Empty<string>();
-        public string[] Effects { get; set; } = Array.Empty<string>();
+        public string Id { get; private set; }
+        public ObjectType Type { get; private set; }
+        public string Title { get; private set; }
+        public string ArtId { get; private set; }
+        public string[] Stats { get; private set; } = Array.Empty<string>();
+        public string[] Effects { get; private set; } = Array.Empty<string>();
     }
 }

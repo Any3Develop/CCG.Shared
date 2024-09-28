@@ -1,6 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Events;
 
-namespace CCG.Shared.Abstractions.Game.Context
+namespace CCG.Shared.Abstractions.Game.Context.EventProcessors
 {
     public interface IGameQueueCollector : IDisposable
     {

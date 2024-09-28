@@ -1,6 +1,6 @@
-﻿namespace CCG.Shared.Api
+﻿namespace CCG.Shared.Api.Identity
 {
-    public class UserData
+    public class UserDataModel
     {
         public string Id { get; set; }
         public string AccessToken { get; set; }

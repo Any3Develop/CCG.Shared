@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace CCG.Shared.Game.Config.Enums
+namespace CCG.Shared.Game.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum ObjectType
+    public enum LogicId
     {
-        None = 0,
-        Creature,
-        Spell,
+        None = 0
     }
 }

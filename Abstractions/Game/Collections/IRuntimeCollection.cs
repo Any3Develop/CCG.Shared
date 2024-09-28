@@ -4,6 +4,7 @@
     {
         int Count { get; }
         TRuntime this[int index] { get; }
+        
         bool Contains(TRuntime value);
         bool Contains<T>(Predicate<T> predicate) where T : TRuntime;
         bool Contains(int id);

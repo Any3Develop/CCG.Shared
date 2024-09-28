@@ -3,5 +3,5 @@ using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Factories
 {
-    public interface IRuntimeStatFactory : IRuntimeFactory<IRuntimeStat, IRuntimeStatModel> {}
+    public interface IRuntimeStatFactory : IRuntimeFactory<IRuntimeStat, IRuntimeStatModel>{}
 }

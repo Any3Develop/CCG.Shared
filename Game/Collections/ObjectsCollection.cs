@@ -1,7 +1,7 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
-using CCG.Shared.Game.Config.Enums;
+using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.Objects;
 using CCG.Shared.Game.Utils;
 

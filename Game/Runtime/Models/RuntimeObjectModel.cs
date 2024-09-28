@@ -1,5 +1,5 @@
 ﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
-using CCG.Shared.Game.Config.Enums;
+using CCG.Shared.Game.Enums;
 
 namespace CCG.Shared.Game.Runtime.Models
 {

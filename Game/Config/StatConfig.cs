@@ -4,8 +4,8 @@ namespace CCG.Shared.Game.Config
 {
     public class StatConfig : IConfig
     {
-        public string Id { get; set; }
-        public int Value { get; set; }
-        public int Max { get; set; }
+        public string Id { get; private set; }
+        public int Value { get; private set; }
+        public int Max { get; private set; }
     }
 }

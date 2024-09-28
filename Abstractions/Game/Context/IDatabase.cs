@@ -1,6 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Api.Game;
 using CCG.Shared.Game.Config;
-using CCG.Shared.Game.Context;
 
 namespace CCG.Shared.Abstractions.Game.Context
 {
@@ -8,8 +8,8 @@ namespace CCG.Shared.Abstractions.Game.Context
     {
         IConfigCollection<ObjectConfig> Objects { get; }
         IConfigCollection<EffectConfig> Effects { get; }
-        IConfigCollection<StatConfig> Stats { get; }
         IConfigCollection<PlayerConfig> Players { get; }
+        IConfigCollection<StatConfig> Stats { get; }
 
         DatabaseModel GetModel();
     }

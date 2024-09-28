@@ -4,6 +4,5 @@
     {
         bool Ready { get; set; }
         List<IRuntimeStatModel> Stats { get; }
-        
     }
 }

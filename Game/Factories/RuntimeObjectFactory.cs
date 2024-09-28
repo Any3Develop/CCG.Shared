@@ -5,7 +5,7 @@ using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
-using CCG.Shared.Game.Config.Enums;
+using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime.Cards;
 using CCG.Shared.Game.Runtime.Models;
 
