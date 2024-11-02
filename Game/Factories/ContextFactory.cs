@@ -5,18 +5,29 @@ using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Game.Collections;
+using CCG.Shared.Game.Commands.Base;
 using CCG.Shared.Game.Context;
 using CCG.Shared.Game.Context.EventProcessors;
 using CCG.Shared.Game.Context.Providers;
+using CCG.Shared.Game.Enums;
+using CCG.Shared.Game.Runtime.Effects;
 
 namespace CCG.Shared.Game.Factories
 {
     public class ContextFactory : IContextFactory
     {
         private readonly IEventsSourceFactory eventsSourceFactory;
-        public ContextFactory(IEventsSourceFactory eventsSourceFactory)
+        private readonly ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection;
+        private readonly ITypeCollection<string, Command> commandTypeCollection;
+
+        public ContextFactory(
+            IEventsSourceFactory eventsSourceFactory,
+            ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection, 
+            ITypeCollection<string, Command> commandTypeCollection)
         {
             this.eventsSourceFactory = eventsSourceFactory;
+            this.logicTypeCollection = logicTypeCollection;
+            this.commandTypeCollection = commandTypeCollection;
         }
 
         #region Collections
@@ -69,13 +80,16 @@ namespace CCG.Shared.Game.Factories
 
         public ICommandProcessor CreateCommandProcessor(params object[] args)
         {
-            return new CommandProcessor(GetRequiredArgument<IContext>(args),
+            return new CommandProcessor(
+                GetRequiredArgument<IContext>(args),
                 GetRequiredArgument<ICommandFactory>(args));
         }
 
         public IGameQueueCollector CreateGameQueueCollector(params object[] args)
         {
-            return new GameQueueCollector(GetRequiredArgument<IContext>(args));
+            return new GameQueueCollector(
+                GetRequiredArgument<IContext>(args),
+                GetRequiredArgument<IEventsSource>(args));
         }
 
         public IObjectEventProcessor CreateObjectEventProcessor(params object[] args)
@@ -98,9 +112,37 @@ namespace CCG.Shared.Game.Factories
         #region Factories
         public ICommandFactory CreateCommandFactory(params object[] args)
         {
-            return new CommandFactory(GetRequiredArgument<IContext>(),
-                GetRequiredArgument<ITypeCollection<string>>());
+            return new CommandFactory(
+                GetRequiredArgument<IContext>(),
+                commandTypeCollection);
         }
+        public IRuntimeStatFactory CreateStatFactory(params object[] args)
+        {
+            return new RuntimeStatFactory(
+                GetRequiredArgument<IDatabase>(), 
+                GetRequiredArgument<IObjectsCollection>(), 
+                GetRequiredArgument<IRuntimeIdProvider>());
+        }
+
+        public IRuntimeObjectFactory CreateObjectFactory(params object[] args)
+        {
+            return new RuntimeObjectFactory(
+                GetRequiredArgument<IDatabase>(), 
+                GetRequiredArgument<IObjectsCollection>(), 
+                GetRequiredArgument<IRuntimeIdProvider>(),
+                GetRequiredArgument<IRuntimeStatFactory>(),
+                this);
+        }
+
+        public IRuntimeEffectFactory CreateEffectFactory(params object[] args)
+        {
+            return new RuntimeEffectFactory(
+                GetRequiredArgument<IDatabase>(), 
+                GetRequiredArgument<IObjectsCollection>(), 
+                GetRequiredArgument<IRuntimeIdProvider>(),
+                logicTypeCollection);
+        }
+
         #endregion
 
         #region Common

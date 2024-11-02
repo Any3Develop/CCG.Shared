@@ -30,6 +30,9 @@ namespace CCG.Shared.Abstractions.Game.Factories
 
         #region Factories
         ICommandFactory CreateCommandFactory(params object[] args);
+        IRuntimeStatFactory CreateStatFactory(params object[] args);
+        IRuntimeObjectFactory CreateObjectFactory(params object[] args);
+        IRuntimeEffectFactory CreateEffectFactory(params object[] args);
         #endregion
     }
 }

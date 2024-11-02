@@ -2,8 +2,11 @@
 
 namespace CCG.Shared.Abstractions.Game.Context.EventProcessors
 {
-    public interface IGameQueueCollector : IDisposable
+    public interface IGameQueueCollector
     {
+        void Start();
+        void End();
+        
         void Register(IGameEvent value);
         void Release();
     }

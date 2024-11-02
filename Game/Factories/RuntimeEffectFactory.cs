@@ -16,13 +16,13 @@ namespace CCG.Shared.Game.Factories
         private readonly IDatabase database;
         private readonly IObjectsCollection objectsCollection;
         private readonly IRuntimeIdProvider runtimeIdProvider;
-        private readonly ITypeCollection<LogicId> logicTypeCollection;
+        private readonly ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection;
 
         public RuntimeEffectFactory(
             IDatabase database, 
             IObjectsCollection objectsCollection,
             IRuntimeIdProvider runtimeIdProvider,
-            ITypeCollection<LogicId> logicTypeCollection)
+            ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection)
         {
             this.database = database;
             this.objectsCollection = objectsCollection;
@@ -65,7 +65,7 @@ namespace CCG.Shared.Game.Factories
         private RuntimeEffectBase CreateEffectInstance(LogicId logicId)
         {
             if (!logicTypeCollection.TryGet(logicId, out var effectType))
-                throw new NullReferenceException($"{nameof(Type)} with {nameof(LogicId)} {logicId}, not found in {nameof(ITypeCollection<LogicId>)}");
+                throw new NullReferenceException($"{nameof(Type)} with {nameof(LogicId)} {logicId}, not found in {logicTypeCollection.GetType().Name}");
             
             var constructorInfo = effectType.GetConstructor(Type.EmptyTypes);
 

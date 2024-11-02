@@ -9,9 +9,9 @@ namespace CCG.Shared.Game.Factories
     public class CommandFactory : ICommandFactory
     {
         private readonly IContext context;
-        private readonly ITypeCollection<string> commandTypeCollection;
+        private readonly ITypeCollection<string, Command> commandTypeCollection;
 
-        public CommandFactory(IContext context, ITypeCollection<string> commandTypeCollection)
+        public CommandFactory(IContext context, ITypeCollection<string, Command> commandTypeCollection)
         {
             this.context = context;
             this.commandTypeCollection = commandTypeCollection;

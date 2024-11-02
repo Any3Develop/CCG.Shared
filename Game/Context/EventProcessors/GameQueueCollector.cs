@@ -1,5 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventProcessors;
+using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Events;
 using CCG.Shared.Game.Events.Context.Commands;
 using CCG.Shared.Game.Events.Context.Queue;
@@ -9,16 +10,28 @@ namespace CCG.Shared.Game.Context.EventProcessors
     public class GameQueueCollector : IGameQueueCollector
     {
         private readonly IContext context;
+        private readonly IEventsSource eventsSource;
         private readonly Queue<IGameEvent> queue;
         private IDisposable commandExecutionListener;
         private string predictionId;
 
-        public GameQueueCollector(IContext context)
+        public GameQueueCollector(IContext context, IEventsSource eventsSource)
         {
             this.context = context;
+            this.eventsSource = eventsSource;
             queue = new Queue<IGameEvent>();
-            commandExecutionListener = context.EventSource
-                .Subscribe<BeforeCommandExecuteEvent>(SetupPredictions);
+        }
+
+        public void Start()
+        {
+            commandExecutionListener = eventsSource.Subscribe<BeforeCommandExecuteEvent>(SetupPredictions);
+        }
+
+        public void End()
+        {
+            commandExecutionListener?.Dispose();
+            commandExecutionListener = null;
+            queue.Clear();
         }
 
         public void Register(IGameEvent value)
@@ -34,13 +47,6 @@ namespace CCG.Shared.Game.Context.EventProcessors
             predictionId = null;
             queue.Clear();
             context.EventPublisher.Publish(releaseEvent);
-        }
-
-        public void Dispose()
-        {
-            commandExecutionListener?.Dispose();
-            commandExecutionListener = null;
-            queue.Clear();
         }
 
         private void SetupPredictions(BeforeCommandExecuteEvent eventData)
