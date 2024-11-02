@@ -1,6 +1,6 @@
-﻿using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventProcessors;
+﻿using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Events;
 using CCG.Shared.Game.Events.Context.Commands;
 using CCG.Shared.Game.Events.Context.Queue;
@@ -9,16 +9,21 @@ namespace CCG.Shared.Game.Context.EventProcessors
 {
     public class GameQueueCollector : IGameQueueCollector
     {
-        private readonly IContext context;
-        private readonly IEventsSource eventsSource;
         private readonly Queue<IGameEvent> queue;
+        private readonly IEventsSource eventsSource;
+        private readonly IEventPublisher eventPublisher;
+        private readonly IRuntimeOrderProvider orderProvider;
         private IDisposable commandExecutionListener;
         private string predictionId;
 
-        public GameQueueCollector(IContext context, IEventsSource eventsSource)
+        public GameQueueCollector(
+            IEventsSource eventsSource,
+            IEventPublisher eventPublisher,
+            IRuntimeOrderProvider orderProvider)
         {
-            this.context = context;
             this.eventsSource = eventsSource;
+            this.eventPublisher = eventPublisher;
+            this.orderProvider = orderProvider;
             queue = new Queue<IGameEvent>();
         }
 
@@ -36,7 +41,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
 
         public void Register(IGameEvent value)
         {
-            value.Order = context.RuntimeOrderProvider.Next();
+            value.Order = orderProvider.Next();
             value.PredictionId = predictionId;
             queue.Enqueue(value);
         }
@@ -46,7 +51,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
             var releaseEvent = new AfterGameQueueReleasedEvent(queue.ToList());
             predictionId = null;
             queue.Clear();
-            context.EventPublisher.Publish(releaseEvent);
+            eventPublisher.Publish(releaseEvent);
         }
 
         private void SetupPredictions(BeforeCommandExecuteEvent eventData)

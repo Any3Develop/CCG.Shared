@@ -16,15 +16,18 @@ namespace CCG.Shared.Game.Factories
 {
     public class ContextFactory : IContextFactory
     {
+        private readonly IDatabase database;
         private readonly IEventsSourceFactory eventsSourceFactory;
         private readonly ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection;
         private readonly ITypeCollection<string, Command> commandTypeCollection;
 
         public ContextFactory(
+            IDatabase database,
             IEventsSourceFactory eventsSourceFactory,
             ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection, 
             ITypeCollection<string, Command> commandTypeCollection)
         {
+            this.database = database;
             this.eventsSourceFactory = eventsSourceFactory;
             this.logicTypeCollection = logicTypeCollection;
             this.commandTypeCollection = commandTypeCollection;
@@ -80,16 +83,18 @@ namespace CCG.Shared.Game.Factories
 
         public ICommandProcessor CreateCommandProcessor(params object[] args)
         {
+            var context = GetRequiredArgument<IContext>(args);
             return new CommandProcessor(
-                GetRequiredArgument<IContext>(args),
-                GetRequiredArgument<ICommandFactory>(args));
+                context,
+                CreateCommandFactory(context));
         }
 
         public IGameQueueCollector CreateGameQueueCollector(params object[] args)
         {
             return new GameQueueCollector(
-                GetRequiredArgument<IContext>(args),
-                GetRequiredArgument<IEventsSource>(args));
+                GetRequiredArgument<IEventsSource>(args),
+                GetRequiredArgument<IEventPublisher>(args),
+                GetRequiredArgument<IRuntimeOrderProvider>(args));
         }
 
         public IObjectEventProcessor CreateObjectEventProcessor(params object[] args)
@@ -99,7 +104,11 @@ namespace CCG.Shared.Game.Factories
 
         public IContextEventProcessor CreateContextEventProcessor(params object[] args)
         {
-            return new ContextEventProcessor(GetRequiredArgument<IContext>(args));
+            return new ContextEventProcessor(
+                GetRequiredArgument<IEventsSource>(args),
+                GetRequiredArgument<IRuntimeIdProvider>(args),
+                GetRequiredArgument<IRuntimeOrderProvider>(args),
+                GetRequiredArgument<IRuntimeRandomProvider>(args));
         }
 
         public IGameEventProcessor CreateGameEventProcessor(params object[] args)
@@ -116,10 +125,11 @@ namespace CCG.Shared.Game.Factories
                 GetRequiredArgument<IContext>(),
                 commandTypeCollection);
         }
+        
         public IRuntimeStatFactory CreateStatFactory(params object[] args)
         {
             return new RuntimeStatFactory(
-                GetRequiredArgument<IDatabase>(), 
+                database, 
                 GetRequiredArgument<IObjectsCollection>(), 
                 GetRequiredArgument<IRuntimeIdProvider>());
         }
@@ -127,8 +137,18 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeObjectFactory CreateObjectFactory(params object[] args)
         {
             return new RuntimeObjectFactory(
-                GetRequiredArgument<IDatabase>(), 
+                database, 
                 GetRequiredArgument<IObjectsCollection>(), 
+                GetRequiredArgument<IRuntimeIdProvider>(),
+                GetRequiredArgument<IRuntimeStatFactory>(),
+                this);
+        }
+
+        public IRuntimePlayerFactory CreatePlayerFactory(params object[] args)
+        {
+            return new RuntimePlayerFactory(
+                database,
+                GetRequiredArgument<IPlayersCollection>(),
                 GetRequiredArgument<IRuntimeIdProvider>(),
                 GetRequiredArgument<IRuntimeStatFactory>(),
                 this);
@@ -137,7 +157,7 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeEffectFactory CreateEffectFactory(params object[] args)
         {
             return new RuntimeEffectFactory(
-                GetRequiredArgument<IDatabase>(), 
+                database, 
                 GetRequiredArgument<IObjectsCollection>(), 
                 GetRequiredArgument<IRuntimeIdProvider>(),
                 logicTypeCollection);

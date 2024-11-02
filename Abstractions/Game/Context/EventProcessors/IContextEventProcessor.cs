@@ -2,6 +2,7 @@
 {
     public interface IContextEventProcessor
     {
-        void Subscribe();
+        void Start();
+        void End();
     }
 }

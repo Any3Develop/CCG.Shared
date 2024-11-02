@@ -15,22 +15,22 @@ namespace CCG.Shared.Game.Factories
     {
         private readonly IDatabase database;
         private readonly IRuntimeStatFactory runtimeStatFactory;
-        private readonly IContextFactory contextFactory;
         private readonly IPlayersCollection playersCollection;
         private readonly IRuntimeIdProvider runtimeIdProvider;
+        private readonly IContextFactory contextFactory;
 
         public RuntimePlayerFactory(
             IDatabase database,
-            IContextFactory contextFactory,
             IPlayersCollection playersCollection,
             IRuntimeIdProvider runtimeIdProvider,
-            IRuntimeStatFactory runtimeStatFactory)
+            IRuntimeStatFactory runtimeStatFactory,
+            IContextFactory contextFactory)
         {
             this.database = database;
-            this.contextFactory = contextFactory;
             this.playersCollection = playersCollection;
             this.runtimeIdProvider = runtimeIdProvider;
             this.runtimeStatFactory = runtimeStatFactory;
+            this.contextFactory = contextFactory;
         }
         
         public IRuntimePlayerModel Create(int? runtimeId, string ownerId, string dataId = "default-player", bool notify = true)
@@ -57,7 +57,7 @@ namespace CCG.Shared.Game.Factories
                 throw new NullReferenceException($"{nameof(PlayerConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<PlayerConfig>)}");
             
             var eventSource = contextFactory.CreateEventsSource();
-            var eventPublisher = (IEventPublisher)eventSource;
+            var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventSource);
             
             runtimePlayer = new RuntimePlayer(config, statsCollection, eventPublisher, eventSource).Sync(runtimeModel, notify);

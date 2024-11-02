@@ -19,8 +19,8 @@ namespace CCG.Shared.Abstractions.Game.Context
         IRuntimeContextModel RuntimeData { get; }
         IObjectsCollection ObjectsCollection { get; }
         IPlayersCollection PlayersCollection { get; }
-        IRuntimeOrderProvider RuntimeOrderProvider { get; }
         IRuntimeRandomProvider RuntimeRandomProvider { get; }
+        IRuntimeOrderProvider RuntimeOrderProvider { get; }
         IRuntimeIdProvider RuntimeIdProvider { get; }
         #endregion
 
