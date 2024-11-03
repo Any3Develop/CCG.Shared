@@ -26,7 +26,8 @@ namespace CCG.Shared.Game.Context.Providers
 
             lock (randomLock)
             {
-                return random.Next();
+                RuntimeModel.Current = random.Next();
+                return RuntimeModel.Current;
             }
         }
 

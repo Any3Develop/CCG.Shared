@@ -34,6 +34,7 @@ namespace CCG.Shared.Abstractions.Game.Factories
         IRuntimeObjectFactory CreateObjectFactory(params object[] args);
         IRuntimePlayerFactory CreatePlayerFactory(params object[] args);
         IRuntimeEffectFactory CreateEffectFactory(params object[] args);
+        IRuntimeTimerFactory CreateTimerFactory(params object[] args);
         #endregion
     }
 }

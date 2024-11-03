@@ -71,13 +71,5 @@ namespace CCG.Shared.Game.Runtime
         {
             RuntimeModel.Ready = value;
         }
-
-        #region IRuntimeObjectBase
-
-        IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
-        
-        IConfig IRuntimeObjectBase.Config => Config;
-
-        #endregion
     }
 }

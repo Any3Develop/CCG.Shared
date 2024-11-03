@@ -1,5 +1,4 @@
-﻿using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventSource;
+﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
@@ -9,13 +8,13 @@ namespace CCG.Shared.Game.Runtime
 {
     public class RuntimeTimer : IRuntimeTimer
     {
-        public TimerConfig Config { get; private set; }
+        public TimerConfig Config { get; }
         public IRuntimeTimerModel RuntimeModel { get; private set; }
 
-        public IEventsSource EventsSource { get; private set; }
-        public IEventPublisher EventPublisher { get; private set; }
+        public IEventsSource EventsSource { get; }
+        public IEventPublisher EventPublisher { get; }
 
-        public void Init(
+        public RuntimeTimer(
             TimerConfig config,
             IRuntimeTimerModel runtimeModel,
             IEventPublisher eventPublisher,
@@ -56,13 +55,5 @@ namespace CCG.Shared.Game.Runtime
             // TODO notify
             throw new NotImplementedException();
         }
-
-        #region IRuntimeObjectBase
-
-        IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
-
-        IConfig IRuntimeObjectBase.Config => Config;
-
-        #endregion
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace CCG.Shared.Abstractions.Game.Factories
 {
-    public interface IRuntimeFactory<out TRuntime, TRuntimeData>
+    public interface IRuntimeFactory<out TRuntime, TRuntimeModel>
     {
-        TRuntimeData Create(int? runtimeId, string ownerId, string dataId, bool notify = true);
-        TRuntime Create(TRuntimeData runtimeData, bool notify = true);
+        TRuntimeModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true);
+        TRuntime Create(TRuntimeModel runtimeData, bool notify = true);
     }
 }

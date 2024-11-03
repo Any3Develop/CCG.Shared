@@ -10,7 +10,6 @@ namespace CCG.Shared.Game.Context
     {
         public IConfigCollection<ObjectConfig> Objects { get; } = new ConfigCollection<ObjectConfig>();
         public IConfigCollection<EffectConfig> Effects { get; } = new ConfigCollection<EffectConfig>();
-        public IConfigCollection<PlayerConfig> Players { get; } = new ConfigCollection<PlayerConfig>();
         public IConfigCollection<StatConfig> Stats { get; } = new ConfigCollection<StatConfig>();
 
         public DatabaseModel GetModel()
@@ -19,7 +18,6 @@ namespace CCG.Shared.Game.Context
             {
                 Objects = Objects.ToArray(),
                 Effects = Effects.ToArray(),
-                Players = Players.ToArray(),
                 Stats = Stats.ToArray(),
             };
         }

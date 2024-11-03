@@ -33,7 +33,7 @@ namespace CCG.Shared.Game.Factories
             this.contextFactory = contextFactory;
         }
 
-        public IRuntimeObjectModel Create(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeObjectModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)
         {
             if (!database.Objects.TryGet(dataId, out var data))
                 throw new NullReferenceException($"{nameof(ObjectConfig)} with id {dataId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");
@@ -46,7 +46,7 @@ namespace CCG.Shared.Game.Factories
                     ConfigId = data.Id,
                     Id = runtimeId.Value,
                     OwnerId = ownerId,
-                    Stats = data.Stats.Select(id => runtimeStatFactory.Create(runtimeId.Value, ownerId, id, notify)).ToList(),
+                    Stats = data.Stats.Select(id => runtimeStatFactory.CreateModel(runtimeId.Value, ownerId, id, notify)).ToList(),
                 },
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
@@ -62,8 +62,8 @@ namespace CCG.Shared.Game.Factories
             
             var eventSource = contextFactory.CreateEventsSource();
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
-            var statsCollection = contextFactory.CreateStatsCollection(eventSource);
-            var effectsCollection = contextFactory.CreateEffectsCollection(eventSource);
+            var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
+            var effectsCollection = contextFactory.CreateEffectsCollection(eventPublisher);
             runtimeObject = data.Type switch
             {
                 ObjectType.Creature => new RuntimeCardCreature().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),

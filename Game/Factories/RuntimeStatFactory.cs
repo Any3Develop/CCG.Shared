@@ -26,7 +26,7 @@ namespace CCG.Shared.Game.Factories
             this.runtimeIdProvider = runtimeIdProvider;
         }
 
-        public IRuntimeStatModel Create(int? runtimeOwnerId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeStatModel CreateModel(int? runtimeOwnerId, string ownerId, string dataId, bool notify = true)
         {
             if (!runtimeOwnerId.HasValue)
                 throw new NullReferenceException($"To create {nameof(IRuntimeStat)} you should inject {nameof(runtimeOwnerId)}");

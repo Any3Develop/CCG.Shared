@@ -3,5 +3,8 @@ using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Factories
 {
-    public interface IRuntimePlayerFactory : IRuntimeFactory<IRuntimePlayer, IRuntimePlayerModel>{}
+    public interface IRuntimePlayerFactory : IRuntimeFactory<IRuntimePlayer, IRuntimePlayerModel>
+    {
+        IRuntimePlayerModel CreateModel(string ownerId, int index);
+    }
 }

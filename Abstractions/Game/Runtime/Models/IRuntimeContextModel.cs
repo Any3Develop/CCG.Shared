@@ -1,6 +1,6 @@
 ﻿namespace CCG.Shared.Abstractions.Game.Runtime.Models
 {
-    public interface IRuntimeContextModel
+    public interface IRuntimeContextModel : IContextModel
     {
         public string Id { get; }
         public bool IsStarted => StartTime.HasValue;

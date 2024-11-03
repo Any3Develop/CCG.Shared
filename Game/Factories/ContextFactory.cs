@@ -17,17 +17,20 @@ namespace CCG.Shared.Game.Factories
     public class ContextFactory : IContextFactory
     {
         private readonly IDatabase database;
+        private readonly ISharedConfig sharedConfig;
         private readonly IEventsSourceFactory eventsSourceFactory;
         private readonly ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection;
         private readonly ITypeCollection<string, Command> commandTypeCollection;
 
         public ContextFactory(
             IDatabase database,
+            ISharedConfig sharedConfig,
             IEventsSourceFactory eventsSourceFactory,
             ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection, 
             ITypeCollection<string, Command> commandTypeCollection)
         {
             this.database = database;
+            this.sharedConfig = sharedConfig;
             this.eventsSourceFactory = eventsSourceFactory;
             this.logicTypeCollection = logicTypeCollection;
             this.commandTypeCollection = commandTypeCollection;
@@ -147,7 +150,7 @@ namespace CCG.Shared.Game.Factories
         public IRuntimePlayerFactory CreatePlayerFactory(params object[] args)
         {
             return new RuntimePlayerFactory(
-                database,
+                sharedConfig,
                 GetRequiredArgument<IPlayersCollection>(),
                 GetRequiredArgument<IRuntimeIdProvider>(),
                 GetRequiredArgument<IRuntimeStatFactory>(),
@@ -161,6 +164,13 @@ namespace CCG.Shared.Game.Factories
                 GetRequiredArgument<IObjectsCollection>(), 
                 GetRequiredArgument<IRuntimeIdProvider>(),
                 logicTypeCollection);
+        }
+
+        public IRuntimeTimerFactory CreateTimerFactory(params object[] args)
+        {
+            return new RuntimeTimerFactory(
+                sharedConfig, 
+                GetRequiredArgument<IContext>());
         }
 
         #endregion

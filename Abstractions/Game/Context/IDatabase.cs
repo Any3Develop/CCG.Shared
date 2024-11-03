@@ -8,7 +8,6 @@ namespace CCG.Shared.Abstractions.Game.Context
     {
         IConfigCollection<ObjectConfig> Objects { get; }
         IConfigCollection<EffectConfig> Effects { get; }
-        IConfigCollection<PlayerConfig> Players { get; }
         IConfigCollection<StatConfig> Stats { get; }
 
         DatabaseModel GetModel();

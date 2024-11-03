@@ -30,7 +30,7 @@ namespace CCG.Shared.Game.Factories
             this.logicTypeCollection = logicTypeCollection;
         }
 
-        public IRuntimeEffectModel Create(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeEffectModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)
         {           
             if (!database.Effects.TryGet(dataId, out var data))
                 throw new NullReferenceException($"{nameof(EffectConfig)} with id {dataId}, not found in {nameof(IConfigCollection<EffectConfig>)}");

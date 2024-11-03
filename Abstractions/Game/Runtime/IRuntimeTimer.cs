@@ -4,7 +4,7 @@ using CCG.Shared.Game.Enums;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimeTimer : IRuntimeObjectBase
+    public interface IRuntimeTimer : IDisposable
     {
         new TimerConfig Config { get; }
         new IRuntimeTimerModel RuntimeModel { get; }

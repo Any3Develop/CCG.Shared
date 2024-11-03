@@ -1,6 +1,6 @@
 ﻿namespace CCG.Shared.Abstractions.Game.Runtime.Models
 {
-    public interface IRuntimeModelBase
+    public interface IRuntimeModelBase : IContextModel
     {
         /// <summary>
         /// The unique identifier of the runtime entity.
