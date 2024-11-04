@@ -2,7 +2,6 @@
 {
     public interface ICommand
     {
-        string ExecutorId { get; }
         ICommandModel Model { get; }
         void Execute();
     }

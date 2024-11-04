@@ -19,12 +19,10 @@ namespace CCG.Shared.Game.Runtime.Effects
 
         public IRuntimeEffect Init(
             EffectConfig config,
-            IRuntimeEffectModel runtimeModel,
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
         {
             Config = config;
-            RuntimeModel = runtimeModel;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
             Initialized = true;
@@ -46,10 +44,15 @@ namespace CCG.Shared.Game.Runtime.Effects
         {
             if (!Initialized)
                 return this;
+
+            if (notify)
+                EventPublisher.Publish(new BeforeEffectChangeEvent(this));
             
-            EventPublisher.Publish<BeforeEffectChangeEvent>(notify, this);
             RuntimeModel = runtimeModel;
-            EventPublisher.Publish<AfterEffectChangedEvent>(notify, this);
+
+            if (notify)
+                EventPublisher.Publish(new AfterEffectChangedEvent(this));
+            
             return this;
         }
 

@@ -50,7 +50,7 @@ namespace CCG.Shared.Game.Factories
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");
             
-            return new RuntimeTimer(sharedConfig.Timer, runtimeModel, context.EventPublisher, context.EventSource).Sync(runtimeModel, notify);
+            return new RuntimeTimer(sharedConfig.Timer, context.EventPublisher, context.EventSource).Sync(runtimeModel, notify);
         }
     }
 }

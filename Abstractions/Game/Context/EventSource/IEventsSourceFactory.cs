@@ -2,6 +2,7 @@
 {
     public interface IEventsSourceFactory
     {
-        IEventsSource Create(params object[] args);
+        IEventsSource CreateSource(params object[] args);
+        IEventPublisher CreatePublisher(params object[] args);
     }
 }

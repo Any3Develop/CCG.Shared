@@ -16,32 +16,28 @@ namespace CCG.Shared.Game.Factories
             this.context = context;
             this.commandTypeCollection = commandTypeCollection;
         }
-        
-        public ICommand Create<T>(string executorId, ICommandModel model) where T : ICommand
+
+        public ICommand Create<T>(ICommandModel model) where T : ICommand
         {
-            var cmd = Create(typeof(T));
-            cmd.Init(executorId, model, context);
-            return cmd;
+            return Create(typeof(T)).Init(model, context);
         }
 
-        public ICommand Create(string executorId, ICommandModel model)
+        public ICommand Create(ICommandModel model)
         {
-            var cmd = Create(commandTypeCollection.Get(model.TypeName));
-            cmd.Init(executorId, model, context);
-            return cmd;
+            return Create(commandTypeCollection.Get(model.Name)).Init(model, context);
         }
-        
+
         private static Command Create(Type commandType)
         {
             if (commandType == null)
                 throw new NullReferenceException($"Can't create a command instance the type of command is missing.");
-            
+
             var constructorInfo = commandType.GetConstructor(Type.EmptyTypes);
 
             if (constructorInfo == null)
                 throw new NullReferenceException($"{commandType.FullName} : default constructor not found.");
-          
-            return (Command)constructorInfo.Invoke(Array.Empty<object>());
+
+            return (Command) constructorInfo.Invoke(Array.Empty<object>());
         }
     }
 }

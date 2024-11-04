@@ -17,6 +17,7 @@ namespace CCG.Shared.Game.Factories
         private readonly IObjectsCollection objectsCollection;
         private readonly IRuntimeIdProvider runtimeIdProvider;
         private readonly IRuntimeStatFactory runtimeStatFactory;
+        private readonly IRuntimeEffectFactory runtimeEffectFactory;
         private readonly IContextFactory contextFactory;
 
         public RuntimeObjectFactory(
@@ -24,12 +25,14 @@ namespace CCG.Shared.Game.Factories
             IObjectsCollection objectsCollection,
             IRuntimeIdProvider runtimeIdProvider,
             IRuntimeStatFactory runtimeStatFactory,
+            IRuntimeEffectFactory runtimeEffectFactory,
             IContextFactory contextFactory)
         {
             this.database = database;
             this.objectsCollection = objectsCollection;
             this.runtimeIdProvider = runtimeIdProvider;
             this.runtimeStatFactory = runtimeStatFactory;
+            this.runtimeEffectFactory = runtimeEffectFactory;
             this.contextFactory = contextFactory;
         }
 
@@ -66,15 +69,18 @@ namespace CCG.Shared.Game.Factories
             var effectsCollection = contextFactory.CreateEffectsCollection(eventPublisher);
             runtimeObject = data.Type switch
             {
-                ObjectType.Creature => new RuntimeCardCreature().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),
-                ObjectType.Spell => new RuntimeCardSpell().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),
+                ObjectType.Creature => new RuntimeCardCreature().Init(data, statsCollection, effectsCollection, eventPublisher, eventSource),
+                ObjectType.Spell => new RuntimeCardSpell().Init(data, statsCollection, effectsCollection, eventPublisher, eventSource),
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
             
             objectsCollection.Add(runtimeObject, notify);
             
-            foreach (var runtimeStatData in runtimeModel.Stats)
-                runtimeStatFactory.Create(runtimeStatData, notify);
+            foreach (var runtimeStatModel in runtimeModel.Stats)
+                runtimeStatFactory.Create(runtimeStatModel, false);
+            
+            foreach (var runtimeEffectModel in runtimeModel.Applied)
+                runtimeEffectFactory.Create(runtimeEffectModel, false);
             
             return runtimeObject;
         }

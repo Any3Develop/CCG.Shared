@@ -42,6 +42,6 @@ namespace CCG.Shared.Abstractions.Game.Context
         IContextFactory ContextFactory { get; }
         #endregion
 
-        IContext Sync(IRuntimeContextModel value, bool notify = false);
+        IContext Sync(IRuntimeContextModel value);
     }
 }

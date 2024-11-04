@@ -16,12 +16,10 @@ namespace CCG.Shared.Game.Runtime
 
         public RuntimeTimer(
             TimerConfig config,
-            IRuntimeTimerModel runtimeModel,
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
         {
             Config = config;
-            RuntimeModel = runtimeModel;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
         }

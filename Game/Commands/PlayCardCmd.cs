@@ -6,17 +6,17 @@ using CCG.Shared.Game.Exceptions;
 
 namespace CCG.Shared.Game.Commands
 {
-    public class PlayCardCmd : Command<PlayCardModel>
+    public class PlayCardCmd : Command<PlayCardCmdModel>
     {
         protected override void OnExecute()
         {
-            if (!Context.PlayersCollection.Contains(ExecutorId))
+            if (!Context.PlayersCollection.Contains(Model.ExecutorId))
                 throw new NullReferenceException("Player who executed the command wasn't found.");
             
             if (!Context.ObjectsCollection.TryGet<IRuntimeCard>(Model.Id, out var runtimeCard))
                 throw new NullReferenceException($"Requested card with id {Model.Id} not found.");
 
-            if (Context.ObjectsCollection.GetOccupiedTableSpace(ExecutorId) >= Context.Config.Table.MaxInTableCount)
+            if (Context.ObjectsCollection.GetOccupiedTableSpace(Model.ExecutorId) >= Context.Config.Table.MaxInTableCount)
                 throw new NotEnoughTableSpaceException();
             
             runtimeCard.SetPosition(Model.Position);

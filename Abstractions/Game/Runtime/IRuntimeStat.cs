@@ -8,7 +8,7 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         new StatConfig Config { get; }
         new IRuntimeStatModel RuntimeModel { get; }
         
-        IRuntimeStat Sync(IRuntimeStatModel runtimeModel, bool notify = true);
+        IRuntimeStat Sync(IRuntimeStatModel runtimeModel);
         void SetValue(int value, bool notify = true);
         void SetMax(int value, bool notify = true);
         void Reset(bool notify = true);

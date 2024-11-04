@@ -4,6 +4,6 @@ namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface ICommandProcessor
     {
-        void Execute(string executorId, ICommandModel model);
+        void Execute(ICommandModel model);
     }
 }

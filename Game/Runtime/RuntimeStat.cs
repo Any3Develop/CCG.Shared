@@ -19,12 +19,10 @@ namespace CCG.Shared.Game.Runtime
 
         public IRuntimeStat Init(
             StatConfig config,
-            IRuntimeStatModel runtimeModel,
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
         {
             Config = config;
-            RuntimeModel = runtimeModel;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
             Initialized = true;
@@ -42,14 +40,12 @@ namespace CCG.Shared.Game.Runtime
             EventsSource = null;
         }
 
-        public IRuntimeStat Sync(IRuntimeStatModel runtimeModel, bool notify = true)
+        public IRuntimeStat Sync(IRuntimeStatModel runtimeModel)
         {
             if (!Initialized)
                 return this;
 
-            OnBeforeChanged(notify);
             RuntimeModel = runtimeModel;
-            OnAfterChanged(notify);
             return this;
         }
 

@@ -1,11 +1,11 @@
 ﻿namespace CCG.Shared.Abstractions.Game.Commands
 {
-    
     public interface ICommandModel
     {
-        string TypeName { get; }
+        string Name { get; }
         string CommandId { get; }
-        string PredictionId { get; set; }
+        string PredictionId { get; }
+        string ExecutorId { get; }
         bool IsNested { get; }
     }
 }

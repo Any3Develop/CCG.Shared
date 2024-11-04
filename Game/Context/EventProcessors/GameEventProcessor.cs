@@ -56,7 +56,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.StatsCollection.TryGet(changedObjectStat.RuntimeModel.Id, out var runtimeStat))
                         return;
                     
-                    runtimeStat.Sync(changedObjectStat.RuntimeModel, false);
+                    runtimeStat.Sync(changedObjectStat.RuntimeModel);
                     return;
                 }
                 

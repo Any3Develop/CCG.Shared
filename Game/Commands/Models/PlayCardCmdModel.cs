@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Game.Commands.Models
 {
-    public class PlayCardModel : CommandModelBase
+    public class PlayCardCmdModel : CommandModelBase
     {
         public int Id { get; set; }
         public int? Position { get; set; }

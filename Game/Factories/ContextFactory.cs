@@ -61,12 +61,12 @@ namespace CCG.Shared.Game.Factories
         #region Logic
         public IEventsSource CreateEventsSource(params object[] args)
         {
-            return eventsSourceFactory.Create(args);
+            return eventsSourceFactory.CreateSource(args);
         }
 
         public IEventPublisher CreateEventPublisher(params object[] args)
         {
-            return GetRequiredArgument<IEventPublisher>(args);
+            return eventsSourceFactory.CreatePublisher(args);
         }
 
         public IRuntimeIdProvider CreateRuntimeIdProvider(params object[] args)
@@ -134,6 +134,7 @@ namespace CCG.Shared.Game.Factories
             return new RuntimeStatFactory(
                 database, 
                 GetRequiredArgument<IObjectsCollection>(), 
+                GetRequiredArgument<IPlayersCollection>(), 
                 GetRequiredArgument<IRuntimeIdProvider>());
         }
 
@@ -144,6 +145,7 @@ namespace CCG.Shared.Game.Factories
                 GetRequiredArgument<IObjectsCollection>(), 
                 GetRequiredArgument<IRuntimeIdProvider>(),
                 GetRequiredArgument<IRuntimeStatFactory>(),
+                GetRequiredArgument<IRuntimeEffectFactory>(),
                 this);
         }
 

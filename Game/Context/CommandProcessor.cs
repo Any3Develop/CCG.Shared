@@ -19,9 +19,9 @@ namespace CCG.Shared.Game.Context
             this.commandFactory = commandFactory;
         }
         
-        public void Execute(string executorId, ICommandModel model)
+        public void Execute(ICommandModel model)
         {
-            Execute(commandFactory.Create(executorId, model));
+            Execute(commandFactory.Create(model));
         }
 
         private void Execute(ICommand command)

@@ -3,10 +3,10 @@
     public interface IRuntimePlayerModel : IContextModel
     {
         int Id { get; }
-        string ConfigId { get; set; }
+        string Name { get; }
+        string ConfigId { get; }
         string OwnerId { get; }
         bool Ready { get; set; }
         List<IRuntimeStatModel> Stats { get; }
-
     }
 }

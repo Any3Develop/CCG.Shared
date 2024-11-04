@@ -43,10 +43,15 @@ namespace CCG.Shared.Game.Runtime
 
         public IRuntimePlayer Sync(IRuntimePlayerModel runtimeModel, bool notify = true)
         {
+            if (notify)
+                EventPublisher.Publish(new BeforePlayerChangeEvent(this));
+            
             Initialized = true;
-            EventPublisher.Publish<BeforePlayerChangeEvent>(notify, this);
             RuntimeModel = runtimeModel;
-            EventPublisher.Publish<AfterPlayerChangedEvent>(notify, this);
+            
+            if (notify)
+                EventPublisher.Publish(new AfterPlayerChangedEvent(this));
+            
             return this;
         }
 

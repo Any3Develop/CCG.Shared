@@ -23,14 +23,12 @@ namespace CCG.Shared.Game.Runtime
 
         public IRuntimeObject Init(
             ObjectConfig config,
-            IRuntimeObjectModel runtimeModel,
             IStatsCollection statsCollection,
             IEffectsCollection effectCollection,
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
         {
             Config = config;
-            RuntimeModel = runtimeModel;
             StatsCollection = statsCollection;
             EffectsCollection = effectCollection;
             EventPublisher = eventPublisher;

@@ -67,11 +67,11 @@ namespace CCG.Shared.Game.Factories
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
             
-            runtimePlayer = new RuntimePlayer(playerConfig, statsCollection, eventPublisher, eventSource).Sync(runtimeModel, notify);
+            runtimePlayer = new RuntimePlayer(playerConfig, statsCollection, eventPublisher, eventSource).Sync(runtimeModel, false);
             playersCollection.Add(runtimePlayer, notify);
             
-            foreach (var runtimeStatData in runtimeModel.Stats)
-                runtimeStatFactory.Create(runtimeStatData, notify);
+            foreach (var runtimeStatModel in runtimeModel.Stats)
+                runtimeStatFactory.Create(runtimeStatModel, false);
             
             return runtimePlayer;
         }

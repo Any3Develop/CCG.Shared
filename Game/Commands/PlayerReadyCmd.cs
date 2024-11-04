@@ -9,12 +9,12 @@ namespace CCG.Shared.Game.Commands
     {
         protected override void OnExecute()
         {
-            if (!Context.PlayersCollection.TryGet(ExecutorId, out var player))
+            if (!TryGetExecutor(out var player))
                 throw new NullReferenceException("Player who executed the command wasn't found.");
 
             if (player.RuntimeModel.Ready)
             {
-                SharedLogger.Log($"Player {ExecutorId} already ready.");
+                SharedLogger.Log($"Player {player.RuntimeModel.Name} already ready.");
                 return;
             }
             

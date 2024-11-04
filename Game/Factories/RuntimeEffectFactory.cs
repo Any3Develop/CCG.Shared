@@ -56,7 +56,7 @@ namespace CCG.Shared.Game.Factories
             if (!database.Effects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(EffectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<EffectConfig>)}");
             
-            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeModel, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource);
+            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource).Sync(runtimeModel, false);
             runtimeEffectOwnerObject.EffectsCollection.Add(runtimeEffect, notify);
             
             return runtimeEffect;
