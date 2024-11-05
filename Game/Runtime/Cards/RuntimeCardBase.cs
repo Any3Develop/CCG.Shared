@@ -2,7 +2,6 @@
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Events.Context.Cards;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Runtime.Cards
 {
@@ -13,12 +12,13 @@ namespace CCG.Shared.Game.Runtime.Cards
 
         public void SetPosition(int? value, bool notify = true)
         {
-            if (!Initialized)
-                return;
+            if (notify)
+                EventPublisher.Publish(new BeforeCardPositionChangeEvent(this));
             
-            EventPublisher.Publish<BeforeCardPositionChangeEvent>(notify, this);
             RuntimeModel.Position = value;
-            EventPublisher.Publish<AfterCardPositionChangedEvent>(notify, this);
+            
+            if (notify)
+                EventPublisher.Publish(new AfterCardPositionChangedEvent(this));
         }
     }
 }

@@ -58,7 +58,7 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeObject Create(IRuntimeObjectModel runtimeModel, bool notify = true)
         {
             if (objectsCollection.TryGet(runtimeModel.Id, out var runtimeObject))
-                return runtimeObject.Sync(runtimeModel, notify);
+                return runtimeObject.Sync(runtimeModel);
             
             if (!database.Objects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(ObjectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");
@@ -73,14 +73,18 @@ namespace CCG.Shared.Game.Factories
                 ObjectType.Spell => new RuntimeCardSpell().Init(data, statsCollection, effectsCollection, eventPublisher, eventSource),
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
-            
-            objectsCollection.Add(runtimeObject, notify);
+
+            runtimeObject.Sync(runtimeModel);
+            objectsCollection.Add(runtimeObject, false);
             
             foreach (var runtimeStatModel in runtimeModel.Stats)
                 runtimeStatFactory.Create(runtimeStatModel, false);
             
             foreach (var runtimeEffectModel in runtimeModel.Applied)
                 runtimeEffectFactory.Create(runtimeEffectModel, false);
+            
+            if (notify)
+                objectsCollection.AddNotify(runtimeObject);
             
             return runtimeObject;
         }

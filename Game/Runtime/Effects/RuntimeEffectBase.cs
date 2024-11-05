@@ -4,7 +4,6 @@ using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Events.Context.Effects;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Runtime.Effects
 {
@@ -15,8 +14,6 @@ namespace CCG.Shared.Game.Runtime.Effects
         public IEventsSource EventsSource { get; private set; }
         public IEventPublisher EventPublisher { get; private set; }
 
-        protected bool Initialized { get; private set; }
-
         public IRuntimeEffect Init(
             EffectConfig config,
             IEventPublisher eventPublisher,
@@ -25,34 +22,19 @@ namespace CCG.Shared.Game.Runtime.Effects
             Config = config;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
-            Initialized = true;
             return this;
         }
 
         public void Dispose()
         {
-            if (!Initialized)
-                return;
-
-            Initialized = false;
             Config = null;
             RuntimeModel = null;
             EventsSource = null;
         }
 
-        public IRuntimeEffect Sync(IRuntimeEffectModel runtimeModel, bool notify = true)
+        public IRuntimeEffect Sync(IRuntimeEffectModel runtimeModel)
         {
-            if (!Initialized)
-                return this;
-
-            if (notify)
-                EventPublisher.Publish(new BeforeEffectChangeEvent(this));
-            
             RuntimeModel = runtimeModel;
-
-            if (notify)
-                EventPublisher.Publish(new AfterEffectChangedEvent(this));
-            
             return this;
         }
 
@@ -60,22 +42,16 @@ namespace CCG.Shared.Game.Runtime.Effects
 
         public void Execute()
         {
-            if (!Initialized)
-                return;
-            
-            EventPublisher.Publish<BeforeEffectExecuteEvent>(Initialized, this);
+            EventPublisher.Publish(new BeforeEffectExecuteEvent(this));
             OnExecute();
-            EventPublisher.Publish<AfterEffectExecutedEvent>(Initialized, this);
+            EventPublisher.Publish(new AfterEffectExecutedEvent(this));
         }
 
         public void Expire()
         {
-            if (!Initialized)
-                return;
-            
-            EventPublisher.Publish<BeforeEffectExpireEvent>(Initialized, this);
+            EventPublisher.Publish(new BeforeEffectExpireEvent(this));
             OnExpire();
-            EventPublisher.Publish<AfterEffectExpiredEvent>(Initialized, this);
+            EventPublisher.Publish(new AfterEffectExpiredEvent(this));
         }
 
         #region Callbacks

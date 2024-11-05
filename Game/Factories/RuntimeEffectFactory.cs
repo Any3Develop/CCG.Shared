@@ -51,13 +51,13 @@ namespace CCG.Shared.Game.Factories
                 throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeModel.RuntimeOwnerId}, not found in {nameof(IObjectsCollection)}");
 
             if (runtimeEffectOwnerObject.EffectsCollection.TryGet(runtimeModel.Id, out var runtimeEffect))
-                return runtimeEffect.Sync(runtimeModel, notify);
+                return runtimeEffect.Sync(runtimeModel);
             
             if (!database.Effects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(EffectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<EffectConfig>)}");
             
-            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource).Sync(runtimeModel, false);
-            runtimeEffectOwnerObject.EffectsCollection.Add(runtimeEffect, notify);
+            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource).Sync(runtimeModel);
+            runtimeEffectOwnerObject.AddEffect(runtimeEffect, notify);
             
             return runtimeEffect;
         }

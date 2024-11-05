@@ -1,7 +1,6 @@
 ﻿using CCG.Shared.Common.Logger;
 using CCG.Shared.Game.Commands.Base;
 using CCG.Shared.Game.Events.Context;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Commands
 {
@@ -19,7 +18,8 @@ namespace CCG.Shared.Game.Commands
             }
             
             player.SetReady(true);
-            Context.EventPublisher.Publish<SessionStartEvent>(Context.PlayersCollection.All(x => x.RuntimeModel.Ready));
+            if (Context.PlayersCollection.All(x => x.RuntimeModel.Ready))
+                Context.EventPublisher.Publish(new SessionStartEvent());
         }
     }
 }

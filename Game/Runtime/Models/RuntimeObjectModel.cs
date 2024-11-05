@@ -11,7 +11,7 @@ namespace CCG.Shared.Game.Runtime.Models
         public List<string> EffectIds { get; set; } = new();
         public List<IRuntimeEffectModel> Applied { get; set; } = new();
         public List<IRuntimeStatModel> Stats { get; set; } = new();
-        public ObjectState State { get; set; } = 0;
-        public ObjectState PreviousState { get; set; } = 0;
+        public ObjectState State { get; set; }
+        public ObjectState PreviousState { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
@@ -15,8 +14,11 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         IRuntimePlayerModel RuntimeModel { get; }
         IStatsCollection StatsCollection { get; }
 
-        IRuntimePlayer Sync(IRuntimePlayerModel runtimeModel, bool notify = true);
+        IRuntimePlayer Sync(IRuntimePlayerModel runtimeModel);
         bool TrySpendMana(int value);
         void SetReady(bool value);
+        
+        void AddStat(IRuntimeStat stat, bool notify = true);
+        void RemoveStat(IRuntimeStat stat, bool notify = true);
     }
 }

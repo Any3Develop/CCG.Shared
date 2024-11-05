@@ -1,10 +1,8 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
-using CCG.Shared.Game.Events.Context.Players;
 using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Runtime
@@ -16,8 +14,6 @@ namespace CCG.Shared.Game.Runtime
         public IStatsCollection StatsCollection { get; private set; }
         public IEventPublisher EventPublisher { get; private set; }
         public IEventsSource EventsSource { get; private set; }
-
-        protected bool Initialized { get; private set; }
 
         public RuntimePlayer(
             PlayerConfig config,
@@ -33,31 +29,19 @@ namespace CCG.Shared.Game.Runtime
 
         public void Dispose()
         {
-            if (!Initialized)
-                return;
-
-            Initialized = false;
             EventsSource?.Dispose();
             StatsCollection?.Dispose();
         }
 
-        public IRuntimePlayer Sync(IRuntimePlayerModel runtimeModel, bool notify = true)
+        public IRuntimePlayer Sync(IRuntimePlayerModel runtimeModel)
         {
-            if (notify)
-                EventPublisher.Publish(new BeforePlayerChangeEvent(this));
-            
-            Initialized = true;
             RuntimeModel = runtimeModel;
-            
-            if (notify)
-                EventPublisher.Publish(new AfterPlayerChangedEvent(this));
-            
             return this;
         }
 
         public bool TrySpendMana(int value)
         {
-            if (!Initialized || value < 0)
+            if (value < 0)
                 return false;
 
             var runtimeStat = StatsCollection.First();
@@ -75,6 +59,25 @@ namespace CCG.Shared.Game.Runtime
         public void SetReady(bool value)
         {
             RuntimeModel.Ready = value;
+        }
+
+        public void AddStat(IRuntimeStat stat, bool notify = true)
+        {
+            if (StatsCollection.Contains(stat.RuntimeModel.Id))
+                throw new InvalidOperationException($"Can't add stat twice : {stat.RuntimeModel.ReflectionFormat()}");
+
+            RuntimeModel.Stats.Add(stat.RuntimeModel);
+            StatsCollection.Add(stat, notify);
+        }
+
+        public void RemoveStat(IRuntimeStat stat, bool notify = true)
+        {
+            if (!StatsCollection.Contains(stat.RuntimeModel.Id))
+                return;
+
+            RuntimeModel.Stats.RemoveAll(x => x.Id == stat.RuntimeModel.Id);
+            StatsCollection.Remove(stat, notify);
+            stat.Dispose();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.EffectsCollection.TryGet(changedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
-                    runtimeEffect.Sync(changedObjectEffect.RuntimeModel, false);
+                    runtimeEffect.Sync(changedObjectEffect.RuntimeModel);
                     return;
                 }
                 
@@ -65,7 +65,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                     if (!context.ObjectsCollection.TryGet(changedObjectState.Id, out var runtimeObject))
                         return;
                     
-                    runtimeObject.SetState(changedObjectState.State, false);
+                    runtimeObject.SetState(changedObjectState.State, changedObjectState.Previous, false);
                     return;
                 }
                 
@@ -85,8 +85,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.EffectsCollection.TryGet(deletedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
-                    runtimeObject.EffectsCollection.Remove(runtimeEffect, false);
-                    runtimeEffect.Dispose();
+                    runtimeObject.RemoveEffect(runtimeEffect, false);
                     return;
                 }
                 
@@ -96,8 +95,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.StatsCollection.TryGet(deletedObjectStat.RuntimeModel.Id, out var runtimeStat))
                         return;
 
-                    runtimeObject.StatsCollection.Remove(runtimeStat, false);
-                    runtimeStat.Dispose();
+                    runtimeObject.RemoveStat(runtimeStat, false);
                     return;
                 }
                 
@@ -107,7 +105,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.EffectsCollection.TryGet(endedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
                     
-                    runtimeEffect.Sync(endedObjectEffect.RuntimeModel, false);
+                    runtimeEffect.Sync(endedObjectEffect.RuntimeModel);
                     return;
                 }
                 
@@ -123,7 +121,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.EffectsCollection.TryGet(startObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
                     
-                    runtimeEffect.Sync(startObjectEffect.RuntimeModel, false);
+                    runtimeEffect.Sync(startObjectEffect.RuntimeModel);
                     return;
                 }
                 

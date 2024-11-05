@@ -52,7 +52,7 @@ namespace CCG.Shared.Game.Factories
         {
             if (!objectsCollection.TryGet(runtimeModel.RuntimeOwnerId, out var runtimeObject)
                 || !playersCollection.TryGet(runtimeModel.OwnerId, out var runtimePlayer))
-                throw new NullReferenceException($"Runtime object with id {runtimeModel.RuntimeOwnerId} not found in {nameof(IObjectsCollection)} and {nameof(IPlayersCollection)}");
+                throw new NullReferenceException($"Runtime object with id {runtimeModel.RuntimeOwnerId} with owner {runtimeModel.OwnerId} not found in {nameof(IObjectsCollection)} and {nameof(IPlayersCollection)}");
 
             var statsCollection = runtimeObject?.StatsCollection ?? runtimePlayer.StatsCollection;
             if (statsCollection.TryGet(runtimeModel.Id, out var runtimeStat))
@@ -63,8 +63,10 @@ namespace CCG.Shared.Game.Factories
 
             var eventSource = runtimeObject?.EventsSource ?? runtimePlayer.EventsSource;
             var eventPublisher = runtimeObject?.EventPublisher ?? runtimePlayer.EventPublisher;
+            
             runtimeStat = new RuntimeStat().Init(statData, eventPublisher, eventSource).Sync(runtimeModel);
-            statsCollection.Add(runtimeStat, notify);
+            runtimeObject?.AddStat(runtimeStat);
+            runtimePlayer?.AddStat(runtimeStat);
             
             return runtimeStat;
         }

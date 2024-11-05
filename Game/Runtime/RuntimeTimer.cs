@@ -10,7 +10,6 @@ namespace CCG.Shared.Game.Runtime
     {
         public TimerConfig Config { get; }
         public IRuntimeTimerModel RuntimeModel { get; private set; }
-
         public IEventsSource EventsSource { get; }
         public IEventPublisher EventPublisher { get; }
 
@@ -29,10 +28,9 @@ namespace CCG.Shared.Game.Runtime
             throw new NotImplementedException();
         }
 
-        public IRuntimeTimer Sync(IRuntimeTimerModel runtimeModel, bool notify = true)
+        public IRuntimeTimer Sync(IRuntimeTimerModel runtimeModel)
         {
             RuntimeModel = runtimeModel;
-            // TODO notify
             return this;
         }
 

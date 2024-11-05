@@ -15,9 +15,11 @@
         
         bool Add(TRuntime value, bool notify = true);
         int AddRange(IEnumerable<TRuntime> values, bool notify = true);
+        void AddNotify(TRuntime value);
         
         bool Remove(int id, bool notify = true);
         bool Remove(TRuntime value, bool notify = true);
+        void RemoveNotify(TRuntime value);
         int RemoveRange(IEnumerable<TRuntime> values, bool notify = true);
         int RemoveRange(IEnumerable<int> ids, bool notify = true);
 

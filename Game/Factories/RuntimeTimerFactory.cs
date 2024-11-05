@@ -45,12 +45,12 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeTimer Create(IRuntimeTimerModel runtimeModel, bool notify = true)
         {
             if (context.RuntimeTimer != null)
-                return context.RuntimeTimer.Sync(runtimeModel, notify);
+                return context.RuntimeTimer.Sync(runtimeModel);
             
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");
             
-            return new RuntimeTimer(sharedConfig.Timer, context.EventPublisher, context.EventSource).Sync(runtimeModel, notify);
+            return new RuntimeTimer(sharedConfig.Timer, context.EventPublisher, context.EventSource).Sync(runtimeModel);
         }
     }
 }

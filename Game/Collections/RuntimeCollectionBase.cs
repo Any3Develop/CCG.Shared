@@ -43,6 +43,10 @@ namespace CCG.Shared.Game.Collections
                 return false;
 
             Collection.Insert(index, value);
+            
+            if (notify)
+                AddNotify(value);
+            
             return true;
         }
 
@@ -52,6 +56,10 @@ namespace CCG.Shared.Game.Collections
                 return false;
 
             Collection.Add(value);
+            
+            if (notify)
+                AddNotify(value);
+            
             return true;
         }
 
@@ -60,15 +68,23 @@ namespace CCG.Shared.Game.Collections
             return values?.Count(value => Add(value, notify)) ?? 0;
         }
 
+        public virtual void AddNotify(TRuntime value){}
+
         public virtual bool Remove(int id, bool notify = true)
         {
-            return Collection.RemoveAll(x => GetId(x) == id) > 0;
+            return Collection.Where(x => GetId(x) == id).ToArray().Aggregate(false, (current, value) => current | Remove(value, notify));
         }
 
         public virtual bool Remove(TRuntime value, bool notify = true)
         {
-            return value != null && Remove(GetId(value), notify);
+            var result = Collection.Remove(value);
+            if (result && notify)
+                RemoveNotify(value);
+            
+            return result;
         }
+
+        public virtual void RemoveNotify(TRuntime value){}
 
         public virtual int RemoveRange(IEnumerable<TRuntime> values, bool notify = true)
         {

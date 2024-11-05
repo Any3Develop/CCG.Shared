@@ -12,7 +12,12 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         IStatsCollection StatsCollection { get; }
         IEffectsCollection EffectsCollection { get; }
 
-        IRuntimeObject Sync(IRuntimeObjectModel runtimeModel, bool notify = true);
-        void SetState(ObjectState value, bool notify = true);
+        IRuntimeObject Sync(IRuntimeObjectModel runtimeModel);
+        void SetState(ObjectState value, ObjectState? previous = null, bool notify = true);
+        
+        void AddStat(IRuntimeStat stat, bool notify = true);
+        void RemoveStat(IRuntimeStat stat, bool notify = true);
+        void AddEffect(IRuntimeEffect effect, bool notify = true);
+        void RemoveEffect(IRuntimeEffect effect, bool notify = true);
     }
 }

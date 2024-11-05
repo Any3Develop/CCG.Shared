@@ -1,6 +1,5 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -57,7 +56,7 @@ namespace CCG.Shared.Game.Factories
         public IRuntimePlayer Create(IRuntimePlayerModel runtimeModel, bool notify = true)
         {
             if (playersCollection.TryGet(runtimeModel.Id, out var runtimePlayer))
-                return runtimePlayer.Sync(runtimeModel, notify);
+                return runtimePlayer.Sync(runtimeModel);
             
             var playerConfig = sharedConfig.Players.FirstOrDefault(x => x.Id == runtimeModel.ConfigId);
             if (playerConfig == null)
@@ -67,11 +66,14 @@ namespace CCG.Shared.Game.Factories
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
             
-            runtimePlayer = new RuntimePlayer(playerConfig, statsCollection, eventPublisher, eventSource).Sync(runtimeModel, false);
-            playersCollection.Add(runtimePlayer, notify);
+            runtimePlayer = new RuntimePlayer(playerConfig, statsCollection, eventPublisher, eventSource).Sync(runtimeModel);
+            playersCollection.Add(runtimePlayer, false);
             
             foreach (var runtimeStatModel in runtimeModel.Stats)
                 runtimeStatFactory.Create(runtimeStatModel, false);
+            
+            if (notify)
+                playersCollection.AddNotify(runtimePlayer);
             
             return runtimePlayer;
         }

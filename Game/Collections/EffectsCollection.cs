@@ -2,7 +2,6 @@
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Events.Context.Effects;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Collections
 {
@@ -18,21 +17,14 @@ namespace CCG.Shared.Game.Collections
         protected override int GetId(IRuntimeEffect value) =>
             value?.RuntimeModel?.Id ?? int.MinValue;
         
-        public override bool Add(IRuntimeEffect value, bool notify = true)
+        public override void AddNotify(IRuntimeEffect value)
         {
-            var result = base.Add(value, notify);
-            eventPublisher.Publish<AfterEffectAddedEvent>(notify && result, value);
-            return result;
+            eventPublisher.Publish(new AfterEffectAddedEvent(value));
         }
 
-        public override bool Remove(int id, bool notify = true)
+        public override void RemoveNotify(IRuntimeEffect value)
         {
-            if (!TryGet(id, out var value))
-                return false;
-
-            var result = base.Remove(value, notify);
-            eventPublisher.Publish<AfterEffectDeletedEvent>(notify && result, value);
-            return result;
+            eventPublisher.Publish(new AfterEffectDeletedEvent(value));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         new EffectConfig Config { get; }
         new IRuntimeEffectModel RuntimeModel { get; }
 
-        IRuntimeEffect Sync(IRuntimeEffectModel runtimeModel, bool notify = true);
+        IRuntimeEffect Sync(IRuntimeEffectModel runtimeModel);
         bool IsExecuteAllowed();
         void Execute();
         void Expire();
