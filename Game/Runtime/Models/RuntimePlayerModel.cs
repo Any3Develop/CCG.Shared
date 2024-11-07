@@ -9,6 +9,7 @@ namespace CCG.Shared.Game.Runtime.Models
         public string OwnerId { get; set; }
         public string ConfigId { get; set; }
         public bool Ready { get; set; }
+        public bool IsFirst { get; set; }
         public List<IRuntimeStatModel> Stats { get; set; } = new();
     }
 }

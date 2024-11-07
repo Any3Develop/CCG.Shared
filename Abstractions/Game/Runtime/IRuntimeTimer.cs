@@ -6,8 +6,8 @@ namespace CCG.Shared.Abstractions.Game.Runtime
 {
     public interface IRuntimeTimer : IDisposable
     {
-        new TimerConfig Config { get; }
-        new IRuntimeTimerModel RuntimeModel { get; }
+        TimerConfig Config { get; }
+        IRuntimeTimerModel RuntimeModel { get; }
         
         IRuntimeTimer Sync(IRuntimeTimerModel runtimeModel);
         void SetState(TimerState value, bool notify = true);

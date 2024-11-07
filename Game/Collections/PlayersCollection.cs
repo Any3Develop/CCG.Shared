@@ -5,9 +5,6 @@ namespace CCG.Shared.Game.Collections
 {
     public class PlayersCollection : RuntimeCollectionBase<IRuntimePlayer>, IPlayersCollection
     {
-        protected override int GetId(IRuntimePlayer value) =>
-            value?.RuntimeModel?.Id ?? int.MinValue;
-        
         public IRuntimePlayer Get(string ownerId)
         {
             return GetFirst(x => x.RuntimeModel.OwnerId == ownerId);
@@ -29,11 +26,6 @@ namespace CCG.Shared.Game.Collections
         {
             result = Get(ownerId);
             return result != null;
-        }
-
-        public bool Contains(string ownerId)
-        {
-            return Get(ownerId) != null;
         }
     }
 }

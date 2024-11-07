@@ -9,6 +9,8 @@ namespace CCG.Shared.Game.Runtime.Models
         public int Turn { get; set; }
         public int Round { get; set; }
         public double TimeLeft { get; set; }
+        public DateTime? Paused { get; set; } // TODO
+        public DateTime? Ended { get; set; } // TODO
         public TimerState State { get; set; }
     }
 }

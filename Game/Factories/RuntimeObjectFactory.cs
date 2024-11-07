@@ -8,6 +8,7 @@ using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime.Cards;
 using CCG.Shared.Game.Runtime.Models;
+using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -57,8 +58,8 @@ namespace CCG.Shared.Game.Factories
         
         public IRuntimeObject Create(IRuntimeObjectModel runtimeModel, bool notify = true)
         {
-            if (objectsCollection.TryGet(runtimeModel.Id, out var runtimeObject))
-                return runtimeObject.Sync(runtimeModel);
+            if (objectsCollection.Contains(runtimeModel.Id))
+                throw new InvalidOperationException($"Unable create an object twice : {runtimeModel.ReflectionFormat()}");
             
             if (!database.Objects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(ObjectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");
@@ -67,14 +68,13 @@ namespace CCG.Shared.Game.Factories
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
             var effectsCollection = contextFactory.CreateEffectsCollection(eventPublisher);
-            runtimeObject = data.Type switch
+            var runtimeObject = data.Type switch
             {
-                ObjectType.Creature => new RuntimeCardCreature().Init(data, statsCollection, effectsCollection, eventPublisher, eventSource),
-                ObjectType.Spell => new RuntimeCardSpell().Init(data, statsCollection, effectsCollection, eventPublisher, eventSource),
+                ObjectType.Creature => new RuntimeCardCreature().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),
+                ObjectType.Spell => new RuntimeCardSpell().Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource),
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
 
-            runtimeObject.Sync(runtimeModel);
             objectsCollection.Add(runtimeObject, false);
             
             foreach (var runtimeStatModel in runtimeModel.Stats)

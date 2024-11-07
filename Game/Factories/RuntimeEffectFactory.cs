@@ -8,6 +8,7 @@ using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime.Effects;
 using CCG.Shared.Game.Runtime.Models;
+using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -47,17 +48,17 @@ namespace CCG.Shared.Game.Factories
 
         public IRuntimeEffect Create(IRuntimeEffectModel runtimeModel, bool notify = true)
         {
-            if (!objectsCollection.TryGet(runtimeModel.RuntimeOwnerId, out var runtimeEffectOwnerObject))
+            if (!objectsCollection.TryGet(runtimeModel.RuntimeOwnerId, out var effectOwner))
                 throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeModel.RuntimeOwnerId}, not found in {nameof(IObjectsCollection)}");
 
-            if (runtimeEffectOwnerObject.EffectsCollection.TryGet(runtimeModel.Id, out var runtimeEffect))
-                return runtimeEffect.Sync(runtimeModel);
+            if (effectOwner.EffectsCollection.Contains(runtimeModel.Id))
+                throw new InvalidOperationException($"Unable create an effect twice : {runtimeModel.ReflectionFormat()}");
             
             if (!database.Effects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(EffectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<EffectConfig>)}");
             
-            runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeEffectOwnerObject.EventPublisher, runtimeEffectOwnerObject.EventsSource).Sync(runtimeModel);
-            runtimeEffectOwnerObject.AddEffect(runtimeEffect, notify);
+            var runtimeEffect = CreateEffectInstance(data.LogicId).Init(data, runtimeModel, effectOwner.EventPublisher, effectOwner.EventsSource);
+            effectOwner.EffectsCollection.Add(runtimeEffect, notify);
             
             return runtimeEffect;
         }

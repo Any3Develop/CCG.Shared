@@ -1,12 +1,10 @@
 ﻿namespace CCG.Shared.Abstractions.Game.Runtime.Models
 {
-    public interface IRuntimePlayerModel : IContextModel
+    public interface IRuntimePlayerModel : IRuntimeModelBase
     {
-        int Id { get; }
         string Name { get; }
-        string ConfigId { get; }
-        string OwnerId { get; }
         bool Ready { get; set; }
+        bool IsFirst { get; set; }
         List<IRuntimeStatModel> Stats { get; }
     }
 }

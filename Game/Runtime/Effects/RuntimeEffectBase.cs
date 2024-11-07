@@ -16,10 +16,12 @@ namespace CCG.Shared.Game.Runtime.Effects
 
         public IRuntimeEffect Init(
             EffectConfig config,
+            IRuntimeEffectModel runtimeModel,
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
         {
             Config = config;
+            RuntimeModel = runtimeModel;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
             return this;

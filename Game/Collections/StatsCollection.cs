@@ -12,9 +12,6 @@ namespace CCG.Shared.Game.Collections
         {
             this.eventPublisher = eventPublisher;
         }
-
-        protected override int GetId(IRuntimeStat value) =>
-            value?.RuntimeModel?.Id ?? int.MinValue;
         
         public override void AddNotify(IRuntimeStat value)
         {

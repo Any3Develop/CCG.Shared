@@ -1,9 +1,10 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
-using CCG.Shared.Game.Utils;
+using CCG.Shared.Game.Utils.Disposables;
 
 namespace CCG.Shared.Game.Runtime
 {
@@ -15,8 +16,11 @@ namespace CCG.Shared.Game.Runtime
         public IEventPublisher EventPublisher { get; private set; }
         public IEventsSource EventsSource { get; private set; }
 
+        private IDisposables disposables;
+        
         public RuntimePlayer(
             PlayerConfig config,
+            IRuntimePlayerModel runtimeModel,
             IStatsCollection statsCollection, 
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
@@ -25,17 +29,26 @@ namespace CCG.Shared.Game.Runtime
             EventPublisher = eventPublisher;
             StatsCollection = statsCollection;
             EventsSource = eventsSource;
+            EventsSource.AddTo(ref disposables);
+            StatsCollection.AddTo(disposables);
+            Sync(runtimeModel);
         }
 
         public void Dispose()
         {
-            EventsSource?.Dispose();
-            StatsCollection?.Dispose();
+            disposables?.Dispose();
+            Config = null;
+            disposables = null;
+            RuntimeModel = null;
+            StatsCollection = null;
+            EventPublisher = null;
+            EventsSource = null;
         }
 
         public IRuntimePlayer Sync(IRuntimePlayerModel runtimeModel)
         {
             RuntimeModel = runtimeModel;
+            StatsCollection.LinkModelCollection(RuntimeModel.Stats);
             return this;
         }
 
@@ -61,23 +74,9 @@ namespace CCG.Shared.Game.Runtime
             RuntimeModel.Ready = value;
         }
 
-        public void AddStat(IRuntimeStat stat, bool notify = true)
-        {
-            if (StatsCollection.Contains(stat.RuntimeModel.Id))
-                throw new InvalidOperationException($"Can't add stat twice : {stat.RuntimeModel.ReflectionFormat()}");
-
-            RuntimeModel.Stats.Add(stat.RuntimeModel);
-            StatsCollection.Add(stat, notify);
-        }
-
-        public void RemoveStat(IRuntimeStat stat, bool notify = true)
-        {
-            if (!StatsCollection.Contains(stat.RuntimeModel.Id))
-                return;
-
-            RuntimeModel.Stats.RemoveAll(x => x.Id == stat.RuntimeModel.Id);
-            StatsCollection.Remove(stat, notify);
-            stat.Dispose();
-        }
+        #region IRuntimeObjectBase
+        IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
+        IConfig IRuntimeObjectBase.Config => Config;
+        #endregion
     }
 }

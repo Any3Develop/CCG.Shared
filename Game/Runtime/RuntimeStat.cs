@@ -13,23 +13,24 @@ namespace CCG.Shared.Game.Runtime
         public IRuntimeStatModel RuntimeModel { get; private set; }
         public IEventPublisher EventPublisher { get; private set; }
         public IEventsSource EventsSource { get; private set; }
-
-
-        public IRuntimeStat Init(
+        
+        public RuntimeStat(
             StatConfig config,
+            IRuntimeStatModel runtimeModel,
             IEventPublisher eventPublisher,
             IEventsSource eventsSource)
         {
             Config = config;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
-            return this;
+            Sync(runtimeModel);
         }
 
         public virtual void Dispose()
         {
             Config = null;
             RuntimeModel = null;
+            EventPublisher = null;
             EventsSource = null;
         }
 

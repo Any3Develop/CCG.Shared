@@ -1,13 +1,18 @@
-﻿namespace CCG.Shared.Abstractions.Game.Collections
+﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
+
+namespace CCG.Shared.Abstractions.Game.Collections
 {
     public interface IRuntimeCollection<TRuntime> : IDisposable, IEnumerable<TRuntime>
     {
         int Count { get; }
         TRuntime this[int index] { get; }
+        void LinkModelCollection<TModel>(List<TModel> external) where TModel : IRuntimeModelBase;
+        void Replace(TRuntime value);
         
         bool Contains(TRuntime value);
         bool Contains<T>(Predicate<T> predicate) where T : TRuntime;
         bool Contains(int id);
+        bool Contains(string ownerId);
         void Sort(Comparison<TRuntime> comparison);
         void Clear();
 

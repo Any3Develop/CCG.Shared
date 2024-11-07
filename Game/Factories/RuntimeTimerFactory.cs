@@ -6,6 +6,7 @@ using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime;
 using CCG.Shared.Game.Runtime.Models;
+using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -45,12 +46,12 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeTimer Create(IRuntimeTimerModel runtimeModel, bool notify = true)
         {
             if (context.RuntimeTimer != null)
-                return context.RuntimeTimer.Sync(runtimeModel);
+                throw new InvalidOperationException($"Unable create the timer twice : {runtimeModel.ReflectionFormat()}");
             
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");
             
-            return new RuntimeTimer(sharedConfig.Timer, context.EventPublisher, context.EventSource).Sync(runtimeModel);
+            return new RuntimeTimer(sharedConfig.Timer, runtimeModel, context.PlayersCollection, context.EventPublisher);
         }
     }
 }

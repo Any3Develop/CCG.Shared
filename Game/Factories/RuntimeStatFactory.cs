@@ -7,6 +7,7 @@ using CCG.Shared.Abstractions.Game.Runtime.Models;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Runtime;
 using CCG.Shared.Game.Runtime.Models;
+using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -55,8 +56,8 @@ namespace CCG.Shared.Game.Factories
                 throw new NullReferenceException($"Runtime object with id {runtimeModel.RuntimeOwnerId} with owner {runtimeModel.OwnerId} not found in {nameof(IObjectsCollection)} and {nameof(IPlayersCollection)}");
 
             var statsCollection = runtimeObject?.StatsCollection ?? runtimePlayer.StatsCollection;
-            if (statsCollection.TryGet(runtimeModel.Id, out var runtimeStat))
-                return runtimeStat.Sync(runtimeModel);
+            if (statsCollection.Contains(runtimeModel.Id))
+                throw new InvalidOperationException($"Unable create a stat twice : {runtimeModel.ReflectionFormat()}");
             
             if (!database.Stats.TryGet(runtimeModel.ConfigId, out var statData))
                 throw new NullReferenceException($"{nameof(StatConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<StatConfig>)}");
@@ -64,9 +65,8 @@ namespace CCG.Shared.Game.Factories
             var eventSource = runtimeObject?.EventsSource ?? runtimePlayer.EventsSource;
             var eventPublisher = runtimeObject?.EventPublisher ?? runtimePlayer.EventPublisher;
             
-            runtimeStat = new RuntimeStat().Init(statData, eventPublisher, eventSource).Sync(runtimeModel);
-            runtimeObject?.AddStat(runtimeStat);
-            runtimePlayer?.AddStat(runtimeStat);
+            var runtimeStat = new RuntimeStat(statData, runtimeModel, eventPublisher, eventSource);
+            statsCollection.Add(runtimeStat, notify);
             
             return runtimeStat;
         }

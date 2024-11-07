@@ -3,6 +3,7 @@ using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Events;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Events.Output;
+using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Context.EventProcessors
 {
@@ -73,8 +74,11 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 {
                     if (!context.ObjectsCollection.TryGet(deletedObject.RuntimeModel.Id, out var runtimeObject))
                         return;
+
+                    runtimeObject.Sync(deletedObject.RuntimeModel);
+                    if(!context.ObjectsCollection.Remove(runtimeObject, false))
+                        throw new ApplicationException($"Object hasn't removed : {runtimeObject.RuntimeModel.ReflectionFormat()}");
                     
-                    context.ObjectsCollection.Remove(runtimeObject, false);
                     runtimeObject.Dispose();
                     return;
                 }
@@ -85,7 +89,12 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.EffectsCollection.TryGet(deletedObjectEffect.RuntimeModel.Id, out var runtimeEffect))
                         return;
 
-                    runtimeObject.RemoveEffect(runtimeEffect, false);
+                    runtimeEffect.Sync(deletedObjectEffect.RuntimeModel);
+                    runtimeObject.EffectsCollection.Replace(runtimeEffect);
+                    if(!runtimeObject.EffectsCollection.Remove(runtimeEffect, false))
+                        throw new ApplicationException($"Effect hasn't removed : {runtimeEffect.RuntimeModel.ReflectionFormat()}");
+                    
+                    runtimeEffect.Dispose();
                     return;
                 }
                 
@@ -95,7 +104,11 @@ namespace CCG.Shared.Game.Context.EventProcessors
                         || !runtimeObject.StatsCollection.TryGet(deletedObjectStat.RuntimeModel.Id, out var runtimeStat))
                         return;
 
-                    runtimeObject.RemoveStat(runtimeStat, false);
+                    runtimeStat.Sync(deletedObjectStat.RuntimeModel);
+                    if(!runtimeObject.StatsCollection.Remove(runtimeStat, false))
+                        throw new ApplicationException($"Stat hasn't removed : {runtimeStat.RuntimeModel.ReflectionFormat()}");
+                    
+                    runtimeStat.Dispose();
                     return;
                 }
                 
@@ -137,8 +150,11 @@ namespace CCG.Shared.Game.Context.EventProcessors
                     return;
                 }
                 
-                case SyncRuntimeRandom syncRuntimeRandom: 
-                    context.RuntimeRandomProvider.Sync(syncRuntimeRandom.RuntimeModel); break;
+                case SyncRuntimeRandom syncRuntimeRandom:
+                {
+                    context.RuntimeRandomProvider.Sync(syncRuntimeRandom.RuntimeModel);
+                    return;
+                }
 
                 default: throw new NotImplementedException($"{GetType().Name}, Unknown {nameof(IGameEvent)} '{gameEvent?.GetType().FullName}'");
             }

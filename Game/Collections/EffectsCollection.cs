@@ -14,9 +14,6 @@ namespace CCG.Shared.Game.Collections
             this.eventPublisher = eventPublisher;
         }
         
-        protected override int GetId(IRuntimeEffect value) =>
-            value?.RuntimeModel?.Id ?? int.MinValue;
-        
         public override void AddNotify(IRuntimeEffect value)
         {
             eventPublisher.Publish(new AfterEffectAddedEvent(value));

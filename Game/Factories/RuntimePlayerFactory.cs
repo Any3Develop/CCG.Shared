@@ -55,8 +55,8 @@ namespace CCG.Shared.Game.Factories
 
         public IRuntimePlayer Create(IRuntimePlayerModel runtimeModel, bool notify = true)
         {
-            if (playersCollection.TryGet(runtimeModel.Id, out var runtimePlayer))
-                return runtimePlayer.Sync(runtimeModel);
+            if (playersCollection.Contains(runtimeModel.OwnerId))
+                throw new InvalidOperationException($"Unable create a player twice : {runtimeModel.OwnerId}");
             
             var playerConfig = sharedConfig.Players.FirstOrDefault(x => x.Id == runtimeModel.ConfigId);
             if (playerConfig == null)
@@ -66,7 +66,7 @@ namespace CCG.Shared.Game.Factories
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
             
-            runtimePlayer = new RuntimePlayer(playerConfig, statsCollection, eventPublisher, eventSource).Sync(runtimeModel);
+            var runtimePlayer = new RuntimePlayer(playerConfig, runtimeModel, statsCollection, eventPublisher, eventSource);
             playersCollection.Add(runtimePlayer, false);
             
             foreach (var runtimeStatModel in runtimeModel.Stats)

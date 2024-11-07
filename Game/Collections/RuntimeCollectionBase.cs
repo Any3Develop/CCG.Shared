@@ -1,49 +1,81 @@
 ﻿using System.Collections;
 using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Collections
 {
-    public abstract class RuntimeCollectionBase<TRuntime> : IRuntimeCollection<TRuntime>
+    public abstract class RuntimeCollectionBase<TRuntime> : IRuntimeCollection<TRuntime> where TRuntime : IRuntimeObjectBase
     {
-        protected readonly List<TRuntime> Collection = new();
-        public virtual int Count => Collection.Count;
-        public virtual TRuntime this[int index] => Collection[index];
+        protected readonly List<TRuntime> Runtimes = new();
 
-        protected abstract int GetId(TRuntime value);
+        protected Func<object, object, bool> LinkedModelComparer;
+        protected IList LinkedModels;
+        
+        public virtual int Count => Runtimes.Count;
+        public virtual TRuntime this[int index] => Runtimes[index];
 
         public virtual void Dispose()
         {
-            Collection?.OfType<IDisposable>().ToList().ForEach(x => x?.Dispose());
+            LinkedModels = null;
+            LinkedModelComparer = null;
+            Runtimes?.OfType<IDisposable>().ToList().ForEach(x => x?.Dispose());
             Clear();
         }
-        
+
+        public void LinkModelCollection<TModel>(List<TModel> external) where TModel : IRuntimeModelBase
+        {
+            LinkedModels = external;
+            if (LinkedModels == null)
+            {
+                LinkedModelComparer = null;
+                return;
+            }
+            
+            LinkedModelComparer = (model, source) => ((TModel) model).Id == ((TModel) source).Id;
+        }
+
+        public void Replace(TRuntime value)
+        {
+            if (Remove(value, false))
+                Add(value, false);
+        }
+
         public virtual bool Contains(TRuntime value)
         {
-            return value != null
-                   && Contains(GetId(value));
+            return value != null && Contains(value.RuntimeModel.Id);
         }
 
         public bool Contains<T>(Predicate<T> predicate) where T : TRuntime
         {
-            return Collection.OfType<T>().Any(predicate.Invoke);
+            return Runtimes.OfType<T>().Any(predicate.Invoke);
         }
         
-        public virtual bool Contains(int id)
+        public bool Contains(int id)
         {
-            return Collection.Any(x => GetId(x) == id);
+            return Runtimes.Any(x => x.RuntimeModel.Id == id);
+        }
+        
+        public bool Contains(string ownerId)
+        {
+            return Runtimes.Any(x => x.RuntimeModel.OwnerId == ownerId);
         }
 
-        public virtual void Sort(Comparison<TRuntime> comparison) => Collection.Sort(comparison);
+        public virtual void Sort(Comparison<TRuntime> comparison) => Runtimes.Sort(comparison);
 
-        public virtual void Clear() => Collection.Clear();
+        public virtual void Clear()
+        {
+            Runtimes.Clear();
+            LinkedModels?.Clear();
+        }
 
         public virtual bool Insert(int index, TRuntime value, bool notify = true)
         {
             if (index < 0 || index > Count || value == null || Contains(value))
                 return false;
 
-            Collection.Insert(index, value);
-            
+            Runtimes.Insert(index, value);
+            LinkedModels?.Insert(index, value.RuntimeModel);
             if (notify)
                 AddNotify(value);
             
@@ -55,7 +87,8 @@ namespace CCG.Shared.Game.Collections
             if (value == null || Contains(value))
                 return false;
 
-            Collection.Add(value);
+            Runtimes.Add(value);
+            LinkedModels?.Add(value.RuntimeModel);
             
             if (notify)
                 AddNotify(value);
@@ -72,12 +105,25 @@ namespace CCG.Shared.Game.Collections
 
         public virtual bool Remove(int id, bool notify = true)
         {
-            return Collection.Where(x => GetId(x) == id).ToArray().Aggregate(false, (current, value) => current | Remove(value, notify));
+            return Runtimes.Where(x => x.RuntimeModel.Id == id).ToArray().Aggregate(false, (current, value) => current | Remove(value, notify));
         }
 
         public virtual bool Remove(TRuntime value, bool notify = true)
         {
-            var result = Collection.Remove(value);
+            var result = Runtimes.Remove(value);
+            if (result && LinkedModels != null)
+            {
+                foreach (var model in LinkedModels)
+                {
+                    if (!LinkedModelComparer.Invoke(model, value.RuntimeModel)) 
+                        continue;
+                    
+                    LinkedModels.Remove(model);
+                    break;
+                }
+            }
+            
+
             if (result && notify)
                 RemoveNotify(value);
             
@@ -98,12 +144,12 @@ namespace CCG.Shared.Game.Collections
 
         public virtual TRuntime Get(int id)
         {
-            return Collection.FirstOrDefault(x => GetId(x) == id);
+            return Runtimes.FirstOrDefault(x => x.RuntimeModel.Id == id);
         }
 
         public T Get<T>(int id) where T : TRuntime
         {
-            return Collection.OfType<T>().FirstOrDefault(x => GetId(x) == id);
+            return Runtimes.OfType<T>().FirstOrDefault(x => x.RuntimeModel.Id == id);
         }
 
         public bool TryGet(int id, out TRuntime result)
@@ -126,60 +172,60 @@ namespace CCG.Shared.Game.Collections
 
         public T GetFirst<T>(Predicate<T> predicate) where T : TRuntime
         {
-            return Collection.OfType<T>().FirstOrDefault(predicate.Invoke);
+            return Runtimes.OfType<T>().FirstOrDefault(predicate.Invoke);
         }
 
         public T GetLast<T>(Predicate<T> predicate) where T : TRuntime
         {
-            return Collection.OfType<T>().LastOrDefault(predicate.Invoke);
+            return Runtimes.OfType<T>().LastOrDefault(predicate.Invoke);
         }
 
         public virtual TRuntime GetFirst(Predicate<TRuntime> predicate)
         {
-            return Collection.Find(predicate);
+            return Runtimes.Find(predicate);
         }
 
         public virtual TRuntime GetLast(Predicate<TRuntime> predicate)
         {
-            return Collection.FindLast(predicate);
+            return Runtimes.FindLast(predicate);
         }
 
         public virtual TRuntime[] GetAll()
         {
-            return Collection.ToArray();
+            return Runtimes.ToArray();
         }
 
         public T[] GetAll<T>() where T : TRuntime
         {
-            return Collection.OfType<T>().ToArray();
+            return Runtimes.OfType<T>().ToArray();
         }
 
         public virtual TRuntime[] GetRange(IEnumerable<int> ids)
         {
             return ids == null 
                 ? Array.Empty<TRuntime>() 
-                : Collection.Where(x => ids.Contains(GetId(x))).ToArray();
+                : Runtimes.Where(x => ids.Contains(x.RuntimeModel.Id)).ToArray();
         }
 
         public T[] GetRange<T>(IEnumerable<int> ids) where T : TRuntime
         {
             return ids == null 
                 ? Array.Empty<T>() 
-                : Collection.OfType<T>().Where(x => ids.Contains(GetId(x))).ToArray();
+                : Runtimes.OfType<T>().Where(x => ids.Contains(x.RuntimeModel.Id)).ToArray();
         }
 
         public virtual TRuntime[] GetRange(Predicate<TRuntime> predicate)
         {
-            return Collection.Where(predicate.Invoke).ToArray();
+            return Runtimes.Where(predicate.Invoke).ToArray();
         }
 
         public T[] GetRange<T>(Predicate<T> predicate) where T : TRuntime
         {
-            return Collection.OfType<T>().Where(predicate.Invoke).ToArray();
+            return Runtimes.OfType<T>().Where(predicate.Invoke).ToArray();
         }
 
         #region IEnumerable
-        public IEnumerator<TRuntime> GetEnumerator() => Collection.GetEnumerator();
+        public IEnumerator<TRuntime> GetEnumerator() => Runtimes.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         #endregion
     }

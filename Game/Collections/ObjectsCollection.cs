@@ -14,9 +14,6 @@ namespace CCG.Shared.Game.Collections
         {
             this.eventPublisher = eventPublisher;
         }
-        
-        protected override int GetId(IRuntimeObject value) =>
-            value?.RuntimeModel?.Id ?? int.MinValue;
 
         public int GetOccupiedTableSpace(string ownerId) // TODO: move to conditions
         {
