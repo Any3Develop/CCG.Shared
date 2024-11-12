@@ -8,8 +8,8 @@ namespace CCG.Shared.Game.Enums
     {
         NotStarted = 0,
         Mulligan,
-        Paused,
         Game,
-        End
+        GameTurnEnding,
+        End,
     }
 }

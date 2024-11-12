@@ -12,6 +12,8 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         IRuntimeTimer Sync(IRuntimeTimerModel runtimeModel);
         void SetState(TimerState value, bool notify = true);
         void SetTurnOwner(string value, bool notify = true);
+        void Pause(bool value, bool notify = true);
         void PassTurn(bool notify = true);
+        void RegisterAction(int durationMs, bool inParallel = false);
     }
 }

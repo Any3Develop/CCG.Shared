@@ -11,6 +11,7 @@ namespace CCG.Shared.Abstractions.Game.Context
     public interface IContext
     {
         #region Static Context
+        ISystemTimers SystemTimers { get; }
         ISharedTime SharedTime { get; }
         ISharedConfig Config { get; }
         IDatabase Database { get; }

@@ -38,7 +38,7 @@ namespace CCG.Shared.Game.Factories
                 OwnerId = ownerId,
                 Turn = 0,
                 Round = 0,
-                TimeLeft = 0,
+                TimeLeftMs = 0,
                 State = TimerState.NotStarted
             };
         }
@@ -51,7 +51,7 @@ namespace CCG.Shared.Game.Factories
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");
             
-            return new RuntimeTimer(sharedConfig.Timer, runtimeModel, context.PlayersCollection, context.EventPublisher);
+            return new RuntimeTimer(sharedConfig.Timer, runtimeModel, context.PlayersCollection, context.EventPublisher, context.SystemTimers);
         }
     }
 }

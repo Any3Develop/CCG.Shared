@@ -5,8 +5,7 @@ namespace CCG.Shared.Game.Config
     public class TimerConfig : IConfig
     {
         public string Id => nameof(TimerConfig);
-        public double RoundSec { get; private set; }
-        public double MulliganSec { get; private set; }
-        public double DelayedClientsMs { get; private set; }
+        public int RoundMs { get; private set; }
+        public int MulliganMs { get; private set; }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace CCG.Shared.Game.Events.Output
 {
-    public class Inititalize : GameEventBase
+    public class TimerChanged : GameEventBase
     {
-        public List<IRuntimeModelBase> Runtimes { get; set; }
+        public IRuntimeTimerModel RuntimeModel { get; set; }
     }
 }
