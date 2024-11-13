@@ -19,7 +19,7 @@ namespace CCG.Shared.Abstractions.Game.Context
 
         #region Runtime Context
         IRuntimeContextModel RuntimeData { get; }
-        IRuntimeTimer RuntimeTimer { get; }
+        IRuntimeTimer RuntimeTimer { get; set; }
         IObjectsCollection ObjectsCollection { get; }
         IPlayersCollection PlayersCollection { get; }
         IRuntimeRandomProvider RuntimeRandomProvider { get; }

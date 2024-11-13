@@ -1,10 +1,10 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Api.Game;
 using CCG.Shared.Game.Collections;
 using CCG.Shared.Game.Config;
 
-namespace CCG.Shared.Game.Context
+namespace CCG.Shared.Game.Context.Providers
 {
     public class Database : IDatabase
     {

@@ -1,4 +1,4 @@
-﻿namespace CCG.Shared.Abstractions.Game.Context.Session
+﻿namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface ISession
     {

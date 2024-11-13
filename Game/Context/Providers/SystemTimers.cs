@@ -1,9 +1,9 @@
 ﻿using System.Collections.Concurrent;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Game.Events.Context.SystemTimers;
 
-namespace CCG.Shared.Game.Context
+namespace CCG.Shared.Game.Context.Providers
 {
     public class SystemTimers : ISystemTimers
     {

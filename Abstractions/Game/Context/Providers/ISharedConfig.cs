@@ -1,7 +1,7 @@
 ﻿using CCG.Shared.Api.Lobby;
 using CCG.Shared.Game.Config;
 
-namespace CCG.Shared.Abstractions.Game.Context
+namespace CCG.Shared.Abstractions.Game.Context.Providers
 {
     public interface ISharedConfig
     {

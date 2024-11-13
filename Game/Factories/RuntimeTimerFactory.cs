@@ -1,4 +1,5 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
@@ -25,7 +26,7 @@ namespace CCG.Shared.Game.Factories
 
         public IRuntimeTimerModel CreateModel(bool notify = false)
         {
-            return CreateModel(0, null, null, notify);
+            return CreateModel(null, null, null, notify);
         }
         
         public IRuntimeTimerModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)

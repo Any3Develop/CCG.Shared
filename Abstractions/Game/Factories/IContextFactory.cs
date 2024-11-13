@@ -36,5 +36,11 @@ namespace CCG.Shared.Abstractions.Game.Factories
         IRuntimeEffectFactory CreateEffectFactory(params object[] args);
         IRuntimeTimerFactory CreateTimerFactory(params object[] args);
         #endregion
+
+        #region Context
+
+        IContext CreateContext(params object[] args);
+
+        #endregion
     }
 }

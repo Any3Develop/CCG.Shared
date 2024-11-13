@@ -1,4 +1,5 @@
-﻿using CCG.Shared.Game.Context.Session;
+﻿using CCG.Shared.Game.Context;
+using CCG.Shared.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Runtime.Models
 {

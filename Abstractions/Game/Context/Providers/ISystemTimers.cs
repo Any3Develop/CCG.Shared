@@ -1,6 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
 
-namespace CCG.Shared.Abstractions.Game.Context
+namespace CCG.Shared.Abstractions.Game.Context.Providers
 {
     public interface ISystemTimers : IDisposable
     {

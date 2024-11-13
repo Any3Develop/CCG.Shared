@@ -2,7 +2,7 @@
 using CCG.Shared.Api.Game;
 using CCG.Shared.Game.Config;
 
-namespace CCG.Shared.Abstractions.Game.Context
+namespace CCG.Shared.Abstractions.Game.Context.Providers
 {
     public interface IDatabase
     {

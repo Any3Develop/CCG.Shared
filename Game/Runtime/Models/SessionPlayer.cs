@@ -1,4 +1,4 @@
-﻿namespace CCG.Shared.Game.Context.Session
+﻿namespace CCG.Shared.Game.Runtime.Models
 {
     public class SessionPlayer
     {
