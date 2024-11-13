@@ -10,7 +10,6 @@ namespace CCG.Shared.Abstractions.Game.Runtime.Models
         int Round { get; set; }
         int TimeLeftMs { get; set; }
         public List<ActionTimestamp> Actions { get; set; }
-        bool Paused { get; set; }
         TimerState State { get; set; }
     }
 }

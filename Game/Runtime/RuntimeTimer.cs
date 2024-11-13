@@ -67,11 +67,29 @@ namespace CCG.Shared.Game.Runtime
             if (IsNotInitialized())
                 return;
             
+            RuntimeModel.State |= value;
+            OnChanged(notify);
+        }
+
+        public void RemoveState(TimerState value, bool notify = true)
+        {
+            if (IsNotInitialized() || !HasAny(value))
+                return;
+            
+            RuntimeModel.State &= ~value;
+            OnChanged(notify);
+        }
+
+        public void SwitchState(TimerState value, bool notify)
+        {
+            if (IsNotInitialized())
+                return;
+            
             RuntimeModel.State = value;
             OnChanged(notify);
         }
 
-        public void SetTurnOwner(string value, bool notify = true)
+        public void SetOwner(string value, bool notify = true)
         {
             if (IsNotInitialized())
                 return;
@@ -84,17 +102,20 @@ namespace CCG.Shared.Game.Runtime
         {
             if (IsNotInitialized() || !systemTimers.Pause(timerId, value))
                 return;
-
-            RuntimeModel.Paused = value;
+            
+            if (value)
+                SetState(TimerState.Paused, false);
+            else 
+                RemoveState(TimerState.Paused, false);
+            
             OnChanged(notify);
         }
         
         public void PassTurn(bool notify = true)
         {
-            if (IsNotInitialized() || RuntimeModel.State is TimerState.NotStarted)
-                return;
-            
-            if (ShouldWaitTurn(notify))
+            if (IsNotInitialized() 
+                || HasAny(TimerState.NotStarted)
+                || TryStartEnding(notify))
                 return;
             
             var nextPlayer = RuntimeModel.OwnerId == null
@@ -104,18 +125,16 @@ namespace CCG.Shared.Game.Runtime
             RuntimeModel.Turn++;
             if (RuntimeModel.Round % playersCollection.Count == 0)
                 RuntimeModel.Round++;
-            
-            if (RuntimeModel.State is TimerState.GameTurnEnding)
-                SetState(TimerState.Game, false);
-            
-            SetTurnOwner(nextPlayer.RuntimeModel.OwnerId, false);
+
+            RemoveEnding(false);
+            SetOwner(nextPlayer.RuntimeModel.OwnerId, false);
             Start(GetTimeByState());
             
             if (notify)
                 EventPublisher.Publish(new TimerTurnChangedEvent(this));
         }
         
-        public void RegisterAction(int durationMs, bool inParallel = false)
+        public void SetActionTime(int durationMs, bool inParallel = false)
         {
             if (IsNotInitialized())
                 return;
@@ -123,13 +142,23 @@ namespace CCG.Shared.Game.Runtime
             RuntimeModel.Actions.Add(new ActionTimestamp(RuntimeModel.TimeLeftMs, durationMs, inParallel));
         }
 
-        private bool ShouldWaitTurn(bool notify)
+        public void RemoveEnding(bool notify = true)
         {
             if (IsNotInitialized())
-                return true;
+                return;
             
-            // block custom switch until all actions ended
-            if (RuntimeModel.State is TimerState.GameTurnEnding && RuntimeModel.TimeLeftMs > 1)
+            RuntimeModel.Actions.Clear();
+            RemoveState(TimerState.Ending, false);
+        }
+
+        private bool TryStartEnding(bool notify)
+        {
+            // if there a pause, it should block execution of ending function.
+            if (HasAny(TimerState.Paused))
+                return false;
+            
+            // block switch until all actions ended
+            if (HasAny(TimerState.Ending) && RuntimeModel.TimeLeftMs > 1)
                 return true;
 
             if (RuntimeModel.Actions.Count == 0)
@@ -149,7 +178,7 @@ namespace CCG.Shared.Game.Runtime
                 return false;
 
             var unMetTime = RuntimeModel.TimeLeftMs -= endTime;
-            SetState(TimerState.GameTurnEnding, false);
+            SetState(TimerState.Ending, false);
             Start(unMetTime);
             OnChanged(notify);
             return true;
@@ -164,13 +193,15 @@ namespace CCG.Shared.Game.Runtime
                 EventPublisher.Publish(new TimerChangedEvent(this));
         }
 
-        private void Start(int duration)
+        private void Start(int durationMs)
         {
             if (IsNotInitialized())
                 return;
             
             systemTimers.Remove(timerId);
-            timerId = systemTimers.Start(duration, 0, 1000);
+            RuntimeModel.TimeLeftMs = durationMs;
+            timerId = systemTimers.Start(durationMs, 0, 1000);
+            systemTimers.Pause(timerId, HasAny(TimerState.Paused));
         }
         
         private int GetTimeByState()
@@ -178,13 +209,16 @@ namespace CCG.Shared.Game.Runtime
             if (IsNotInitialized())
                 return 0;
             
-            return RuntimeModel.State switch
-            {
-                TimerState.NotStarted or TimerState.End => 0,
-                TimerState.Mulligan => Config.MulliganMs,
-                TimerState.Game => Config.RoundMs,
-                _ => throw new NotImplementedException($"Unknown {nameof(TimerState)} : {RuntimeModel.State}.")
-            };
+            if (HasAny(TimerState.GamePlay | TimerState.Paused | TimerState.Ending))
+                return Config.RoundMs;
+            
+            if (HasAny(TimerState.NotStarted | TimerState.Ended))
+                return 0;
+
+            if (HasAny(TimerState.Mulligan))
+                return Config.MulliganMs;
+
+            throw new NotImplementedException($"Unknown {nameof(TimerState)} : {RuntimeModel.State}.");
         }
 
         private void OnTimerTick(SystemTimerTickEvent eventData)
@@ -197,11 +231,21 @@ namespace CCG.Shared.Game.Runtime
 
         private bool IsNotInitialized()
         {
-            if (RuntimeModel?.State is not (null or TimerState.End)) 
+            if (RuntimeModel?.State is not (null or TimerState.Ended)) 
                 return false;
             
             Dispose();
             return true;
+        }
+
+        private bool HasAny(TimerState flags)
+        {
+            return RuntimeModel != null && (RuntimeModel.State & flags) != 0;
+        }
+
+        private bool HasAll(TimerState flags)
+        {
+            return RuntimeModel != null && (RuntimeModel.State & flags) == flags;
         }
     }
 }
