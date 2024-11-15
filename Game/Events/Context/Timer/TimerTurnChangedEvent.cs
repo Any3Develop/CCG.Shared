@@ -1,14 +1,14 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime;
-
-namespace CCG.Shared.Game.Events.Context.Timer
+﻿namespace CCG.Shared.Game.Events.Context.Timer
 {
     public readonly struct TimerTurnChangedEvent
     {
-        public IRuntimeTimer RuntimeTimer { get; }
+        public string OwnerId { get; }
+        public string PrevOwnerId { get; }
 
-        public TimerTurnChangedEvent(IRuntimeTimer runtimeTimer)
+        public TimerTurnChangedEvent(string ownerId, string prevOwnerId)
         {
-            RuntimeTimer = runtimeTimer;
+            OwnerId = ownerId;
+            PrevOwnerId = prevOwnerId;
         }
     }
 }

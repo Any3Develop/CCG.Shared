@@ -1,13 +1,14 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Game.Collections;
 using CCG.Shared.Game.Commands.Base;
 using CCG.Shared.Game.Context;
 using CCG.Shared.Game.Context.EventProcessors;
+using CCG.Shared.Game.Context.Processors;
 using CCG.Shared.Game.Context.Providers;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime.Effects;
@@ -124,6 +125,11 @@ namespace CCG.Shared.Game.Factories
         {
             return new GameEventProcessor(GetRequiredArgument<IContext>(args));
         }
+        
+        public ICroupierProcessor CreateCroupierProcessor(params object[] args)
+        {
+            return new CroupierProcessor(GetRequiredArgument<IContext>(args));
+        }
 
         #endregion
 
@@ -225,6 +231,7 @@ namespace CCG.Shared.Game.Factories
                 ContextFactory = this,
             };
 
+            context.CroupierProcessor = CreateCroupierProcessor(context);
             context.GameEventProcessor = CreateGameEventProcessor(context);
             context.CommandProcessor = CreateCommandProcessor(context);
             context.TimerFactory = CreateTimerFactory(context);

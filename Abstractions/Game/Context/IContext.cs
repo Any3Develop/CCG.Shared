@@ -1,6 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -28,6 +28,7 @@ namespace CCG.Shared.Abstractions.Game.Context
         #endregion
 
         #region Logic Context
+        ICroupierProcessor CroupierProcessor { get; }
         IObjectEventProcessor ObjectEventProcessor { get; }
         IContextEventProcessor ContextEventProcessor { get; }
         IGameEventProcessor GameEventProcessor { get; }
@@ -44,5 +45,8 @@ namespace CCG.Shared.Abstractions.Game.Context
         #endregion
 
         IContext Sync(IRuntimeContextModel value);
+        void Start();
+        void Ready();
+        void End();
     }
 }

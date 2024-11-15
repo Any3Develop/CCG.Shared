@@ -1,7 +1,7 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -27,9 +27,12 @@ namespace CCG.Shared.Game.Context
         public IRuntimeRandomProvider RuntimeRandomProvider { get; set; }
         public IRuntimeOrderProvider RuntimeOrderProvider { get; set; }
         public IRuntimeIdProvider RuntimeIdProvider { get; set; }
+
         #endregion
 
         #region Logic Context
+        
+        public ICroupierProcessor CroupierProcessor { get; set; }
         public IObjectEventProcessor ObjectEventProcessor { get; set; }
         public IContextEventProcessor ContextEventProcessor { get; set; }
         public IGameEventProcessor GameEventProcessor { get; set; }
@@ -49,6 +52,30 @@ namespace CCG.Shared.Game.Context
         {
             RuntimeData = value;
             return this;
+        }
+
+        public void Start()
+        {
+            if (RuntimeData.IsStarted)
+                throw new InvalidOperationException("Can't start game twice.");
+            
+            RuntimeData.StartTime = SharedTime.Current;
+        }
+
+        public void Ready()
+        {
+            if (RuntimeData.IsReady)
+                throw new InvalidOperationException("Can't ready game twice.");
+            
+            RuntimeData.ReadyTime = SharedTime.Current;
+        }
+
+        public void End()
+        {
+            if (RuntimeData.IsEnded)
+                throw new InvalidOperationException("Can't end game twice.");
+            
+            RuntimeData.EndTime = SharedTime.Current;
         }
     }
 }

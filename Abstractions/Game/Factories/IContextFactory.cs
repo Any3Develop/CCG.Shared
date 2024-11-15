@@ -1,7 +1,7 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventProcessors;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 
 namespace CCG.Shared.Abstractions.Game.Factories
@@ -26,6 +26,7 @@ namespace CCG.Shared.Abstractions.Game.Factories
         IObjectEventProcessor CreateObjectEventProcessor(params object[] args);
         IContextEventProcessor CreateContextEventProcessor(params object[] args);
         IGameEventProcessor CreateGameEventProcessor(params object[] args);
+        ICroupierProcessor CreateCroupierProcessor(params object[] args);
         #endregion
 
         #region Factories

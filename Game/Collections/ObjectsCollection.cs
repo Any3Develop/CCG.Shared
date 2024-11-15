@@ -15,6 +15,24 @@ namespace CCG.Shared.Game.Collections
             this.eventPublisher = eventPublisher;
         }
 
+        public IEnumerable<TRuntime> GetAll<TRuntime>(
+            ObjectState? state = null, 
+            string ownerId = null, 
+            bool asQuery = false, 
+            params int[] runtimeIds) 
+            where TRuntime : IRuntimeObject
+        {
+            var hasState = state.HasValue;
+            var hasOwner = ownerId != null;
+            var hasIds = runtimeIds.Length > 0;
+            var query = base.GetAll<TRuntime>().Where(x =>
+                (!hasState || x.RuntimeModel.State == state)
+                && (!hasOwner || x.RuntimeModel.OwnerId == ownerId)
+                && (!hasIds || runtimeIds.Contains(x.RuntimeModel.Id)));
+
+            return asQuery ? query : query.ToArray();
+        }
+
         public int GetOccupiedTableSpace(string ownerId) // TODO: move to conditions
         {
             var checkOwner = !string.IsNullOrWhiteSpace(ownerId); 

@@ -118,21 +118,23 @@ namespace CCG.Shared.Game.Runtime
                 || HasAny(TimerState.NotStarted)
                 || TryStartEnding(notify))
                 return;
-            
-            var nextPlayer = RuntimeModel.OwnerId == null
+
+            var prevOwnerId = RuntimeModel.OwnerId;
+            var nextPlayer = prevOwnerId == null
                 ? playersCollection.First(x => x.RuntimeModel.IsFirst)
-                : playersCollection.GetOpposite(RuntimeModel.OwnerId);
-            
+                : playersCollection.GetOpposite(prevOwnerId);
+
+            var nextOwnerId = nextPlayer.RuntimeModel.OwnerId;
             RuntimeModel.Turn++;
             if (RuntimeModel.Round % playersCollection.Count == 0)
                 RuntimeModel.Round++;
 
             RemoveEnding(false);
-            SetOwner(nextPlayer.RuntimeModel.OwnerId, false);
+            SetOwner(nextOwnerId, false);
             Start(GetTimeByState());
             
             if (notify)
-                EventPublisher.Publish(new TimerTurnChangedEvent(this));
+                EventPublisher.Publish(new TimerTurnChangedEvent(nextOwnerId, prevOwnerId));
         }
         
         public void SetActionTime(int durationMs, bool inParallel = false)

@@ -1,6 +1,7 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.Stats;
 
 namespace CCG.Shared.Game.Collections
@@ -21,6 +22,11 @@ namespace CCG.Shared.Game.Collections
         public override void RemoveNotify(IRuntimeStat value)
         {
             eventPublisher.Publish(new AfterStatDeletedEvent(value));
+        }
+
+        public IRuntimeStat Get(StatType type)
+        {
+            return GetFirst(x => x.Config.Type == type);
         }
     }
 }

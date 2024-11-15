@@ -1,10 +1,11 @@
 ﻿using CCG.Shared.Abstractions.Game.Commands;
 using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Common.Logger;
 using CCG.Shared.Game.Events.Context.Commands;
 
-namespace CCG.Shared.Game.Context
+namespace CCG.Shared.Game.Context.Processors
 {
     public class CommandProcessor : ICommandProcessor
     {

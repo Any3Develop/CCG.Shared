@@ -1,5 +1,5 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
-using CCG.Shared.Abstractions.Game.Context.EventProcessors;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Events;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Events.Output;

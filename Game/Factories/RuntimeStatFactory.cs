@@ -43,6 +43,7 @@ namespace CCG.Shared.Game.Factories
                 Id = runtimeIdProvider.Next(),
                 ConfigId = dataId,
                 OwnerId = ownerId,
+                Type = data.Type,
                 RuntimeOwnerId = runtimeOwnerId.Value,
                 Max = data.Max,
                 Value = data.Value,
