@@ -1,4 +1,5 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.Timer;
@@ -6,7 +7,7 @@ using CCG.Shared.Game.Utils.Disposables;
 
 namespace CCG.Shared.Game.Context.Processors
 {
-    public class TurnProcessor
+    public class TurnProcessor : ITurnProcessor
     {
         private IContext context;
         private IDisposables disposables;
@@ -32,12 +33,13 @@ namespace CCG.Shared.Game.Context.Processors
 
         private void HandleTurn(string turnOwner, string prevOwner)
         {
-            ChangePlayerMoves(prevOwner, 0);
+            ChangePlayerMoves(prevOwner, false);
             
             HandleEndTurn(prevOwner, turnOwner);
             HandleStartTurn(turnOwner, prevOwner);
-            
-            ChangePlayerMoves(turnOwner, 0);
+
+            ChangePlayerMana(turnOwner);
+            ChangePlayerMoves(turnOwner, true);
         }
 
         private void HandleEndTurn(string turnOwner, string prevOwner)
@@ -50,13 +52,37 @@ namespace CCG.Shared.Game.Context.Processors
             
         }
 
-        private void ChangePlayerMoves(string playerId, int value)
+        private void ChangePlayerMana(string playerId)
         {
-            var tableEntities = context.ObjectsCollection.GetAll<IRuntimeObject>(ObjectState.InTable, playerId);
-            foreach (var runtimeObject in tableEntities)
+            var config = context.Config.Table;
+            var timer = context.RuntimeTimer.RuntimeModel;
+            var player = context.PlayersCollection.Get(playerId);
+            var manaByFirstTurn = player.RuntimeModel.IsFirst 
+                ? config.FirstPlayerTurnMana 
+                : config.OtherPlayersTurnMana;
+            
+            var value = timer.Round + manaByFirstTurn;
+            
+            player.StatsCollection.Get(StatType.Mana).Override(value, value);
+        }
+
+        private void ChangePlayerMoves(string playerId, bool enable)
+        {
+            var entitiesStats = context.ObjectsCollection
+                .GetAll<IRuntimeObject>(ObjectState.InTable, playerId, asQuery: true)
+                .Select(x => x.StatsCollection)
+                .Select(x => x.Get(StatType.Move))
+                .Where(x => x != null);
+            
+            foreach (var stat in entitiesStats)
             {
-                var stat = runtimeObject.StatsCollection.Get(StatType.Move);
-                stat.SetValue(value);
+                if (enable)
+                {
+                    stat.RiseToMax();
+                    continue;
+                }
+                
+                stat.SetValue(0);
             }
         }
     }

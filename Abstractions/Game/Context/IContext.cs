@@ -5,6 +5,7 @@ using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Game.Context.Processors;
 
 namespace CCG.Shared.Abstractions.Game.Context
 {
@@ -28,6 +29,7 @@ namespace CCG.Shared.Abstractions.Game.Context
         #endregion
 
         #region Logic Context
+        ITurnProcessor TurnProcessor { get; }
         ICroupierProcessor CroupierProcessor { get; }
         IObjectEventProcessor ObjectEventProcessor { get; }
         IContextEventProcessor ContextEventProcessor { get; }

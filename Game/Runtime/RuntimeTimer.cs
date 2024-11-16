@@ -1,5 +1,4 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -119,16 +118,17 @@ namespace CCG.Shared.Game.Runtime
                 || TryStartEnding(notify))
                 return;
 
+            
             var prevOwnerId = RuntimeModel.OwnerId;
             var nextPlayer = prevOwnerId == null
                 ? playersCollection.First(x => x.RuntimeModel.IsFirst)
                 : playersCollection.GetOpposite(prevOwnerId);
 
             var nextOwnerId = nextPlayer.RuntimeModel.OwnerId;
-            RuntimeModel.Turn++;
             if (RuntimeModel.Round % playersCollection.Count == 0)
                 RuntimeModel.Round++;
 
+            RuntimeModel.Turn++;
             RemoveEnding(false);
             SetOwner(nextOwnerId, false);
             Start(GetTimeByState());

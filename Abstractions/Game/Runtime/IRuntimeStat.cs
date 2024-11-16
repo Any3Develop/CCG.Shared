@@ -9,6 +9,8 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         new IRuntimeStatModel RuntimeModel { get; }
         
         IRuntimeStat Sync(IRuntimeStatModel runtimeModel);
+        void Override(int value, int max, bool notify = true);
+        void RiseToMax(bool notify = true);
         void SetValue(int value, bool notify = true);
         void SetMax(int value, bool notify = true);
         void Reset(bool notify = true);

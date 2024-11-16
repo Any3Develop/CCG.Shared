@@ -130,6 +130,11 @@ namespace CCG.Shared.Game.Factories
         {
             return new CroupierProcessor(GetRequiredArgument<IContext>(args));
         }
+        
+        public ITurnProcessor CreateTurnProcessor(params object[] args)
+        {
+            return new TurnProcessor(GetRequiredArgument<IContext>(args));
+        }
 
         #endregion
 
@@ -231,6 +236,7 @@ namespace CCG.Shared.Game.Factories
                 ContextFactory = this,
             };
 
+            context.TurnProcessor = CreateTurnProcessor(context);
             context.CroupierProcessor = CreateCroupierProcessor(context);
             context.GameEventProcessor = CreateGameEventProcessor(context);
             context.CommandProcessor = CreateCommandProcessor(context);

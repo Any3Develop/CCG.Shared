@@ -13,7 +13,7 @@ namespace CCG.Shared.Game.Runtime
         public IRuntimeStatModel RuntimeModel { get; private set; }
         public IEventPublisher EventPublisher { get; private set; }
         public IEventsSource EventsSource { get; private set; }
-        
+
         public RuntimeStat(
             StatConfig config,
             IRuntimeStatModel runtimeModel,
@@ -38,6 +38,19 @@ namespace CCG.Shared.Game.Runtime
         {
             RuntimeModel = runtimeModel;
             return this;
+        }
+
+        public void Override(int value, int max, bool notify = true)
+        {
+            OnBeforeChanged(notify);
+            SetMax(max, false);
+            SetValue(value, false);
+            OnAfterChanged(notify);
+        }
+
+        public void RiseToMax(bool notify = true)
+        {
+            SetValue(RuntimeModel.Max, notify);
         }
 
         public virtual void SetValue(int value, bool notify = true)

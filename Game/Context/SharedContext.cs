@@ -32,6 +32,7 @@ namespace CCG.Shared.Game.Context
 
         #region Logic Context
         
+        public ITurnProcessor TurnProcessor { get; set; }
         public ICroupierProcessor CroupierProcessor { get; set; }
         public IObjectEventProcessor ObjectEventProcessor { get; set; }
         public IContextEventProcessor ContextEventProcessor { get; set; }
