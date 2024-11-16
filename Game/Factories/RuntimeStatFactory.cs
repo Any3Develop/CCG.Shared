@@ -29,8 +29,8 @@ namespace CCG.Shared.Game.Factories
             this.playersCollection = playersCollection;
             this.runtimeIdProvider = runtimeIdProvider;
         }
-
-        public IRuntimeStatModel CreateModel(int? runtimeOwnerId, string ownerId, string dataId, bool notify = true)
+        
+        public IRuntimeStatModel CreateModel(int? runtimeOwnerId, string ownerId, string dataId)
         {
             if (!runtimeOwnerId.HasValue)
                 throw new NullReferenceException($"To create {nameof(IRuntimeStat)} you should inject {nameof(runtimeOwnerId)}");
@@ -43,7 +43,6 @@ namespace CCG.Shared.Game.Factories
                 Id = runtimeIdProvider.Next(),
                 ConfigId = dataId,
                 OwnerId = ownerId,
-                Type = data.Type,
                 RuntimeOwnerId = runtimeOwnerId.Value,
                 Max = data.Max,
                 Value = data.Value,

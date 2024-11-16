@@ -24,19 +24,13 @@ namespace CCG.Shared.Game.Factories
             this.context = context;
         }
 
-        public IRuntimeTimerModel CreateModel(bool notify = false)
-        {
-            return CreateModel(null, null, null, notify);
-        }
-        
-        public IRuntimeTimerModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeTimerModel CreateModel()
         {
             if (sharedConfig.Timer == null)
-                throw new NullReferenceException($"{nameof(TimerConfig)} with id {dataId}, not found in {nameof(ISharedConfig)}");
+                throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");
 
             return new RuntimeTimerModel
             {
-                OwnerId = ownerId,
                 Turn = 0,
                 Round = 0,
                 TimeLeftMs = 0,
@@ -44,14 +38,15 @@ namespace CCG.Shared.Game.Factories
             };
         }
 
-        public IRuntimeTimer Create(IRuntimeTimerModel runtimeModel, bool notify = true)
+        public IRuntimeTimer Create(IRuntimeTimerModel runtimeModel)
         {
             if (context.RuntimeTimer != null)
-                throw new InvalidOperationException($"Unable create the timer twice : {runtimeModel.ReflectionFormat()}");
-            
+                throw new InvalidOperationException(
+                    $"Unable create the timer twice : {runtimeModel.ReflectionFormat()}");
+
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");
-            
+
             return new RuntimeTimer(sharedConfig.Timer, runtimeModel, context.PlayersCollection, context.EventPublisher, context.SystemTimers);
         }
     }

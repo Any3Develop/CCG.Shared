@@ -34,22 +34,20 @@ namespace CCG.Shared.Game.Factories
 
         public IRuntimePlayerModel CreateModel(string ownerId, int index)
         {
-            return CreateModel(null, ownerId, $"default-player-{index}", false);
-        }
-        
-        public IRuntimePlayerModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)
-        {
+            var dataId = $"default-player-{index}";
             var playerConfig = sharedConfig.Players.FirstOrDefault(x => x.Id == dataId);
             if (playerConfig == null)
                 throw new NullReferenceException($"{nameof(PlayerConfig)} with id {dataId}, not found in {nameof(ISharedConfig)}");
 
-            runtimeId ??= runtimeIdProvider.Next();
+            var runtimeId = runtimeIdProvider.Next();
             return new RuntimePlayerModel
             {
-                Id = runtimeId.Value,
+                Id = runtimeId,
                 OwnerId = ownerId,
                 ConfigId = dataId,
-                Stats = playerConfig.Stats.Select(statId => runtimeStatFactory.CreateModel(runtimeId.Value, ownerId, statId, notify)).ToList()
+                Stats = playerConfig.Stats
+                    .Select(statId => runtimeStatFactory.CreateModel(runtimeId, ownerId, statId))
+                    .ToList()
             };
         }
 

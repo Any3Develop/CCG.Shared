@@ -26,7 +26,7 @@ namespace CCG.Shared.Game.Context
             context.RuntimeIdProvider.Sync(GetRequiredArgument<IRuntimeIdModel>(models));
             context.RuntimeOrderProvider.Sync(GetRequiredArgument<IRuntimeOrderModel>(models));
             context.RuntimeRandomProvider.Sync(GetRequiredArgument<IRuntimeRandomModel>(models));
-            context.RuntimeTimer = context.TimerFactory.Create(GetRequiredArgument<IRuntimeTimerModel>(models), false);
+            context.RuntimeTimer = context.TimerFactory.Create(GetRequiredArgument<IRuntimeTimerModel>(models));
 
             foreach (var model in models.OfType<IRuntimePlayerModel>())
                 context.PlayerFactory.Create(model, false);

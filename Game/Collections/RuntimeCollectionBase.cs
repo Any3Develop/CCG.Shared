@@ -8,8 +8,6 @@ namespace CCG.Shared.Game.Collections
     public abstract class RuntimeCollectionBase<TRuntime> : IRuntimeCollection<TRuntime> where TRuntime : IRuntimeObjectBase
     {
         protected readonly List<TRuntime> Runtimes = new();
-
-        protected Func<object, object, bool> LinkedModelComparer;
         protected IList LinkedModels;
         
         public virtual int Count => Runtimes.Count;
@@ -18,21 +16,13 @@ namespace CCG.Shared.Game.Collections
         public virtual void Dispose()
         {
             LinkedModels = null;
-            LinkedModelComparer = null;
             Runtimes?.OfType<IDisposable>().ToList().ForEach(x => x?.Dispose());
             Clear();
         }
 
-        public void LinkModelCollection<TModel>(List<TModel> external) where TModel : IRuntimeModelBase
+        public void LinkModelCollection<TModel>(List<TModel> external) where TModel : IContextModel
         {
             LinkedModels = external;
-            if (LinkedModels == null)
-            {
-                LinkedModelComparer = null;
-                return;
-            }
-            
-            LinkedModelComparer = (model, source) => ((TModel) model).Id == ((TModel) source).Id;
         }
 
         public void Replace(TRuntime value)
@@ -61,7 +51,25 @@ namespace CCG.Shared.Game.Collections
             return Runtimes.Any(x => x.RuntimeModel.OwnerId == ownerId);
         }
 
-        public virtual void Sort(Comparison<TRuntime> comparison) => Runtimes.Sort(comparison);
+        public virtual void Sort(Comparison<TRuntime> comparison)
+        {
+            Runtimes.Sort(comparison);
+            if (LinkedModels is null or {Count: 0})
+                return;
+
+            for (var i = 0; i < Runtimes.Count; i++)
+            {
+                var runtimeModel = Runtimes[i].RuntimeModel;
+                var index = LinkedModels.IndexOf(runtimeModel);
+
+                if (index < 0 || index >= LinkedModels.Count || index == i)
+                    continue;
+                
+                var currentModel = LinkedModels[index];
+                LinkedModels.RemoveAt(index);
+                LinkedModels.Insert(i, currentModel);
+            }
+        }
 
         public virtual void Clear()
         {
@@ -115,7 +123,7 @@ namespace CCG.Shared.Game.Collections
             {
                 foreach (var model in LinkedModels)
                 {
-                    if (!LinkedModelComparer.Invoke(model, value.RuntimeModel)) 
+                    if (!model.Equals(value))
                         continue;
                     
                     LinkedModels.Remove(model);
@@ -144,12 +152,12 @@ namespace CCG.Shared.Game.Collections
 
         public virtual TRuntime Get(int id)
         {
-            return Runtimes.FirstOrDefault(x => x.RuntimeModel.Id == id);
+            return Runtimes.Find(x => x.RuntimeModel.Id == id);
         }
 
         public T Get<T>(int id) where T : TRuntime
         {
-            return Runtimes.OfType<T>().FirstOrDefault(x => x.RuntimeModel.Id == id);
+            return (T)Runtimes.Find(x => x.RuntimeModel.Id == id && x is T);
         }
 
         public bool TryGet(int id, out TRuntime result)

@@ -11,5 +11,15 @@ namespace CCG.Shared.Game.Runtime.Models
         public bool Ready { get; set; }
         public bool IsFirst { get; set; }
         public List<IRuntimeStatModel> Stats { get; set; } = new();
+        
+        public override bool Equals(object obj)
+        {
+            return obj is IRuntimeModelBase other && other.Id == Id;
+        }
+        
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }

@@ -3,11 +3,14 @@ using Newtonsoft.Json.Converters;
 
 namespace CCG.Shared.Game.Enums
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter)), Flags]
     public enum ObjectType
     {
         None = 0,
-        Creature,
-        Spell,
+        Creature = 2,
+        Spell = 4,
+        Hero = 8,
+        
+        Cards = Creature | Spell
     }
 }

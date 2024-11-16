@@ -3,8 +3,10 @@ using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Factories
 {
-    public interface IRuntimeTimerFactory : IRuntimeFactory<IRuntimeTimer, IRuntimeTimerModel>
+    public interface IRuntimeTimerFactory
     {
-        IRuntimeTimerModel CreateModel(bool notify = false);
+        IRuntimeTimerModel CreateModel();
+
+        IRuntimeTimer Create(IRuntimeTimerModel runtimeModel);
     }
 }

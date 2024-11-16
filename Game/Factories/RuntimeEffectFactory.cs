@@ -1,5 +1,4 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -31,18 +30,19 @@ namespace CCG.Shared.Game.Factories
             this.logicTypeCollection = logicTypeCollection;
         }
 
-        public IRuntimeEffectModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeEffectModel CreateModel(int? runtimeId, int runtimeOwnerId, string ownerId, string dataId)
         {           
             if (!database.Effects.TryGet(dataId, out var data))
                 throw new NullReferenceException($"{nameof(EffectConfig)} with id {dataId}, not found in {nameof(IConfigCollection<EffectConfig>)}");
             
-            return new RuntimeEffectModel // TODO: use keyword to create specified runtime data
+            return new RuntimeEffectModel // TODO: use logicId to create specified runtime model
             {
                 ConfigId = data.Id,
                 Id = runtimeId ?? runtimeIdProvider.Next(),
                 OwnerId = ownerId,
+                RuntimeOwnerId = runtimeOwnerId,
                 Lifetime = data.Lifetime,
-                Value = data.Value
+                Value = data.Value,
             };
         }
 

@@ -37,7 +37,7 @@ namespace CCG.Shared.Game.Factories
             this.contextFactory = contextFactory;
         }
 
-        public IRuntimeObjectModel CreateModel(int? runtimeId, string ownerId, string dataId, bool notify = true)
+        public IRuntimeObjectModel CreateModel(int? runtimeId, string ownerId, string dataId)
         {
             if (!database.Objects.TryGet(dataId, out var data))
                 throw new NullReferenceException($"{nameof(ObjectConfig)} with id {dataId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");
@@ -50,12 +50,14 @@ namespace CCG.Shared.Game.Factories
                     ConfigId = data.Id,
                     Id = runtimeId.Value,
                     OwnerId = ownerId,
-                    Stats = data.Stats.Select(id => runtimeStatFactory.CreateModel(runtimeId.Value, ownerId, id, notify)).ToList(),
+                    Stats = data.Stats
+                        .Select(id => runtimeStatFactory.CreateModel(runtimeId, ownerId, id))
+                        .ToList(),
                 },
                 _ => throw new NotImplementedException($"Unknown {nameof(ObjectType)}: {data.Type}")
             };
         }
-        
+
         public IRuntimeObject Create(IRuntimeObjectModel runtimeModel, bool notify = true)
         {
             if (objectsCollection.Contains(runtimeModel.Id))
