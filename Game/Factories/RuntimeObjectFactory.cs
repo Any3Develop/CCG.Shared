@@ -1,14 +1,13 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime.Cards;
 using CCG.Shared.Game.Runtime.Models;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -61,7 +60,7 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeObject Create(IRuntimeObjectModel runtimeModel, bool notify = true)
         {
             if (objectsCollection.Contains(runtimeModel.Id))
-                throw new InvalidOperationException($"Unable create an object twice : {runtimeModel.ReflectionFormat()}");
+                throw new InvalidOperationException($"Unable create an object twice : {runtimeModel.AsJsonFormat()}");
             
             if (!database.Objects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(ObjectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<ObjectConfig>)}");

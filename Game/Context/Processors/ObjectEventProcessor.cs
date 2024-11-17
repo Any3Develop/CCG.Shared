@@ -1,11 +1,11 @@
 ﻿using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Events.Context.Cards;
 using CCG.Shared.Game.Events.Context.Effects;
 using CCG.Shared.Game.Events.Context.Objects;
 using CCG.Shared.Game.Events.Context.Stats;
 using CCG.Shared.Game.Events.Output;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Context.EventProcessors
 {
@@ -30,10 +30,10 @@ namespace CCG.Shared.Game.Context.EventProcessors
             #region Object
 
             eventSource.Subscribe<AfterObjectAddedEvent>(data =>
-                queueCollector.Register(new AddedObject{RuntimeModel = data.RuntimeObject.RuntimeModel.Clone()}));
+                queueCollector.Register(new AddedObject{RuntimeModel = data.RuntimeObject.RuntimeModel.DeepCopy()}));
 
             eventSource.Subscribe<AfterObjectDeletedEvent>(data =>
-                queueCollector.Register(new ObjectDeleted{RuntimeModel = data.RuntimeObject.RuntimeModel.Clone()}));
+                queueCollector.Register(new ObjectDeleted{RuntimeModel = data.RuntimeObject.RuntimeModel.DeepCopy()}));
             
             eventSource.Subscribe<AfterObjectStateChangedEvent>(data =>
                 queueCollector.Register(new ObjectStateChanged().Map(data.RuntimeObject.RuntimeModel)));
@@ -50,32 +50,32 @@ namespace CCG.Shared.Game.Context.EventProcessors
             #region Effects
 
             eventSource.Subscribe<AfterEffectAddedEvent>(data =>
-                queueCollector.Register(new EffectAdded{RuntimeModel = data.RuntimeEffect.RuntimeModel.Clone()})); 
+                queueCollector.Register(new EffectAdded{RuntimeModel = data.RuntimeEffect.RuntimeModel.DeepCopy()})); 
             
             eventSource.Subscribe<AfterEffectDeletedEvent>(data =>
-                queueCollector.Register(new EffectDeleted{RuntimeModel = data.RuntimeEffect.RuntimeModel.Clone()})); 
+                queueCollector.Register(new EffectDeleted{RuntimeModel = data.RuntimeEffect.RuntimeModel.DeepCopy()})); 
             
             eventSource.Subscribe<AfterEffectChangedEvent>(data =>
-                queueCollector.Register(new EffectChanged{RuntimeModel = data.RuntimeEffect.RuntimeModel.Clone()})); 
+                queueCollector.Register(new EffectChanged{RuntimeModel = data.RuntimeEffect.RuntimeModel.DeepCopy()})); 
             
             eventSource.Subscribe<BeforeEffectExecuteEvent>(data =>
-                queueCollector.Register(new EffectStarted{RuntimeModel = data.RuntimeEffect.RuntimeModel.Clone()})); 
+                queueCollector.Register(new EffectStarted{RuntimeModel = data.RuntimeEffect.RuntimeModel.DeepCopy()})); 
                         
             eventSource.Subscribe<AfterEffectExecutedEvent>(data =>
-                queueCollector.Register(new EffectEnded{RuntimeModel = data.RuntimeEffect.RuntimeModel.Clone()}));  
+                queueCollector.Register(new EffectEnded{RuntimeModel = data.RuntimeEffect.RuntimeModel.DeepCopy()}));  
 
             #endregion
 
             #region Stats
 
             eventSource.Subscribe<AfterStatAddedEvent>(data =>
-                queueCollector.Register(new StatAdded{RuntimeModel = data.RuntimeStat.RuntimeModel.Clone()}));
+                queueCollector.Register(new StatAdded{RuntimeModel = data.RuntimeStat.RuntimeModel.DeepCopy()}));
 
             eventSource.Subscribe<AfterStatDeletedEvent>(data =>
-                queueCollector.Register(new StatDeleted{RuntimeModel = data.RuntimeStat.RuntimeModel.Clone()}));
+                queueCollector.Register(new StatDeleted{RuntimeModel = data.RuntimeStat.RuntimeModel.DeepCopy()}));
             
             eventSource.Subscribe<AfterStatChangedEvent>(data =>
-                queueCollector.Register(new StatChanged{RuntimeModel = data.RuntimeStat.RuntimeModel.Clone()}));
+                queueCollector.Register(new StatChanged{RuntimeModel = data.RuntimeStat.RuntimeModel.DeepCopy()}));
 
             #endregion
 

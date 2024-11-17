@@ -4,10 +4,10 @@ using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Runtime;
 using CCG.Shared.Game.Runtime.Models;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -57,7 +57,7 @@ namespace CCG.Shared.Game.Factories
 
             var statsCollection = runtimeObject?.StatsCollection ?? runtimePlayer.StatsCollection;
             if (statsCollection.Contains(runtimeModel.Id))
-                throw new InvalidOperationException($"Unable create a stat twice : {runtimeModel.ReflectionFormat()}");
+                throw new InvalidOperationException($"Unable create a stat twice : {runtimeModel.AsJsonFormat()}");
             
             if (!database.Stats.TryGet(runtimeModel.ConfigId, out var statData))
                 throw new NullReferenceException($"{nameof(StatConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<StatConfig>)}");

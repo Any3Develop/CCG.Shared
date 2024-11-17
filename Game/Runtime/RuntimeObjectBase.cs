@@ -3,10 +3,10 @@ using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.Objects;
-using CCG.Shared.Game.Utils.Disposables;
 
 namespace CCG.Shared.Game.Runtime
 {
@@ -55,8 +55,8 @@ namespace CCG.Shared.Game.Runtime
         public IRuntimeObject Sync(IRuntimeObjectModel runtimeModel)
         {
             RuntimeModel = runtimeModel;
-            StatsCollection.LinkModelCollection(RuntimeModel.Stats);
-            EffectsCollection.LinkModelCollection(RuntimeModel.Applied);
+            StatsCollection.LinkModelsList(RuntimeModel.Stats);
+            EffectsCollection.LinkModelsList(RuntimeModel.Applied);
             return this;
         }
 

@@ -8,6 +8,12 @@ namespace CCG.Shared.Game.Context
     {
         public IContext Init(IContext context, string id, List<SessionPlayer> players)
         {
+            var firstPlayerIndex = new Random().Next(0, players.Count);
+            var firstPlayer = players[firstPlayerIndex];
+            firstPlayer.IsFirst = true;
+            players.RemoveAt(firstPlayerIndex);
+            players.Insert(0, firstPlayer);
+            
             var models = new List<IContextModel>
             {
                 new RuntimeContextModel {Id = id, Players = players},

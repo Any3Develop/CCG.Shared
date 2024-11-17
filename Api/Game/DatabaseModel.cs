@@ -6,8 +6,6 @@ namespace CCG.Shared.Api.Game
     {
         public ObjectConfig[] Objects { get; set; }
         public EffectConfig[] Effects { get; set; }
-        public PlayerConfig[] Players { get; set; }
-
         public StatConfig[] Stats { get; set; }
     }
 }

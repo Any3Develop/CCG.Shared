@@ -3,11 +3,11 @@ using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime.Effects;
 using CCG.Shared.Game.Runtime.Models;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -52,7 +52,7 @@ namespace CCG.Shared.Game.Factories
                 throw new NullReferenceException($"{nameof(IRuntimeObject)} with id {runtimeModel.RuntimeOwnerId}, not found in {nameof(IObjectsCollection)}");
 
             if (effectOwner.EffectsCollection.Contains(runtimeModel.Id))
-                throw new InvalidOperationException($"Unable create an effect twice : {runtimeModel.ReflectionFormat()}");
+                throw new InvalidOperationException($"Unable create an effect twice : {runtimeModel.AsJsonFormat()}");
             
             if (!database.Effects.TryGet(runtimeModel.ConfigId, out var data))
                 throw new NullReferenceException($"{nameof(EffectConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(IConfigCollection<EffectConfig>)}");

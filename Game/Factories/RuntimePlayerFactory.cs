@@ -1,5 +1,4 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
-using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -63,8 +62,8 @@ namespace CCG.Shared.Game.Factories
             var eventSource = contextFactory.CreateEventsSource();
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
-            
             var runtimePlayer = new RuntimePlayer(playerConfig, runtimeModel, statsCollection, eventPublisher, eventSource);
+            
             playersCollection.Add(runtimePlayer, false);
             
             foreach (var runtimeStatModel in runtimeModel.Stats)

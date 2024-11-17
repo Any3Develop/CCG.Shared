@@ -24,6 +24,7 @@ namespace CCG.Shared.Game.Runtime.Effects
             RuntimeModel = runtimeModel;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
+            OnCreated();
             return this;
         }
 
@@ -57,6 +58,7 @@ namespace CCG.Shared.Game.Runtime.Effects
         }
 
         #region Callbacks
+        protected virtual void OnCreated() {}
         protected virtual void OnExecute() {}
         protected virtual void OnExpire() {}
         #endregion

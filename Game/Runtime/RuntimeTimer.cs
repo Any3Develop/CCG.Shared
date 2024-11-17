@@ -3,12 +3,12 @@ using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.SystemTimers;
 using CCG.Shared.Game.Events.Context.Timer;
 using CCG.Shared.Game.Runtime.Models;
-using CCG.Shared.Game.Utils.Disposables;
 
 namespace CCG.Shared.Game.Runtime
 {
@@ -244,11 +244,6 @@ namespace CCG.Shared.Game.Runtime
         private bool HasAny(TimerState flags)
         {
             return RuntimeModel != null && (RuntimeModel.State & flags) != 0;
-        }
-
-        private bool HasAll(TimerState flags)
-        {
-            return RuntimeModel != null && (RuntimeModel.State & flags) == flags;
         }
     }
 }

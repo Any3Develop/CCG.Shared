@@ -3,11 +3,11 @@ using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Runtime;
 using CCG.Shared.Game.Runtime.Models;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Factories
 {
@@ -42,7 +42,7 @@ namespace CCG.Shared.Game.Factories
         {
             if (context.RuntimeTimer != null)
                 throw new InvalidOperationException(
-                    $"Unable create the timer twice : {runtimeModel.ReflectionFormat()}");
+                    $"Unable create the timer twice : {runtimeModel.AsJsonFormat()}");
 
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");

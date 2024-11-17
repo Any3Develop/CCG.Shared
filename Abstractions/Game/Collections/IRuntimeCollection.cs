@@ -6,7 +6,7 @@ namespace CCG.Shared.Abstractions.Game.Collections
     {
         int Count { get; }
         TRuntime this[int index] { get; }
-        void LinkModelCollection<TModel>(List<TModel> external) where TModel : IContextModel;
+        void LinkModelsList<TModel>(List<TModel> external) where TModel : IContextModel;
         void Replace(TRuntime value);
         
         bool Contains(TRuntime value);

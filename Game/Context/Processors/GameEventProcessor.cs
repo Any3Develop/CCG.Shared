@@ -2,8 +2,8 @@
 using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Events;
 using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Events.Output;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Context.EventProcessors
 {
@@ -77,7 +77,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
 
                     runtimeObject.Sync(deletedObject.RuntimeModel);
                     if(!context.ObjectsCollection.Remove(runtimeObject, false))
-                        throw new ApplicationException($"Object hasn't removed : {runtimeObject.RuntimeModel.ReflectionFormat()}");
+                        throw new ApplicationException($"Object hasn't removed : {runtimeObject.RuntimeModel.AsJsonFormat()}");
                     
                     runtimeObject.Dispose();
                     return;
@@ -92,7 +92,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                     runtimeEffect.Sync(deletedObjectEffect.RuntimeModel);
                     runtimeObject.EffectsCollection.Replace(runtimeEffect);
                     if(!runtimeObject.EffectsCollection.Remove(runtimeEffect, false))
-                        throw new ApplicationException($"Effect hasn't removed : {runtimeEffect.RuntimeModel.ReflectionFormat()}");
+                        throw new ApplicationException($"Effect hasn't removed : {runtimeEffect.RuntimeModel.AsJsonFormat()}");
                     
                     runtimeEffect.Dispose();
                     return;
@@ -106,7 +106,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
 
                     runtimeStat.Sync(deletedObjectStat.RuntimeModel);
                     if(!runtimeObject.StatsCollection.Remove(runtimeStat, false))
-                        throw new ApplicationException($"Stat hasn't removed : {runtimeStat.RuntimeModel.ReflectionFormat()}");
+                        throw new ApplicationException($"Stat hasn't removed : {runtimeStat.RuntimeModel.AsJsonFormat()}");
                     
                     runtimeStat.Dispose();
                     return;

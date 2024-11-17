@@ -11,6 +11,7 @@ namespace CCG.Shared.Game.Enums
         Spell = 4,
         Hero = 8,
         
+        All = -1,
         Cards = Creature | Spell
     }
 }

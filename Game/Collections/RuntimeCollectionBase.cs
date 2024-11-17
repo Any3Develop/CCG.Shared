@@ -20,7 +20,7 @@ namespace CCG.Shared.Game.Collections
             Clear();
         }
 
-        public void LinkModelCollection<TModel>(List<TModel> external) where TModel : IContextModel
+        public void LinkModelsList<TModel>(List<TModel> external) where TModel : IContextModel
         {
             LinkedModels = external;
         }
@@ -53,7 +53,11 @@ namespace CCG.Shared.Game.Collections
 
         public virtual void Sort(Comparison<TRuntime> comparison)
         {
+            if (Runtimes.Count == 0)
+                return;
+            
             Runtimes.Sort(comparison);
+            
             if (LinkedModels is null or {Count: 0})
                 return;
 
@@ -131,7 +135,6 @@ namespace CCG.Shared.Game.Collections
                 }
             }
             
-
             if (result && notify)
                 RemoveNotify(value);
             

@@ -1,9 +1,9 @@
 ﻿using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Runtime;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.Timer;
-using CCG.Shared.Game.Utils.Disposables;
 
 namespace CCG.Shared.Game.Context.Processors
 {
@@ -70,8 +70,7 @@ namespace CCG.Shared.Game.Context.Processors
         {
             var entitiesStats = context.ObjectsCollection
                 .GetAll<IRuntimeObject>(ObjectState.InTable, playerId, asQuery: true)
-                .Select(x => x.StatsCollection)
-                .Select(x => x.Get(StatType.Move))
+                .Select(x => x.StatsCollection.Get(StatType.Move))
                 .Where(x => x != null);
             
             foreach (var stat in entitiesStats)

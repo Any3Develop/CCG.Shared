@@ -1,9 +1,9 @@
 ﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Context.Providers;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Events.Context.Queue;
 using CCG.Shared.Game.Events.Output;
-using CCG.Shared.Game.Utils;
 
 namespace CCG.Shared.Game.Context.EventProcessors
 {
@@ -42,9 +42,9 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 syncOrderEvent.Order = orderProvider.Next();
                 syncIdEvent.Order = orderProvider.Next();
 
-                syncOrderEvent.RuntimeModel = orderProvider.RuntimeModel.Clone();
-                syncIdEvent.RuntimeModel = idProvider.RuntimeModel.Clone();
-                syncRandomEvent.RuntimeModel = randomProvider.RuntimeModel.Clone();
+                syncOrderEvent.RuntimeModel = orderProvider.RuntimeModel.DeepCopy();
+                syncIdEvent.RuntimeModel = idProvider.RuntimeModel.DeepCopy();
+                syncRandomEvent.RuntimeModel = randomProvider.RuntimeModel.DeepCopy();
 
                 data.Queue.Add(syncRandomEvent);
                 data.Queue.Add(syncOrderEvent);
