@@ -6,44 +6,46 @@ namespace CCG.Shared.Game.Context
 {
     public class SharedContextInitializer : IContextInitializer
     {
-        public IContext Init(IContext context, string id, List<SessionPlayer> players)
+        public IContext Init(IContext context, string sessionId, List<SessionPlayer> players)
         {
-            var firstPlayerIndex = new Random().Next(0, players.Count);
-            var firstPlayer = players[firstPlayerIndex];
-            firstPlayer.IsFirst = true;
-            players.RemoveAt(firstPlayerIndex);
-            players.Insert(0, firstPlayer);
-            
-            var models = new List<IContextModel>
-            {
-                new RuntimeContextModel {Id = id, Players = players},
+            InitBase(context, 
+                new RuntimeContextModel {Id = sessionId, Players = players},
                 new RuntimeIdModel(),
                 new RuntimeOrderModel(),
                 new RuntimeRandomModel(),
-                context.TimerFactory.CreateModel(),
-            };
-            models.AddRange(players.Select((p, i) => context.PlayerFactory.CreateModel(p.Id, i)));
-            return Init(context, models);
+                context.TimerFactory.CreateModel());
+
+            for (var i = 0; i < players.Count; i++)
+            {
+                var player = players[i];
+                context.PlayerFactory.Create(context.PlayerFactory.CreateModel(player.Id, i));
+                context.ObjectFactory.Create(context.ObjectFactory.CreateModel(player.Id, player.HeroId));
+
+                foreach (var model in player.DeckCards.Select(id => context.ObjectFactory.CreateModel(player.Id, id)))
+                    context.ObjectFactory.Create(model);
+            }
+            
+            return context;
         }
 
-        public IContext Init(IContext context, IReadOnlyCollection<IContextModel> models)
+        public IContext Restore(IContext context, IContextModel[] models)
+        {
+            InitBase(context, models);
+            context.PlayerFactory.Restore(models.OfType<IRuntimePlayerModel>());
+            context.ObjectFactory.Restore(models.OfType<IRuntimeObjectModel>());
+            return context;
+        }
+
+        private static void InitBase(IContext context, params IContextModel[] models)
         {
             context.Sync(GetRequiredArgument<IRuntimeContextModel>(models));
             context.RuntimeIdProvider.Sync(GetRequiredArgument<IRuntimeIdModel>(models));
             context.RuntimeOrderProvider.Sync(GetRequiredArgument<IRuntimeOrderModel>(models));
             context.RuntimeRandomProvider.Sync(GetRequiredArgument<IRuntimeRandomModel>(models));
             context.RuntimeTimer = context.TimerFactory.Create(GetRequiredArgument<IRuntimeTimerModel>(models));
-
-            foreach (var model in models.OfType<IRuntimePlayerModel>())
-                context.PlayerFactory.Create(model, false);
-
-            foreach (var model in models.OfType<IRuntimeObjectModel>())
-                context.ObjectFactory.Create(model, false);
-
-            return context;
         }
         
-        private static T GetRequiredArgument<T>(params object[] args)
+        private static T GetRequiredArgument<T>(IEnumerable<IContextModel> args)
         {
             return (T) args.FirstOrDefault(x => x is T);
         }

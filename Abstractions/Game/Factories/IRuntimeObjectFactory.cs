@@ -5,7 +5,8 @@ namespace CCG.Shared.Abstractions.Game.Factories
 {
     public interface IRuntimeObjectFactory
     {
-        IRuntimeObjectModel CreateModel(int? runtimeId, string ownerId, string dataId);
-        IRuntimeObject Create(IRuntimeObjectModel runtimeData, bool notify = true);
+        IRuntimeObjectModel CreateModel(string ownerId, string dataId);
+        IRuntimeObject Create(IRuntimeObjectModel runtimeModel, bool notify = false);
+        void Restore(IEnumerable<IRuntimeObjectModel> runtimeModels);
     }
 }

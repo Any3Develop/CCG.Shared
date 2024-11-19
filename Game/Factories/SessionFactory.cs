@@ -19,17 +19,17 @@ namespace CCG.Shared.Game.Factories
             this.contextInitializer = contextInitializer;
         }
         
-        public ISession Create(string id, List<SessionPlayer> players)
+        public ISession Create(string sessionId, List<SessionPlayer> players)
         {
             var context = contextFactory.CreateContext();
-            contextInitializer.Init(context, id, players);
+            contextInitializer.Init(context, sessionId, players);
             return CreateInternal(context);
         }
 
-        public ISession Create(IContextModel[] models)
+        public ISession Restore(IContextModel[] models)
         {
             var context = contextFactory.CreateContext();
-            contextInitializer.Init(context, models);
+            contextInitializer.Restore(context, models);
             return CreateInternal(context);
         }
 

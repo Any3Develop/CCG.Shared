@@ -5,7 +5,7 @@ namespace CCG.Shared.Abstractions.Game.Context
 {
     public interface IContextInitializer
     {
-        IContext Init(IContext context, string id, List<SessionPlayer> players);
-        IContext Init(IContext context, IReadOnlyCollection<IContextModel> models);
+        IContext Init(IContext context, string sessionId, List<SessionPlayer> players);
+        IContext Restore(IContext context, IContextModel[] models);
     }
 }

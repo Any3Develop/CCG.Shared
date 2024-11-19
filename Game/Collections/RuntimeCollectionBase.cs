@@ -61,18 +61,17 @@ namespace CCG.Shared.Game.Collections
             if (LinkedModels is null or {Count: 0})
                 return;
 
-            for (var i = 0; i < Runtimes.Count; i++)
-            {
-                var runtimeModel = Runtimes[i].RuntimeModel;
-                var index = LinkedModels.IndexOf(runtimeModel);
+            for (var currIndex = 0; currIndex < Runtimes.Count; currIndex++)
+                InsertOrMoveLinked(currIndex, Runtimes[currIndex].RuntimeModel);
+        }
 
-                if (index < 0 || index >= LinkedModels.Count || index == i)
-                    continue;
+        protected virtual void InsertOrMoveLinked(int newIndex, object model)
+        {
+            if (LinkedModels is null || newIndex < 0 || newIndex > LinkedModels.Count)
+                return;
                 
-                var currentModel = LinkedModels[index];
-                LinkedModels.RemoveAt(index);
-                LinkedModels.Insert(i, currentModel);
-            }
+            LinkedModels.Remove(model);
+            LinkedModels.Insert(newIndex, model);
         }
 
         public virtual void Clear()
@@ -87,7 +86,10 @@ namespace CCG.Shared.Game.Collections
                 return false;
 
             Runtimes.Insert(index, value);
-            LinkedModels?.Insert(index, value.RuntimeModel);
+
+            if (LinkedModels != null)
+                InsertOrMoveLinked(index, value.RuntimeModel);
+            
             if (notify)
                 AddNotify(value);
             
@@ -100,7 +102,9 @@ namespace CCG.Shared.Game.Collections
                 return false;
 
             Runtimes.Add(value);
-            LinkedModels?.Add(value.RuntimeModel);
+            
+            if (LinkedModels != null && !LinkedModels.Contains(value))
+                LinkedModels.Add(value.RuntimeModel);
             
             if (notify)
                 AddNotify(value);
@@ -123,17 +127,9 @@ namespace CCG.Shared.Game.Collections
         public virtual bool Remove(TRuntime value, bool notify = true)
         {
             var result = Runtimes.Remove(value);
+            
             if (result && LinkedModels != null)
-            {
-                foreach (var model in LinkedModels)
-                {
-                    if (!model.Equals(value))
-                        continue;
-                    
-                    LinkedModels.Remove(model);
-                    break;
-                }
-            }
+                LinkedModels.Remove(value.RuntimeModel);
             
             if (result && notify)
                 RemoveNotify(value);

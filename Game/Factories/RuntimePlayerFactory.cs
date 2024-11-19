@@ -50,7 +50,24 @@ namespace CCG.Shared.Game.Factories
             };
         }
 
-        public IRuntimePlayer Create(IRuntimePlayerModel runtimeModel, bool notify = true)
+        public IRuntimePlayer Create(IRuntimePlayerModel runtimeModel, bool notify = false)
+        {
+            var runtimePlayer = CreateInternal(runtimeModel);
+            InitIntrnal(runtimePlayer, false);
+            
+            if (notify)
+                playersCollection.AddNotify(runtimePlayer);
+            
+            return runtimePlayer;
+        }
+
+        public void Restore(IEnumerable<IRuntimePlayerModel> runtimeModels)
+        {
+            foreach (var runtimePlayer in runtimeModels.Reverse().Select(CreateInternal))
+                InitIntrnal(runtimePlayer, true);
+        }
+
+        private IRuntimePlayer CreateInternal(IRuntimePlayerModel runtimeModel)
         {
             if (playersCollection.Contains(runtimeModel.OwnerId))
                 throw new InvalidOperationException($"Unable create a player twice : {runtimeModel.OwnerId}");
@@ -65,14 +82,17 @@ namespace CCG.Shared.Game.Factories
             var runtimePlayer = new RuntimePlayer(playerConfig, runtimeModel, statsCollection, eventPublisher, eventSource);
             
             playersCollection.Add(runtimePlayer, false);
-            
-            foreach (var runtimeStatModel in runtimeModel.Stats)
-                runtimeStatFactory.Create(runtimeStatModel, false);
-            
-            if (notify)
-                playersCollection.AddNotify(runtimePlayer);
-            
             return runtimePlayer;
+        }
+
+        private void InitIntrnal(IRuntimePlayer runtimePlayer, bool reversed)
+        {
+            var statModels = reversed
+                ? runtimePlayer.RuntimeModel.Stats.AsEnumerable().Reverse()
+                : runtimePlayer.RuntimeModel.Stats;
+            
+            foreach (var runtimeModel in statModels)
+                runtimeStatFactory.Create(runtimeModel, false);
         }
     }
 }

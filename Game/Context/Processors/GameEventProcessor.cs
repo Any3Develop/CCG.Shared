@@ -124,7 +124,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
                 
                 case AddedObject addedObject:
                 {
-                    context.ObjectFactory.Create(addedObject.RuntimeModel, false);
+                    context.ObjectFactory.Create(addedObject.RuntimeModel);
                     return;
                 }
                 

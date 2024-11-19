@@ -6,6 +6,7 @@ namespace CCG.Shared.Abstractions.Game.Factories
     public interface IRuntimePlayerFactory
     {
         IRuntimePlayerModel CreateModel(string ownerId, int index);
-        IRuntimePlayer Create(IRuntimePlayerModel runtimeData, bool notify = true);
+        IRuntimePlayer Create(IRuntimePlayerModel runtimeModel, bool notify = false);
+        void Restore(IEnumerable<IRuntimePlayerModel> runtimeModels);
     }
 }

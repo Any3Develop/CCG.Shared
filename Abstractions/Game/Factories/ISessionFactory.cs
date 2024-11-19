@@ -6,7 +6,7 @@ namespace CCG.Shared.Abstractions.Game.Factories
 {
     public interface ISessionFactory
     {
-        ISession Create(string id, List<SessionPlayer> players);
-        ISession Create(IContextModel[] models);
+        ISession Create(string sessionId, List<SessionPlayer> players);
+        ISession Restore(IContextModel[] models);
     }
 }

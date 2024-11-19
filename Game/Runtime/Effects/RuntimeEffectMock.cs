@@ -4,5 +4,5 @@ using CCG.Shared.Game.Enums;
 namespace CCG.Shared.Game.Runtime.Effects
 {
     [EffectLogic(LogicId.None)]
-    public class RuntimeMockEffect : RuntimeEffectBase {}
+    public class RuntimeEffectMock : RuntimeEffectBase {}
 }

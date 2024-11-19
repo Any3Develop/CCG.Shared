@@ -41,8 +41,7 @@ namespace CCG.Shared.Game.Factories
         public IRuntimeTimer Create(IRuntimeTimerModel runtimeModel)
         {
             if (context.RuntimeTimer != null)
-                throw new InvalidOperationException(
-                    $"Unable create the timer twice : {runtimeModel.AsJsonFormat()}");
+                throw new InvalidOperationException($"Unable create the timer twice : {runtimeModel.AsJsonFormat()}");
 
             if (sharedConfig.Timer == null)
                 throw new NullReferenceException($"{nameof(TimerConfig)} not found in {nameof(ISharedConfig)}");

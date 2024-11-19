@@ -10,6 +10,8 @@ namespace CCG.Shared.Game.Runtime.Cards
         public new CardConfig Config => (CardConfig) base.Config;
         public new IRuntimeCardModel RuntimeModel => (IRuntimeCardModel) base.RuntimeModel;
 
+        // TODO: some special base functions
+        
         public void SetPosition(int? value, bool notify = true)
         {
             if (notify)
