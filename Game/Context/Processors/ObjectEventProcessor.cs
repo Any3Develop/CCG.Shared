@@ -7,7 +7,7 @@ using CCG.Shared.Game.Events.Context.Objects;
 using CCG.Shared.Game.Events.Context.Stats;
 using CCG.Shared.Game.Events.Output;
 
-namespace CCG.Shared.Game.Context.EventProcessors
+namespace CCG.Shared.Game.Context.Processors
 {
     public class ObjectEventProcessor : IObjectEventProcessor
     {
@@ -43,7 +43,7 @@ namespace CCG.Shared.Game.Context.EventProcessors
             
             // TODO: execute hit effect
             // eventSource.Subscribe<AfterObjectHitEvent>(data =>
-            //     queueCollector.Register(new HitObject{RuntimeData = data.RuntimeStat.RuntimeData.Clone()}));
+            //     queueCollector.Register(new HitObject{RuntimeData = data.RuntimeStat.RuntimeData.DeepCopy()}));
 
             #endregion
 

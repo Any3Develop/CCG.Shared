@@ -20,7 +20,7 @@ namespace CCG.Shared.Game.Commands
                 throw new NotEnoughTableSpaceException();
             
             runtimeCard.SetPosition(Model.Position);
-            runtimeCard.SetState(ObjectState.InTable);
+            runtimeCard.SetState(ObjectState.Table);
         }
     }
 }

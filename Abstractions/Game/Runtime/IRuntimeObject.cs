@@ -9,6 +9,7 @@ namespace CCG.Shared.Abstractions.Game.Runtime
     {
         new ObjectConfig Config { get; }
         new IRuntimeObjectModel RuntimeModel { get; }
+        bool IsAlive { get; }
         IStatsCollection StatsCollection { get; }
         IEffectsCollection EffectsCollection { get; }
 

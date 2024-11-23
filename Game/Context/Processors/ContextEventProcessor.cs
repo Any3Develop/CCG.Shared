@@ -5,7 +5,7 @@ using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Events.Context.Queue;
 using CCG.Shared.Game.Events.Output;
 
-namespace CCG.Shared.Game.Context.EventProcessors
+namespace CCG.Shared.Game.Context.Processors
 {
     public class ContextEventProcessor : IContextEventProcessor
     {

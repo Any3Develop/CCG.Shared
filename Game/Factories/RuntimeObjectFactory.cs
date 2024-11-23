@@ -1,4 +1,5 @@
 ﻿using CCG.Shared.Abstractions.Game.Collections;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -20,6 +21,7 @@ namespace CCG.Shared.Game.Factories
         private readonly IRuntimeIdProvider runtimeIdProvider;
         private readonly IRuntimeStatFactory runtimeStatFactory;
         private readonly IRuntimeEffectFactory runtimeEffectFactory;
+        private readonly IObjectEventProcessor objectEventProcessor;
         private readonly IContextFactory contextFactory;
 
         public RuntimeObjectFactory(
@@ -28,6 +30,7 @@ namespace CCG.Shared.Game.Factories
             IRuntimeIdProvider runtimeIdProvider,
             IRuntimeStatFactory runtimeStatFactory,
             IRuntimeEffectFactory runtimeEffectFactory,
+            IObjectEventProcessor objectEventProcessor,
             IContextFactory contextFactory)
         {
             this.database = database;
@@ -35,6 +38,7 @@ namespace CCG.Shared.Game.Factories
             this.runtimeIdProvider = runtimeIdProvider;
             this.runtimeStatFactory = runtimeStatFactory;
             this.runtimeEffectFactory = runtimeEffectFactory;
+            this.objectEventProcessor = objectEventProcessor;
             this.contextFactory = contextFactory;
         }
 
@@ -112,6 +116,7 @@ namespace CCG.Shared.Game.Factories
 
             runtimeObject.Init(data, runtimeModel, statsCollection, effectsCollection, eventPublisher, eventSource);
             objectsCollection.Add(runtimeObject, false);
+            objectEventProcessor.Subscribe(runtimeObject);
             
             return runtimeObject;
         }

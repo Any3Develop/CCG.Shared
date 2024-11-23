@@ -14,6 +14,7 @@ namespace CCG.Shared.Game.Runtime
     {
         public ObjectConfig Config { get; private set; }
         public IRuntimeObjectModel RuntimeModel { get; private set; }
+        public bool IsAlive => IsObjectAlive();
         public IStatsCollection StatsCollection { get; private set; }
         public IEffectsCollection EffectsCollection { get; private set; }
         public IEventPublisher EventPublisher { get; private set; }
@@ -73,7 +74,8 @@ namespace CCG.Shared.Game.Runtime
         }
         
         #region IRuntimeObjectBase
-
+        protected abstract bool IsObjectAlive();
+        
         IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
         
         IConfig IRuntimeObjectBase.Config => Config;

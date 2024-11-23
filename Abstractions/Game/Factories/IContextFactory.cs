@@ -28,6 +28,7 @@ namespace CCG.Shared.Abstractions.Game.Factories
         IGameEventProcessor CreateGameEventProcessor(params object[] args);
         ICroupierProcessor CreateCroupierProcessor(params object[] args);
         ITurnProcessor CreateTurnProcessor(params object[] args);
+        IWinConditionProcessor CreateWinConditionProcessor(params object[] args);
         #endregion
 
         #region Factories

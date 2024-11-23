@@ -7,7 +7,6 @@ using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Game.Collections;
 using CCG.Shared.Game.Commands.Base;
 using CCG.Shared.Game.Context;
-using CCG.Shared.Game.Context.EventProcessors;
 using CCG.Shared.Game.Context.Processors;
 using CCG.Shared.Game.Context.Providers;
 using CCG.Shared.Game.Enums;
@@ -135,6 +134,11 @@ namespace CCG.Shared.Game.Factories
         {
             return new TurnProcessor(GetRequiredArgument<IContext>(args));
         }
+        
+        public IWinConditionProcessor CreateWinConditionProcessor(params object[] args)
+        {
+            return new WinConditionProcessor(GetRequiredArgument<IContext>(args));
+        }
 
         #endregion
 
@@ -163,6 +167,7 @@ namespace CCG.Shared.Game.Factories
                 GetRequiredArgument<IRuntimeIdProvider>(),
                 GetRequiredArgument<IRuntimeStatFactory>(),
                 GetRequiredArgument<IRuntimeEffectFactory>(),
+                GetRequiredArgument<IObjectEventProcessor>(),
                 this);
         }
 
@@ -203,6 +208,7 @@ namespace CCG.Shared.Game.Factories
             var objectsCollection = CreateObjectsCollection(eventPublisher);
             var playersCollection = CreatePlayersCollection();
 
+            
             var randomProvider = CreateRuntimeRandomProvider();
             var orderProvider = CreateRuntimeOrderProvider();
             var idProvider = CreateRuntimeIdProvider();
@@ -210,7 +216,8 @@ namespace CCG.Shared.Game.Factories
             var statFactory = CreateStatFactory(objectsCollection, idProvider, playersCollection);
             var effectFactory = CreateEffectFactory(objectsCollection, idProvider);
             var gameQueueCollector = CreateGameQueueCollector(eventsSource, eventPublisher, orderProvider);
-
+            var objectEventProcessor = CreateObjectEventProcessor(gameQueueCollector);
+            
             var context = new SharedContext
             {
                 SystemTimers = systemTimers,
@@ -223,19 +230,20 @@ namespace CCG.Shared.Game.Factories
                 RuntimeOrderProvider = orderProvider,
                 RuntimeIdProvider = idProvider,
 
-                ObjectEventProcessor = CreateObjectEventProcessor(gameQueueCollector),
+                ObjectEventProcessor = objectEventProcessor,
                 ContextEventProcessor = CreateContextEventProcessor(eventsSource, idProvider, orderProvider, randomProvider),
                 GameQueueCollector = gameQueueCollector,
                 EventPublisher = eventPublisher,
                 EventSource = eventsSource,
 
-                ObjectFactory = CreateObjectFactory(objectsCollection, idProvider, statFactory, effectFactory),
+                ObjectFactory = CreateObjectFactory(objectsCollection, idProvider, statFactory, objectEventProcessor, effectFactory),
                 PlayerFactory = CreatePlayerFactory(playersCollection, idProvider, statFactory),
                 EffectFactory = effectFactory,
                 StatFactory = statFactory,
                 ContextFactory = this,
             };
 
+            context.WinConditionProcessor = CreateWinConditionProcessor(context);
             context.TurnProcessor = CreateTurnProcessor(context);
             context.CroupierProcessor = CreateCroupierProcessor(context);
             context.GameEventProcessor = CreateGameEventProcessor(context);

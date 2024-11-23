@@ -37,7 +37,9 @@ namespace CCG.Shared.Abstractions.Game.Collections
         T GetLast<T>(Predicate<T> predicate) where T : TRuntime;
 
         TRuntime[] GetAll();
+        TRuntime[] GetAll(string ownerId);
         T[] GetAll<T>() where T : TRuntime;
+        T[] GetAll<T>(string ownerId) where T : TRuntime;
         TRuntime[] GetRange(IEnumerable<int> ids);
         T[] GetRange<T>(IEnumerable<int> ids) where T : TRuntime;
         TRuntime[] GetRange(Predicate<TRuntime> predicate);

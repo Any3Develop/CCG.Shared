@@ -37,7 +37,7 @@ namespace CCG.Shared.Game.Collections
         {
             var checkOwner = !string.IsNullOrWhiteSpace(ownerId); 
             return GetAll<IRuntimeCard>().Count(x => (!checkOwner || x.RuntimeModel.OwnerId == ownerId) 
-                                                     && x.RuntimeModel.State == ObjectState.InTable);
+                                                     && x.RuntimeModel.State == ObjectState.Table);
         }
 
         public override void AddNotify(IRuntimeObject value)

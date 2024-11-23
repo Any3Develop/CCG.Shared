@@ -202,9 +202,19 @@ namespace CCG.Shared.Game.Collections
             return Runtimes.ToArray();
         }
 
+        public TRuntime[] GetAll(string ownerId)
+        {
+            return this.Where(x => x.RuntimeModel.OwnerId == ownerId).ToArray();
+        }
+
         public T[] GetAll<T>() where T : TRuntime
         {
             return Runtimes.OfType<T>().ToArray();
+        }
+
+        public T[] GetAll<T>(string ownerId) where T : TRuntime
+        {
+            return this.OfType<T>().Where(x => x.RuntimeModel.OwnerId == ownerId).ToArray();
         }
 
         public virtual TRuntime[] GetRange(IEnumerable<int> ids)

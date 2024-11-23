@@ -7,8 +7,10 @@ namespace CCG.Shared.Game.Enums
     public enum ObjectState
     {
         Created = 0,
-        InDeck,
-        InHand,
-        InTable
+        Deck,
+        Hand,
+        Table,
+        Graveyard,
+        Destroyed
     }
 }

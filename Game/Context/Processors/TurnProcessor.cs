@@ -69,7 +69,7 @@ namespace CCG.Shared.Game.Context.Processors
         private void ChangePlayerMoves(string playerId, bool enable)
         {
             var entitiesStats = context.ObjectsCollection
-                .GetAll<IRuntimeObject>(ObjectState.InTable, playerId, asQuery: true)
+                .GetAll<IRuntimeObject>(ObjectState.Table, playerId, asQuery: true)
                 .Select(x => x.StatsCollection.Get(StatType.Move))
                 .Where(x => x != null);
             

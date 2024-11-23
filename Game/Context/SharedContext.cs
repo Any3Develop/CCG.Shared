@@ -47,6 +47,8 @@ namespace CCG.Shared.Game.Context
         public IRuntimeStatFactory StatFactory { get; set; }
         public IRuntimeTimerFactory TimerFactory { get; set; }
         public IContextFactory ContextFactory { get; set; }
+        public IWinConditionProcessor WinConditionProcessor { get; set; }
+
         #endregion
 
         public IContext Sync(IRuntimeContextModel value)
@@ -77,6 +79,7 @@ namespace CCG.Shared.Game.Context
                 throw new InvalidOperationException("Can't end game twice.");
             
             RuntimeData.EndTime = SharedTime.Current;
+            EventSource.Dispose();
         }
     }
 }

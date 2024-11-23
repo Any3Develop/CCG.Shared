@@ -21,7 +21,7 @@ namespace CCG.Shared.Game.Context.Processors
         public IEnumerable<IRuntimeCard> GiveCards(string ownerId, int count)
         {
             var cards = context.ObjectsCollection
-                .GetAll<IRuntimeCard>(ObjectState.InDeck, ownerId, asQuery: true)
+                .GetAll<IRuntimeCard>(ObjectState.Deck, ownerId, asQuery: true)
                 .Take(count)
                 .ToArray();
 
@@ -32,7 +32,7 @@ namespace CCG.Shared.Game.Context.Processors
         public IEnumerable<IRuntimeCard> GiveCards(string ownerId, params int[] runtimeIds)
         {
             var cards = context.ObjectsCollection
-                .GetAll<IRuntimeCard>(ObjectState.InDeck, ownerId, asQuery: true, runtimeIds)
+                .GetAll<IRuntimeCard>(ObjectState.Deck, ownerId, asQuery: true, runtimeIds)
                 .ToArray();
 
             MoveToHand(cards);
@@ -47,7 +47,7 @@ namespace CCG.Shared.Game.Context.Processors
         private static void MoveToHand(IEnumerable<IRuntimeCard> cards, bool notify = true)
         {
             foreach (var runtimeCard in cards)
-                runtimeCard.SetState(ObjectState.InHand, notify: notify);
+                runtimeCard.SetState(ObjectState.Hand, notify: notify);
         }
     }
 }

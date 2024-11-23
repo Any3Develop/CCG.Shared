@@ -29,6 +29,7 @@ namespace CCG.Shared.Abstractions.Game.Context
         #endregion
 
         #region Logic Context
+        IWinConditionProcessor WinConditionProcessor { get; }
         ITurnProcessor TurnProcessor { get; }
         ICroupierProcessor CroupierProcessor { get; }
         IObjectEventProcessor ObjectEventProcessor { get; }
