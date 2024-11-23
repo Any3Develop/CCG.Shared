@@ -32,6 +32,12 @@ namespace CCG.Shared.Game.Context.Processors
             eventSource.Subscribe<AfterObjectAddedEvent>(data =>
                 queueCollector.Register(new AddedObject{RuntimeModel = data.RuntimeObject.RuntimeModel.DeepCopy()}));
 
+            eventSource.Subscribe<AfterObjectSpawnedEvent>(data =>
+                queueCollector.Register(new ObjectSpawned().Map(data.RuntimeObject.RuntimeModel)));
+
+            eventSource.Subscribe<AfterObjectHitReceivedEvent>(data =>
+                queueCollector.Register(new ObjectHit{RuntimeObjectId = data.Hit.Target.RuntimeModel.Id, Value = data.Hit.Damage}));
+
             eventSource.Subscribe<AfterObjectDeletedEvent>(data =>
                 queueCollector.Register(new ObjectDeleted{RuntimeModel = data.RuntimeObject.RuntimeModel.DeepCopy()}));
             

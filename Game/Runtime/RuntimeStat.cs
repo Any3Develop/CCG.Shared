@@ -2,6 +2,7 @@
 using CCG.Shared.Abstractions.Game.Context.EventSource;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
+using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Events.Context.Stats;
 
@@ -11,6 +12,8 @@ namespace CCG.Shared.Game.Runtime
     {
         public StatConfig Config { get; private set; }
         public IRuntimeStatModel RuntimeModel { get; private set; }
+        public int Current => RuntimeModel?.Value ?? default;
+        public int Max => RuntimeModel?.Max ?? default;
         public IEventPublisher EventPublisher { get; private set; }
         public IEventsSource EventsSource { get; private set; }
 
@@ -57,6 +60,26 @@ namespace CCG.Shared.Game.Runtime
         {
             OnBeforeChanged(notify);
             RuntimeModel.Value = Math.Min(value, RuntimeModel.Max);
+            OnAfterChanged(notify);
+        }
+
+        public void Add(int value, bool notify = true)
+        {
+            if (value < 0)
+                throw new InvalidOperationException($"Can't add less than zero [{value}] to the stat : {RuntimeModel.AsJsonFormat()}");
+            
+            OnBeforeChanged(notify);
+            RuntimeModel.Value += value;
+            OnAfterChanged(notify);
+        }
+
+        public void Subtract(int value, bool notify = true)
+        {
+            if (value < 0)
+                throw new InvalidOperationException($"Can't subtract less than zero [{value}] to the stat : {RuntimeModel.AsJsonFormat()}");
+            
+            OnBeforeChanged(notify);
+            RuntimeModel.Value -= value;
             OnAfterChanged(notify);
         }
 

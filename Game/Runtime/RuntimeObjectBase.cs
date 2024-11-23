@@ -7,6 +7,7 @@ using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Config;
 using CCG.Shared.Game.Enums;
 using CCG.Shared.Game.Events.Context.Objects;
+using CCG.Shared.Game.Runtime.Args;
 
 namespace CCG.Shared.Game.Runtime
 {
@@ -61,6 +62,19 @@ namespace CCG.Shared.Game.Runtime
             return this;
         }
 
+        public bool ReceiveHit(HitArgs hit)
+        {
+            if (!hit.Attacker.IsAlive || !IsAlive || hit.Target != this)
+                return false;
+            
+            var result = OnReceiveDamage(hit);
+
+            if (hit.Type.HasFlag(DamageType.Direct) && StatsCollection.TryGet(StatType.Attack, out var attackStat))
+                hit.Attacker.ReceiveHit(new HitArgs(this, hit.Attacker, attackStat.Current, DamageType.CounterAttack));
+
+            return result;
+        }
+
         public void SetState(ObjectState value, ObjectState? previous = null, bool notify = true)
         {
             if (notify)
@@ -72,8 +86,42 @@ namespace CCG.Shared.Game.Runtime
             if (notify)
                 EventPublisher.Publish(new AfterObjectStateChangedEvent(this));
         }
-        
+
+        public virtual void Spawn(bool notify = true)
+        {
+            SetState(ObjectState.Table, notify:notify);
+            
+            if (notify)
+                EventPublisher.Publish(new AfterObjectSpawnedEvent(this));
+        }
+
         #region IRuntimeObjectBase
+
+        protected virtual bool OnReceiveDamage(HitArgs hit)
+        {
+            var result = false;
+            var damage = hit.Damage;
+            if (StatsCollection.TryGet(StatType.Armor, out var armorStat) && armorStat.Current > 0)
+            {
+                armorStat.Subtract(1);
+                if (armorStat.Current <= 0)
+                    StatsCollection.Remove(armorStat);
+
+                damage = 0;
+                result = true;
+            }
+            
+            if (damage > 0 && StatsCollection.TryGet(StatType.Hp, out var hpStat) && hpStat.Current > 0)
+            {
+                hpStat.Subtract(damage);
+                result = true;
+            }
+
+            if (result)
+                EventPublisher.Publish(new AfterObjectHitReceivedEvent(hit));
+            
+            return result;
+        }
         protected abstract bool IsObjectAlive();
         
         IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
