@@ -4,6 +4,6 @@ namespace CCG.Shared.Abstractions.Game.Context.Processors
 {
     public interface IObjectEventProcessor
     {
-        void Subscribe(IRuntimeObjectBase runtimeObject);
+        void Subscribe(IRuntimeBase runtimeObject);
     }
 }

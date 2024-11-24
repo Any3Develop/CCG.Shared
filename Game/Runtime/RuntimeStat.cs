@@ -117,9 +117,9 @@ namespace CCG.Shared.Game.Runtime
 
         #region IRuntimeObjectBase
 
-        IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
+        IRuntimeBaseModel IRuntimeBase.RuntimeModel => RuntimeModel;
 
-        IConfig IRuntimeObjectBase.Config => Config;
+        IConfig IRuntimeBase.Config => Config;
 
         #endregion
     }

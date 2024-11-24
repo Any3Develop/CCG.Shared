@@ -4,7 +4,7 @@ using CCG.Shared.Game.Config;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimePlayer : IRuntimeObjectBase
+    public interface IRuntimePlayer : IRuntimeBase
     {
         new PlayerConfig Config { get; }
         new IRuntimePlayerModel RuntimeModel { get; }

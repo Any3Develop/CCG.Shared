@@ -1,4 +1,5 @@
-﻿using CCG.Shared.Abstractions.Game.Context.Processors;
+﻿using CCG.Shared.Abstractions.Game.Context;
+using CCG.Shared.Abstractions.Game.Context.Processors;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Events.Context.Cards;
@@ -11,21 +12,22 @@ namespace CCG.Shared.Game.Context.Processors
 {
     public class ObjectEventProcessor : IObjectEventProcessor
     {
-        private readonly IGameQueueCollector queueCollector;
+        private readonly IContext context;
 
-        public ObjectEventProcessor(IGameQueueCollector queueCollector)
+        public ObjectEventProcessor(IContext context)
         {
-            this.queueCollector = queueCollector;
+            this.context = context;
         }
 
-        public void Subscribe(IRuntimeObjectBase runtimeObject)
+        public void Subscribe(IRuntimeBase runtimeObject)
         {
             OnSubscribe(runtimeObject);
         }
 
-        protected virtual void OnSubscribe(IRuntimeObjectBase runtimeObject)
+        protected virtual void OnSubscribe(IRuntimeBase runtimeObject)
         {
             var eventSource = runtimeObject.EventsSource;
+            var queueCollector = context.GameQueueCollector;
 
             #region Object
 
@@ -36,7 +38,7 @@ namespace CCG.Shared.Game.Context.Processors
                 queueCollector.Register(new ObjectSpawned().Map(data.RuntimeObject.RuntimeModel)));
 
             eventSource.Subscribe<AfterObjectHitReceivedEvent>(data =>
-                queueCollector.Register(new ObjectHit{RuntimeObjectId = data.Hit.Target.RuntimeModel.Id, Value = data.Hit.Damage}));
+                queueCollector.Register(new ObjectHit().Map(data)));
 
             eventSource.Subscribe<AfterObjectDeletedEvent>(data =>
                 queueCollector.Register(new ObjectDeleted{RuntimeModel = data.RuntimeObject.RuntimeModel.DeepCopy()}));

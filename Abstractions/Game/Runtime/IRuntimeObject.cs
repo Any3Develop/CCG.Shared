@@ -6,7 +6,7 @@ using CCG.Shared.Game.Runtime.Args;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimeObject : IRuntimeObjectBase
+    public interface IRuntimeObject : IRuntimeBase
     {
         new ObjectConfig Config { get; }
         new IRuntimeObjectModel RuntimeModel { get; }
@@ -14,7 +14,7 @@ namespace CCG.Shared.Abstractions.Game.Runtime
         IStatsCollection StatsCollection { get; }
         IEffectsCollection EffectsCollection { get; }
 
-        IRuntimeObject Sync(IRuntimeObjectModel runtimeModel);
+        void Sync(IRuntimeObjectModel runtimeModel);
         bool ReceiveHit(HitArgs hit);
         void SetState(ObjectState value, ObjectState? previous = null, bool notify = true);
         void Spawn(bool notify = true);

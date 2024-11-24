@@ -19,6 +19,7 @@ namespace CCG.Shared.Game.Context
             Context.GameQueueCollector.Start();
             Context.ContextEventProcessor.Start();
             Context.WinConditionProcessor.Start();
+            Context.RuntimeTimer.Start();
             // TODO setup game and wait for an action from players
             // TODO Callbacks
         }
@@ -37,6 +38,7 @@ namespace CCG.Shared.Game.Context
             Context.GameQueueCollector.End();
             Context.ContextEventProcessor.End();
             Context.WinConditionProcessor.End();
+            Context.RuntimeTimer.End();
             // TODO make an action for end the game, block all actions
             // TODO Callbacks
         }

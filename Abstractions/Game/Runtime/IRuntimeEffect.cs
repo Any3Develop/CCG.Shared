@@ -3,7 +3,7 @@ using CCG.Shared.Game.Config;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimeEffect : IRuntimeObjectBase
+    public interface IRuntimeEffect : IRuntimeBase
     {
         new EffectConfig Config { get; }
         new IRuntimeEffectModel RuntimeModel { get; }

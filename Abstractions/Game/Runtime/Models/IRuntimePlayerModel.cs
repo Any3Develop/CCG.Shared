@@ -1,6 +1,6 @@
 ﻿namespace CCG.Shared.Abstractions.Game.Runtime.Models
 {
-    public interface IRuntimePlayerModel : IRuntimeModelBase
+    public interface IRuntimePlayerModel : IRuntimeBaseModel
     {
         string Name { get; }
         bool Ready { get; set; }

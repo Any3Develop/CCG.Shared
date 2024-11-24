@@ -9,41 +9,39 @@ namespace CCG.Shared.Abstractions.Game.Factories
     public interface IContextFactory
     {
         #region Collections
-        IObjectsCollection CreateObjectsCollection(params object[] args);
-        IEffectsCollection CreateEffectsCollection(params object[] args);
-        IStatsCollection CreateStatsCollection(params object[] args);
-        IPlayersCollection CreatePlayersCollection(params object[] args);
+        IObjectsCollection CreateObjectsCollection(IEventPublisher eventPublisher);
+        IEffectsCollection CreateEffectsCollection(IEventPublisher eventPublisher);
+        IStatsCollection CreateStatsCollection(IEventPublisher eventPublisher);
+        IPlayersCollection CreatePlayersCollection();
         #endregion
 
         #region Logic
         IEventsSource CreateEventsSource(params object[] args);
         IEventPublisher CreateEventPublisher(params object[] args);
-        IRuntimeIdProvider CreateRuntimeIdProvider(params object[] args);
-        IRuntimeOrderProvider CreateRuntimeOrderProvider(params object[] args);
-        IRuntimeRandomProvider CreateRuntimeRandomProvider(params object[] args);
-        ICommandProcessor CreateCommandProcessor(params object[] args);
-        IGameQueueCollector CreateGameQueueCollector(params object[] args);
-        IObjectEventProcessor CreateObjectEventProcessor(params object[] args);
-        IContextEventProcessor CreateContextEventProcessor(params object[] args);
-        IGameEventProcessor CreateGameEventProcessor(params object[] args);
-        ICroupierProcessor CreateCroupierProcessor(params object[] args);
-        ITurnProcessor CreateTurnProcessor(params object[] args);
-        IWinConditionProcessor CreateWinConditionProcessor(params object[] args);
+        IRuntimeIdProvider CreateRuntimeIdProvider();
+        IRuntimeOrderProvider CreateRuntimeOrderProvider();
+        IRuntimeRandomProvider CreateRuntimeRandomProvider();
+        ICommandProcessor CreateCommandProcessor(IContext context);
+        IGameQueueCollector CreateGameQueueCollector(IContext context);
+        IObjectEventProcessor CreateObjectEventProcessor(IContext context);
+        IContextEventProcessor CreateContextEventProcessor(IContext context);
+        IGameEventProcessor CreateGameEventProcessor(IContext context);
+        ICroupierProcessor CreateCroupierProcessor(IContext context);
+        ITurnProcessor CreateTurnProcessor(IContext context);
+        IWinConditionProcessor CreateWinConditionProcessor(IContext context);
         #endregion
 
         #region Factories
-        ICommandFactory CreateCommandFactory(params object[] args);
-        IRuntimeStatFactory CreateStatFactory(params object[] args);
-        IRuntimeObjectFactory CreateObjectFactory(params object[] args);
-        IRuntimePlayerFactory CreatePlayerFactory(params object[] args);
-        IRuntimeEffectFactory CreateEffectFactory(params object[] args);
-        IRuntimeTimerFactory CreateTimerFactory(params object[] args);
+        ICommandFactory CreateCommandFactory(IContext context);
+        IRuntimeStatFactory CreateStatFactory(IContext context);
+        IRuntimeObjectFactory CreateObjectFactory(IContext context);
+        IRuntimePlayerFactory CreatePlayerFactory(IContext context);
+        IRuntimeEffectFactory CreateEffectFactory(IContext context);
+        IRuntimeTimerFactory CreateTimerFactory(IContext context);
         #endregion
 
         #region Context
-
-        IContext CreateContext(params object[] args);
-
+        IContext CreateContext();
         #endregion
     }
 }

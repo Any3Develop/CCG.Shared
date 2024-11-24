@@ -1,6 +1,5 @@
-﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
+﻿using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Processors;
-using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Common.Utils;
 using CCG.Shared.Game.Events.Context.Queue;
 using CCG.Shared.Game.Events.Output;
@@ -9,22 +8,12 @@ namespace CCG.Shared.Game.Context.Processors
 {
     public class ContextEventProcessor : IContextEventProcessor
     {
-        private readonly IEventsSource eventsSource;
-        private readonly IRuntimeIdProvider idProvider;
-        private readonly IRuntimeOrderProvider orderProvider;
-        private readonly IRuntimeRandomProvider randomProvider;
+        private readonly IContext context;
         private IDisposable releaseQueueListener;
 
-        public ContextEventProcessor(
-            IEventsSource eventsSource,
-            IRuntimeIdProvider idProvider,
-            IRuntimeOrderProvider orderProvider,
-            IRuntimeRandomProvider randomProvider)
+        public ContextEventProcessor(IContext context)
         {
-            this.eventsSource = eventsSource;
-            this.orderProvider = orderProvider;
-            this.idProvider = idProvider;
-            this.randomProvider = randomProvider;
+            this.context = context;
         }
 
         public virtual void Start()
@@ -32,7 +21,11 @@ namespace CCG.Shared.Game.Context.Processors
             if (releaseQueueListener != null)
                 return;
 
-            releaseQueueListener = eventsSource.Subscribe<AfterGameQueueReleasedEvent>(data =>
+            var orderProvider = context.RuntimeOrderProvider;
+            var idProvider = context.RuntimeIdProvider;
+            var randomProvider = context.RuntimeRandomProvider;
+            
+            releaseQueueListener = context.EventSource.Subscribe<AfterGameQueueReleasedEvent>(data =>
             {
                 var syncRandomEvent = new SyncRuntimeRandom();
                 var syncOrderEvent = new SyncRuntimeOrder();

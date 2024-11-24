@@ -14,18 +14,17 @@ namespace CCG.Shared.Game.Runtime
 {
     public class RuntimeTimer : IRuntimeTimer
     {
-        public TimerConfig Config { get; private set; }
+        public TimerConfig Config { get; }
         public IRuntimeTimerModel RuntimeModel { get; private set; }
-        public IEventPublisher EventPublisher { get; private set; }
+        public IEventPublisher EventPublisher { get; }
 
-        private IPlayersCollection playersCollection;
-        private ISystemTimers systemTimers;
+        private readonly IPlayersCollection playersCollection;
+        private readonly ISystemTimers systemTimers;
         private IDisposables disposables;
         private string timerId;
 
         public RuntimeTimer(
             TimerConfig config,
-            IRuntimeTimerModel runtimeModel,
             IPlayersCollection playersCollection,
             IEventPublisher eventPublisher,
             ISystemTimers systemTimers)
@@ -34,31 +33,33 @@ namespace CCG.Shared.Game.Runtime
             EventPublisher = eventPublisher;
             this.systemTimers = systemTimers;
             this.playersCollection = playersCollection;
-
-            this.systemTimers.EventsSource.Subscribe<SystemTimerTickEvent>(OnTimerTick).AddTo(ref disposables);
-            this.systemTimers.EventsSource.Subscribe<SystemTimerEndedEvent>(() => PassTurn()).AddTo(disposables);
-            Sync(runtimeModel);
+        }
+        
+        public void Start()
+        {
+            if (disposables != null)
+                return;
+            
+            systemTimers.EventsSource.Subscribe<SystemTimerTickEvent>(OnTimerTick).AddTo(ref disposables);
+            systemTimers.EventsSource.Subscribe<SystemTimerEndedEvent>(() => PassTurn()).AddTo(disposables);
         }
 
-        public void Dispose()
+        public void End()
         {
             if (disposables == null)
                 return;
             
+            SetOwner(null, false);
+            SwitchState(TimerState.Ended);
             disposables?.Dispose();
             systemTimers?.Remove(timerId);
-            Config = null;
-            RuntimeModel = null;
-            EventPublisher = null;
-            playersCollection = null;
-            systemTimers = null;
-            disposables = null;
+            timerId = null;
         }
 
         public IRuntimeTimer Sync(IRuntimeTimerModel runtimeModel)
         {
             RuntimeModel = runtimeModel;
-            Start(runtimeModel.TimeLeftMs);
+            Start(RuntimeModel.TimeLeftMs);
             return this;
         }
 
@@ -80,7 +81,7 @@ namespace CCG.Shared.Game.Runtime
             OnChanged(notify);
         }
 
-        public void SwitchState(TimerState value, bool notify)
+        public void SwitchState(TimerState value, bool notify = true)
         {
             if (IsNotInitialized())
                 return;
@@ -198,12 +199,14 @@ namespace CCG.Shared.Game.Runtime
 
         private void Start(int durationMs)
         {
-            if (IsNotInitialized())
+            if (IsNotInitialized() || HasAny(TimerState.NotStarted))
                 return;
             
             systemTimers.Remove(timerId);
             RuntimeModel.TimeLeftMs = durationMs;
-            timerId = systemTimers.Start(durationMs, 0, 1000);
+            if (durationMs > 0)
+                timerId = systemTimers.Start(durationMs, 0, 1000);
+            
             systemTimers.Pause(timerId, HasAny(TimerState.Paused));
         }
         
@@ -234,11 +237,7 @@ namespace CCG.Shared.Game.Runtime
 
         private bool IsNotInitialized()
         {
-            if (RuntimeModel?.State is not (null or TimerState.Ended)) 
-                return false;
-            
-            Dispose();
-            return true;
+            return RuntimeModel?.State is null || HasAny(TimerState.Ended);
         }
 
         private bool HasAny(TimerState flags)

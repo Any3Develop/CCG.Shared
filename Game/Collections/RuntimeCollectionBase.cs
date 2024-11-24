@@ -5,7 +5,7 @@ using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Collections
 {
-    public abstract class RuntimeCollectionBase<TRuntime> : IRuntimeCollection<TRuntime> where TRuntime : IRuntimeObjectBase
+    public abstract class RuntimeCollectionBase<TRuntime> : IRuntimeCollection<TRuntime> where TRuntime : IRuntimeBase
     {
         protected readonly List<TRuntime> Runtimes = new();
         protected IList LinkedModels;

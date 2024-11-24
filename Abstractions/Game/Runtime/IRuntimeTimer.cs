@@ -4,10 +4,13 @@ using CCG.Shared.Game.Enums;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimeTimer : IDisposable
+    public interface IRuntimeTimer
     {
         TimerConfig Config { get; }
         IRuntimeTimerModel RuntimeModel { get; }
+
+        void Start();
+        void End();
         
         IRuntimeTimer Sync(IRuntimeTimerModel runtimeModel);
         void SetState(TimerState value, bool notify = true);

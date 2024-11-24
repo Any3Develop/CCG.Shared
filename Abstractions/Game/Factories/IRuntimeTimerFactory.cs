@@ -7,6 +7,6 @@ namespace CCG.Shared.Abstractions.Game.Factories
     {
         IRuntimeTimerModel CreateModel();
 
-        IRuntimeTimer Create(IRuntimeTimerModel runtimeModel);
+        IRuntimeTimer Create();
     }
 }

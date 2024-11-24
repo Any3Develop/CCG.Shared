@@ -6,6 +6,10 @@ namespace CCG.Shared.Abstractions.Game.Collections
     {
         int Count { get; }
         TRuntime this[int index] { get; }
+        /// <summary>
+        /// Manages a list of DTOs or Models through composition with RuntimeObjects.
+        /// Adding, deleting and moving RuntimeObject is reflected in the external list.
+        /// </summary>
         void LinkModelsList<TModel>(List<TModel> external) where TModel : IContextModel;
         void Replace(TRuntime value);
         

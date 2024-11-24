@@ -4,10 +4,10 @@ using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimeObjectBase : IDisposable
+    public interface IRuntimeBase : IDisposable
     {
         IConfig Config { get; }
-        IRuntimeModelBase RuntimeModel { get; }
+        IRuntimeBaseModel RuntimeModel { get; }
         
         IEventsSource EventsSource { get; }
         IEventPublisher EventPublisher { get; }

@@ -1,4 +1,5 @@
-﻿using CCG.Shared.Abstractions.Game.Runtime.Models;
+﻿using CCG.Shared.Abstractions.Game.Runtime.Args;
+using CCG.Shared.Abstractions.Game.Runtime.Models;
 
 namespace CCG.Shared.Game.Runtime.Models
 {
@@ -10,10 +11,12 @@ namespace CCG.Shared.Game.Runtime.Models
         public int RuntimeOwnerId { get; set; }
         public int Value { get; set; }
         public int Lifetime { get; set; }
-        
+        public List<int> Targets { get; set; }
+        public List<IRuntimeEffectArg> Args { get; set; }
+
         public override bool Equals(object obj)
         {
-            return obj is IRuntimeModelBase other && other.Id == Id;
+            return obj is IRuntimeBaseModel other && other.Id == Id;
         }
         
         public override int GetHashCode()

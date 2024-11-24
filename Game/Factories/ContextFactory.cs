@@ -21,7 +21,7 @@ namespace CCG.Shared.Game.Factories
         private readonly ISharedTime sharedTime;
         private readonly ISystemTimers systemTimers;
         private readonly IEventsSourceFactory eventsSourceFactory;
-        private readonly ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection;
+        private readonly ITypeCollection<EffectLogicId, RuntimeEffectBase> logicTypeCollection;
         private readonly ITypeCollection<string, Command> commandTypeCollection;
 
         public ContextFactory(
@@ -30,7 +30,7 @@ namespace CCG.Shared.Game.Factories
             ISharedTime sharedTime,
             ISystemTimers systemTimers,
             IEventsSourceFactory eventsSourceFactory,
-            ITypeCollection<LogicId, RuntimeEffectBase> logicTypeCollection, 
+            ITypeCollection<EffectLogicId, RuntimeEffectBase> logicTypeCollection, 
             ITypeCollection<string, Command> commandTypeCollection)
         {
             this.database = database;
@@ -43,22 +43,22 @@ namespace CCG.Shared.Game.Factories
         }
 
         #region Collections
-        public IObjectsCollection CreateObjectsCollection(params object[] args)
+        public IObjectsCollection CreateObjectsCollection(IEventPublisher eventPublisher)
         {
-            return new ObjectsCollection(GetRequiredArgument<IEventPublisher>(args));
+            return new ObjectsCollection(eventPublisher);
         }
 
-        public IEffectsCollection CreateEffectsCollection(params object[] args)
+        public IEffectsCollection CreateEffectsCollection(IEventPublisher eventPublisher)
         {
-            return new EffectsCollection(GetRequiredArgument<IEventPublisher>(args));
+            return new EffectsCollection(eventPublisher);
         }
 
-        public IStatsCollection CreateStatsCollection(params object[] args)
+        public IStatsCollection CreateStatsCollection(IEventPublisher eventPublisher)
         {
-            return new StatsCollection(GetRequiredArgument<IEventPublisher>(args));
+            return new StatsCollection(eventPublisher);
         }
 
-        public IPlayersCollection CreatePlayersCollection(params object[] args)
+        public IPlayersCollection CreatePlayersCollection()
         {
             return new PlayersCollection();
         }
@@ -75,148 +75,102 @@ namespace CCG.Shared.Game.Factories
             return eventsSourceFactory.CreatePublisher(args);
         }
 
-        public IRuntimeIdProvider CreateRuntimeIdProvider(params object[] args)
+        public IRuntimeIdProvider CreateRuntimeIdProvider()
         {
             return new RuntimeIdProvider();
         }
 
-        public IRuntimeOrderProvider CreateRuntimeOrderProvider(params object[] args)
+        public IRuntimeOrderProvider CreateRuntimeOrderProvider()
         {
             return new RuntimeOrderProvider();
         }
         
-        public IRuntimeRandomProvider CreateRuntimeRandomProvider(params object[] args)
+        public IRuntimeRandomProvider CreateRuntimeRandomProvider()
         {
             return new RuntimeRandomProvider();
         }
 
-        public ICommandProcessor CreateCommandProcessor(params object[] args)
+        public ICommandProcessor CreateCommandProcessor(IContext context)
         {
-            var context = GetRequiredArgument<IContext>(args);
-            return new CommandProcessor(
-                context,
-                CreateCommandFactory(context));
+            return new CommandProcessor(context);
         }
 
-        public IGameQueueCollector CreateGameQueueCollector(params object[] args)
+        public IGameQueueCollector CreateGameQueueCollector(IContext context)
         {
-            return new GameQueueCollector(
-                GetRequiredArgument<IEventsSource>(args),
-                GetRequiredArgument<IEventPublisher>(args),
-                GetRequiredArgument<IRuntimeOrderProvider>(args));
+            return new GameQueueCollector(context);
         }
 
-        public IObjectEventProcessor CreateObjectEventProcessor(params object[] args)
+        public IObjectEventProcessor CreateObjectEventProcessor(IContext context)
         {
-            return new ObjectEventProcessor(GetRequiredArgument<IGameQueueCollector>(args));
+            return new ObjectEventProcessor(context);
         }
 
-        public IContextEventProcessor CreateContextEventProcessor(params object[] args)
+        public IContextEventProcessor CreateContextEventProcessor(IContext context)
         {
-            return new ContextEventProcessor(
-                GetRequiredArgument<IEventsSource>(args),
-                GetRequiredArgument<IRuntimeIdProvider>(args),
-                GetRequiredArgument<IRuntimeOrderProvider>(args),
-                GetRequiredArgument<IRuntimeRandomProvider>(args));
+            return new ContextEventProcessor(context);
         }
 
-        public IGameEventProcessor CreateGameEventProcessor(params object[] args)
+        public IGameEventProcessor CreateGameEventProcessor(IContext context)
         {
-            return new GameEventProcessor(GetRequiredArgument<IContext>(args));
+            return new GameEventProcessor(context);
         }
         
-        public ICroupierProcessor CreateCroupierProcessor(params object[] args)
+        public ICroupierProcessor CreateCroupierProcessor(IContext context)
         {
-            return new CroupierProcessor(GetRequiredArgument<IContext>(args));
+            return new CroupierProcessor(context);
         }
         
-        public ITurnProcessor CreateTurnProcessor(params object[] args)
+        public ITurnProcessor CreateTurnProcessor(IContext context)
         {
-            return new TurnProcessor(GetRequiredArgument<IContext>(args));
+            return new TurnProcessor(context);
         }
         
-        public IWinConditionProcessor CreateWinConditionProcessor(params object[] args)
+        public IWinConditionProcessor CreateWinConditionProcessor(IContext context)
         {
-            return new WinConditionProcessor(GetRequiredArgument<IContext>(args));
+            return new WinConditionProcessor(context);
         }
 
         #endregion
 
         #region Factories
-        public ICommandFactory CreateCommandFactory(params object[] args)
+        public ICommandFactory CreateCommandFactory(IContext context)
         {
-            return new CommandFactory(
-                GetRequiredArgument<IContext>(),
-                commandTypeCollection);
+            return new CommandFactory(context, commandTypeCollection);
         }
         
-        public IRuntimeStatFactory CreateStatFactory(params object[] args)
+        public IRuntimeStatFactory CreateStatFactory(IContext context)
         {
-            return new RuntimeStatFactory(
-                database, 
-                GetRequiredArgument<IObjectsCollection>(), 
-                GetRequiredArgument<IPlayersCollection>(), 
-                GetRequiredArgument<IRuntimeIdProvider>());
+            return new RuntimeStatFactory(context);
         }
 
-        public IRuntimeObjectFactory CreateObjectFactory(params object[] args)
+        public IRuntimeObjectFactory CreateObjectFactory(IContext context)
         {
-            return new RuntimeObjectFactory(
-                database, 
-                GetRequiredArgument<IObjectsCollection>(), 
-                GetRequiredArgument<IRuntimeIdProvider>(),
-                GetRequiredArgument<IRuntimeStatFactory>(),
-                GetRequiredArgument<IRuntimeEffectFactory>(),
-                GetRequiredArgument<IObjectEventProcessor>(),
-                this);
+            return new RuntimeObjectFactory(context);
         }
 
-        public IRuntimePlayerFactory CreatePlayerFactory(params object[] args)
+        public IRuntimePlayerFactory CreatePlayerFactory(IContext context)
         {
-            return new RuntimePlayerFactory(
-                config,
-                GetRequiredArgument<IPlayersCollection>(),
-                GetRequiredArgument<IRuntimeIdProvider>(),
-                GetRequiredArgument<IRuntimeStatFactory>(),
-                this);
+            return new RuntimePlayerFactory(context);
         }
 
-        public IRuntimeEffectFactory CreateEffectFactory(params object[] args)
+        public IRuntimeEffectFactory CreateEffectFactory(IContext context)
         {
-            return new RuntimeEffectFactory(
-                database, 
-                GetRequiredArgument<IObjectsCollection>(), 
-                GetRequiredArgument<IRuntimeIdProvider>(),
-                logicTypeCollection);
+            return new RuntimeEffectFactory(context, logicTypeCollection);
         }
 
-        public IRuntimeTimerFactory CreateTimerFactory(params object[] args)
+        public IRuntimeTimerFactory CreateTimerFactory(IContext context)
         {
-            return new RuntimeTimerFactory(
-                config, 
-                GetRequiredArgument<IContext>());
+            return new RuntimeTimerFactory(context);
         }
 
         #endregion
 
         #region Context
         
-        public virtual IContext CreateContext(params object[] args)
+        public virtual IContext CreateContext()
         {
             var eventsSource = CreateEventsSource();
             var eventPublisher = CreateEventPublisher(eventsSource);
-            var objectsCollection = CreateObjectsCollection(eventPublisher);
-            var playersCollection = CreatePlayersCollection();
-
-            
-            var randomProvider = CreateRuntimeRandomProvider();
-            var orderProvider = CreateRuntimeOrderProvider();
-            var idProvider = CreateRuntimeIdProvider();
-
-            var statFactory = CreateStatFactory(objectsCollection, idProvider, playersCollection);
-            var effectFactory = CreateEffectFactory(objectsCollection, idProvider);
-            var gameQueueCollector = CreateGameQueueCollector(eventsSource, eventPublisher, orderProvider);
-            var objectEventProcessor = CreateObjectEventProcessor(gameQueueCollector);
             
             var context = new SharedContext
             {
@@ -224,37 +178,33 @@ namespace CCG.Shared.Game.Factories
                 SharedTime = sharedTime,
                 Config = config,
                 Database = database,
-                ObjectsCollection = objectsCollection,
-                PlayersCollection = playersCollection,
-                RuntimeRandomProvider = randomProvider,
-                RuntimeOrderProvider = orderProvider,
-                RuntimeIdProvider = idProvider,
-
-                ObjectEventProcessor = objectEventProcessor,
-                ContextEventProcessor = CreateContextEventProcessor(eventsSource, idProvider, orderProvider, randomProvider),
-                GameQueueCollector = gameQueueCollector,
+                ObjectsCollection = CreateObjectsCollection(eventPublisher),
+                PlayersCollection = CreatePlayersCollection(),
+                RuntimeRandomProvider = CreateRuntimeRandomProvider(),
+                RuntimeOrderProvider = CreateRuntimeOrderProvider(),
+                RuntimeIdProvider = CreateRuntimeIdProvider(),
                 EventPublisher = eventPublisher,
                 EventSource = eventsSource,
-
-                ObjectFactory = CreateObjectFactory(objectsCollection, idProvider, statFactory, objectEventProcessor, effectFactory),
-                PlayerFactory = CreatePlayerFactory(playersCollection, idProvider, statFactory),
-                EffectFactory = effectFactory,
-                StatFactory = statFactory,
                 ContextFactory = this,
             };
-
+            
+            context.GameQueueCollector = CreateGameQueueCollector(context);
+            context.ObjectEventProcessor = CreateObjectEventProcessor(context);
+            context.ContextEventProcessor = CreateContextEventProcessor(context);
+            context.CommandFactory = CreateCommandFactory(context);
+            context.StatFactory = CreateStatFactory(context);
+            context.PlayerFactory = CreatePlayerFactory(context);
+            context.EffectFactory = CreateEffectFactory(context);
+            context.ObjectFactory = CreateObjectFactory(context);
             context.WinConditionProcessor = CreateWinConditionProcessor(context);
             context.TurnProcessor = CreateTurnProcessor(context);
             context.CroupierProcessor = CreateCroupierProcessor(context);
             context.GameEventProcessor = CreateGameEventProcessor(context);
             context.CommandProcessor = CreateCommandProcessor(context);
             context.TimerFactory = CreateTimerFactory(context);
+            context.RuntimeTimer = context.TimerFactory.Create();
+            
             return context;
-        }
-
-        private static T GetRequiredArgument<T>(params object[] args)
-        {
-            return (T) args.FirstOrDefault(x => x is T);
         }
         #endregion
     }

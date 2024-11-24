@@ -2,7 +2,7 @@
 
 namespace CCG.Shared.Abstractions.Game.Runtime.Models
 {
-    public interface IRuntimeObjectModel : IRuntimeModelBase
+    public interface IRuntimeObjectModel : IRuntimeBaseModel
     {
         List<string> EffectIds { get; }
         List<IRuntimeEffectModel> Applied { get; }

@@ -5,9 +5,9 @@ namespace CCG.Shared.Game.Attributes
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class EffectLogicAttribute : Attribute
     {
-        public LogicId Value { get; }
+        public EffectLogicId Value { get; }
 
-        public EffectLogicAttribute(LogicId value)
+        public EffectLogicAttribute(EffectLogicId value)
         {
             Value = value;
         }

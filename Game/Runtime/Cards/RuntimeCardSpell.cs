@@ -1,4 +1,5 @@
 ﻿using CCG.Shared.Game.Enums;
+using CCG.Shared.Game.Runtime.Args;
 
 namespace CCG.Shared.Game.Runtime.Cards
 {
@@ -11,5 +12,8 @@ namespace CCG.Shared.Game.Runtime.Cards
                    && RuntimeModel.State != ObjectState.Graveyard 
                    && RuntimeModel.State != ObjectState.Destroyed;
         }
+
+        protected override bool OnReceiveDamage(ref HitArgs hit) => false;
+        protected override bool TryCounterAttack(ref HitArgs hit) => false;
     }
 }

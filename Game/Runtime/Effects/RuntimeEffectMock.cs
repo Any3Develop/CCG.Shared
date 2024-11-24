@@ -3,6 +3,6 @@ using CCG.Shared.Game.Enums;
 
 namespace CCG.Shared.Game.Runtime.Effects
 {
-    [EffectLogic(LogicId.None)]
+    [EffectLogic(EffectLogicId.None)]
     public class RuntimeEffectMock : RuntimeEffectBase {}
 }

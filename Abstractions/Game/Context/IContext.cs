@@ -5,7 +5,6 @@ using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
 using CCG.Shared.Abstractions.Game.Runtime.Models;
-using CCG.Shared.Game.Context.Processors;
 
 namespace CCG.Shared.Abstractions.Game.Context
 {
@@ -20,7 +19,7 @@ namespace CCG.Shared.Abstractions.Game.Context
 
         #region Runtime Context
         IRuntimeContextModel RuntimeData { get; }
-        IRuntimeTimer RuntimeTimer { get; set; }
+        IRuntimeTimer RuntimeTimer { get; }
         IObjectsCollection ObjectsCollection { get; }
         IPlayersCollection PlayersCollection { get; }
         IRuntimeRandomProvider RuntimeRandomProvider { get; }
@@ -39,12 +38,14 @@ namespace CCG.Shared.Abstractions.Game.Context
         IGameQueueCollector GameQueueCollector { get; }
         IEventPublisher EventPublisher { get; }
         IEventsSource EventSource { get; }
+        ICommandFactory CommandFactory { get; }
         IRuntimeObjectFactory ObjectFactory { get; }
         IRuntimePlayerFactory PlayerFactory { get; }
         IRuntimeEffectFactory EffectFactory { get; }
         IRuntimeStatFactory StatFactory { get; }
         IRuntimeTimerFactory TimerFactory { get; }
         IContextFactory ContextFactory { get; }
+
         #endregion
 
         IContext Sync(IRuntimeContextModel value);

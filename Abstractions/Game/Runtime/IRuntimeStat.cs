@@ -3,7 +3,7 @@ using CCG.Shared.Game.Config;
 
 namespace CCG.Shared.Abstractions.Game.Runtime
 {
-    public interface IRuntimeStat : IRuntimeObjectBase
+    public interface IRuntimeStat : IRuntimeBase
     {
         new StatConfig Config { get; }
         new IRuntimeStatModel RuntimeModel { get; }

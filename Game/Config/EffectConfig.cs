@@ -8,7 +8,7 @@ namespace CCG.Shared.Game.Config
         public string Id { get; private set; }
         public int Value { get; private set; }
         public int Lifetime { get; private set; }
-        public LogicId LogicId { get; private set; }
-        public VisualId VisualId { get; private set; }
+        public EffectLogicId EffectLogicId { get; private set; }
+        public EffectVisualId EffectVisualId { get; private set; }
     }
 }

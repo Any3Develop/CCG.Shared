@@ -12,7 +12,6 @@ namespace CCG.Shared.Game.Context
     public class SharedContext : IContext
     {
         #region Static Context
-
         public ISystemTimers SystemTimers { get; set; }
         public ISharedTime SharedTime { get; set; }
         public ISharedConfig Config { get; set; }
@@ -41,6 +40,7 @@ namespace CCG.Shared.Game.Context
         public IGameQueueCollector GameQueueCollector { get; set; }
         public IEventPublisher EventPublisher { get; set; }
         public IEventsSource EventSource { get; set; }
+        public ICommandFactory CommandFactory { get; set; }
         public IRuntimeObjectFactory ObjectFactory { get; set; }
         public IRuntimePlayerFactory PlayerFactory { get; set; }
         public IRuntimeEffectFactory EffectFactory { get; set; }

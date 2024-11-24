@@ -1,4 +1,4 @@
-﻿using CCG.Shared.Abstractions.Game.Collections;
+﻿using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Abstractions.Game.Runtime;
@@ -11,41 +11,28 @@ namespace CCG.Shared.Game.Factories
 {
     public class RuntimePlayerFactory : IRuntimePlayerFactory
     {
-        private readonly IRuntimeStatFactory runtimeStatFactory;
-        private readonly ISharedConfig sharedConfig;
-        private readonly IPlayersCollection playersCollection;
-        private readonly IRuntimeIdProvider runtimeIdProvider;
-        private readonly IContextFactory contextFactory;
+        private readonly IContext context;
 
-        public RuntimePlayerFactory(
-            ISharedConfig sharedConfig,
-            IPlayersCollection playersCollection,
-            IRuntimeIdProvider runtimeIdProvider,
-            IRuntimeStatFactory runtimeStatFactory,
-            IContextFactory contextFactory)
+        public RuntimePlayerFactory(IContext context)
         {
-            this.sharedConfig = sharedConfig;
-            this.playersCollection = playersCollection;
-            this.runtimeIdProvider = runtimeIdProvider;
-            this.runtimeStatFactory = runtimeStatFactory;
-            this.contextFactory = contextFactory;
+            this.context = context;
         }
 
         public IRuntimePlayerModel CreateModel(string ownerId, int index)
         {
             var dataId = $"default-player-{index}";
-            var playerConfig = sharedConfig.Players.FirstOrDefault(x => x.Id == dataId);
+            var playerConfig = context.Config.Players.FirstOrDefault(x => x.Id == dataId);
             if (playerConfig == null)
                 throw new NullReferenceException($"{nameof(PlayerConfig)} with id {dataId}, not found in {nameof(ISharedConfig)}");
 
-            var runtimeId = runtimeIdProvider.Next();
+            var runtimeId = context.RuntimeIdProvider.Next();
             return new RuntimePlayerModel
             {
                 Id = runtimeId,
                 OwnerId = ownerId,
                 ConfigId = dataId,
                 Stats = playerConfig.Stats
-                    .Select(statId => runtimeStatFactory.CreateModel(runtimeId, ownerId, statId))
+                    .Select(statId => context.StatFactory.CreateModel(runtimeId, ownerId, statId))
                     .ToList()
             };
         }
@@ -56,7 +43,7 @@ namespace CCG.Shared.Game.Factories
             InitIntrnal(runtimePlayer, false);
             
             if (notify)
-                playersCollection.AddNotify(runtimePlayer);
+                context.PlayersCollection.AddNotify(runtimePlayer);
             
             return runtimePlayer;
         }
@@ -69,19 +56,20 @@ namespace CCG.Shared.Game.Factories
 
         private IRuntimePlayer CreateInternal(IRuntimePlayerModel runtimeModel)
         {
-            if (playersCollection.Contains(runtimeModel.OwnerId))
+            if (context.PlayersCollection.Contains(runtimeModel.OwnerId))
                 throw new InvalidOperationException($"Unable create a player twice : {runtimeModel.OwnerId}");
             
-            var playerConfig = sharedConfig.Players.FirstOrDefault(x => x.Id == runtimeModel.ConfigId);
+            var playerConfig = context.Config.Players.FirstOrDefault(x => x.Id == runtimeModel.ConfigId);
             if (playerConfig == null)
                 throw new NullReferenceException($"{nameof(PlayerConfig)} with id {runtimeModel.ConfigId}, not found in {nameof(ISharedConfig)}");
-            
+
+            var contextFactory = context.ContextFactory;
             var eventSource = contextFactory.CreateEventsSource();
             var eventPublisher = contextFactory.CreateEventPublisher(eventSource);
             var statsCollection = contextFactory.CreateStatsCollection(eventPublisher);
             var runtimePlayer = new RuntimePlayer(playerConfig, runtimeModel, statsCollection, eventPublisher, eventSource);
             
-            playersCollection.Add(runtimePlayer, false);
+            context.PlayersCollection.Add(runtimePlayer, false);
             return runtimePlayer;
         }
 
@@ -92,7 +80,7 @@ namespace CCG.Shared.Game.Factories
                 : runtimePlayer.RuntimeModel.Stats;
             
             foreach (var runtimeModel in statModels)
-                runtimeStatFactory.Create(runtimeModel, false);
+                context.StatFactory.Create(runtimeModel, false);
         }
     }
 }

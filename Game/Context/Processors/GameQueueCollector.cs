@@ -1,6 +1,5 @@
-﻿using CCG.Shared.Abstractions.Game.Context.EventSource;
+﻿using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Processors;
-using CCG.Shared.Abstractions.Game.Context.Providers;
 using CCG.Shared.Abstractions.Game.Events;
 using CCG.Shared.Game.Events.Context.Commands;
 using CCG.Shared.Game.Events.Context.Queue;
@@ -9,27 +8,20 @@ namespace CCG.Shared.Game.Context.Processors
 {
     public class GameQueueCollector : IGameQueueCollector
     {
+        private readonly IContext context;
         private readonly Queue<IGameEvent> queue;
-        private readonly IEventsSource eventsSource;
-        private readonly IEventPublisher eventPublisher;
-        private readonly IRuntimeOrderProvider orderProvider;
         private IDisposable commandExecutionListener;
         private string predictionId;
 
-        public GameQueueCollector(
-            IEventsSource eventsSource,
-            IEventPublisher eventPublisher,
-            IRuntimeOrderProvider orderProvider)
+        public GameQueueCollector(IContext context)
         {
-            this.eventsSource = eventsSource;
-            this.eventPublisher = eventPublisher;
-            this.orderProvider = orderProvider;
+            this.context = context;
             queue = new Queue<IGameEvent>();
         }
 
         public void Start()
         {
-            commandExecutionListener = eventsSource.Subscribe<BeforeCommandExecuteEvent>(SetupPredictions);
+            commandExecutionListener = context.EventSource.Subscribe<BeforeCommandExecuteEvent>(SetupPredictions);
         }
 
         public void End()
@@ -41,7 +33,7 @@ namespace CCG.Shared.Game.Context.Processors
 
         public void Register(IGameEvent value)
         {
-            value.Order = orderProvider.Next();
+            value.Order = context.RuntimeOrderProvider.Next();
             value.PredictionId = predictionId;
             queue.Enqueue(value);
         }
@@ -51,7 +43,7 @@ namespace CCG.Shared.Game.Context.Processors
             var releaseEvent = new AfterGameQueueReleasedEvent(queue.ToList());
             predictionId = null;
             queue.Clear();
-            eventPublisher.Publish(releaseEvent);
+            context.EventPublisher.Publish(releaseEvent);
         }
 
         private void SetupPredictions(BeforeCommandExecuteEvent eventData)

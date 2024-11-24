@@ -9,6 +9,7 @@ namespace CCG.Shared.Game.Runtime.Effects
 {
     public abstract class RuntimeEffectBase : IRuntimeEffect
     {
+        protected IContext Context { get; private set; }
         public EffectConfig Config { get; private set; }
         public IRuntimeEffectModel RuntimeModel { get; private set; }
         public IEventsSource EventsSource { get; private set; }
@@ -18,12 +19,14 @@ namespace CCG.Shared.Game.Runtime.Effects
             EffectConfig config,
             IRuntimeEffectModel runtimeModel,
             IEventPublisher eventPublisher,
-            IEventsSource eventsSource)
+            IEventsSource eventsSource,
+            IContext context)
         {
             Config = config;
             RuntimeModel = runtimeModel;
             EventPublisher = eventPublisher;
             EventsSource = eventsSource;
+            Context = context;
             OnCreated();
             return this;
         }
@@ -65,9 +68,9 @@ namespace CCG.Shared.Game.Runtime.Effects
 
         #region IRuntimeObjectBase
 
-        IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
+        IRuntimeBaseModel IRuntimeBase.RuntimeModel => RuntimeModel;
 
-        IConfig IRuntimeObjectBase.Config => Config;
+        IConfig IRuntimeBase.Config => Config;
 
         #endregion
     }

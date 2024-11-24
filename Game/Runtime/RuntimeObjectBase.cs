@@ -23,7 +23,7 @@ namespace CCG.Shared.Game.Runtime
 
         protected IDisposables Disposables;
 
-        public IRuntimeObject Init(
+        public void Init(
             ObjectConfig config,
             IRuntimeObjectModel runtimeModel,
             IStatsCollection statsCollection,
@@ -41,7 +41,6 @@ namespace CCG.Shared.Game.Runtime
             StatsCollection.AddTo(Disposables);
             EffectsCollection.AddTo(Disposables);
             Sync(runtimeModel);
-            return this;
         }
         
         public virtual void Dispose()
@@ -54,25 +53,22 @@ namespace CCG.Shared.Game.Runtime
             EffectsCollection = null;
         }
 
-        public IRuntimeObject Sync(IRuntimeObjectModel runtimeModel)
+        public void Sync(IRuntimeObjectModel runtimeModel)
         {
             RuntimeModel = runtimeModel;
             StatsCollection.LinkModelsList(RuntimeModel.Stats);
             EffectsCollection.LinkModelsList(RuntimeModel.Applied);
-            return this;
         }
 
         public bool ReceiveHit(HitArgs hit)
         {
-            if (!hit.Attacker.IsAlive || !IsAlive || hit.Target != this)
+            if (!hit.Attacker.IsAlive && !hit.Type.HasFlag(DamageType.CounterAttack))
                 return false;
             
-            var result = OnReceiveDamage(hit);
-
-            if (hit.Type.HasFlag(DamageType.Direct) && StatsCollection.TryGet(StatType.Attack, out var attackStat))
-                hit.Attacker.ReceiveHit(new HitArgs(this, hit.Attacker, attackStat.Current, DamageType.CounterAttack));
-
-            return result;
+            if (!IsAlive || hit.Target != this)
+                return false;
+            
+            return OnReceiveDamage(ref hit) | TryCounterAttack(ref hit);
         }
 
         public void SetState(ObjectState value, ObjectState? previous = null, bool notify = true)
@@ -94,10 +90,8 @@ namespace CCG.Shared.Game.Runtime
             if (notify)
                 EventPublisher.Publish(new AfterObjectSpawnedEvent(this));
         }
-
-        #region IRuntimeObjectBase
-
-        protected virtual bool OnReceiveDamage(HitArgs hit)
+        
+        protected virtual bool OnReceiveDamage(ref HitArgs hit)
         {
             var result = false;
             var damage = hit.Damage;
@@ -111,7 +105,7 @@ namespace CCG.Shared.Game.Runtime
                 result = true;
             }
             
-            if (damage > 0 && StatsCollection.TryGet(StatType.Hp, out var hpStat) && hpStat.Current > 0)
+            if (damage > 0 && StatsCollection.TryGet(StatType.Hp, out var hpStat))
             {
                 hpStat.Subtract(damage);
                 result = true;
@@ -122,11 +116,24 @@ namespace CCG.Shared.Game.Runtime
             
             return result;
         }
+
+        protected virtual bool TryCounterAttack(ref HitArgs hit)
+        {
+            if (hit.Type.HasFlag(DamageType.Direct | DamageType.None) 
+                && StatsCollection.TryGet(StatType.Attack, out var attackStat) 
+                && attackStat.Current > 0)
+                return hit.Attacker.ReceiveHit(new HitArgs(this, hit.Attacker, attackStat.Current, DamageType.CounterAttack));
+
+            return false;
+        }
+        
         protected abstract bool IsObjectAlive();
+
+        #region IRuntimeBase
         
-        IRuntimeModelBase IRuntimeObjectBase.RuntimeModel => RuntimeModel;
+        IRuntimeBaseModel IRuntimeBase.RuntimeModel => RuntimeModel;
         
-        IConfig IRuntimeObjectBase.Config => Config;
+        IConfig IRuntimeBase.Config => Config;
 
         #endregion
     }

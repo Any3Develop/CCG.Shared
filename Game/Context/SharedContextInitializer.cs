@@ -42,7 +42,8 @@ namespace CCG.Shared.Game.Context
             context.RuntimeIdProvider.Sync(GetRequiredArgument<IRuntimeIdModel>(models));
             context.RuntimeOrderProvider.Sync(GetRequiredArgument<IRuntimeOrderModel>(models));
             context.RuntimeRandomProvider.Sync(GetRequiredArgument<IRuntimeRandomModel>(models));
-            context.RuntimeTimer = context.TimerFactory.Create(GetRequiredArgument<IRuntimeTimerModel>(models));
+            // TODO check to correct start the timer
+            context.RuntimeTimer.Sync(GetRequiredArgument<IRuntimeTimerModel>(models));
         }
         
         private static T GetRequiredArgument<T>(IEnumerable<IContextModel> args)

@@ -14,7 +14,7 @@ namespace CCG.Shared.Game.Runtime.Models
         
         public override bool Equals(object obj)
         {
-            return obj is IRuntimeModelBase other && other.Id == Id;
+            return obj is IRuntimeBaseModel other && other.Id == Id;
         }
         
         public override int GetHashCode()

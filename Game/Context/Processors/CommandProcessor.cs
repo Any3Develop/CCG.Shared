@@ -1,7 +1,6 @@
 ﻿using CCG.Shared.Abstractions.Game.Commands;
 using CCG.Shared.Abstractions.Game.Context;
 using CCG.Shared.Abstractions.Game.Context.Processors;
-using CCG.Shared.Abstractions.Game.Factories;
 using CCG.Shared.Common.Logger;
 using CCG.Shared.Game.Events.Context.Commands;
 
@@ -10,19 +9,15 @@ namespace CCG.Shared.Game.Context.Processors
     public class CommandProcessor : ICommandProcessor
     {
         private readonly IContext context;
-        private readonly ICommandFactory commandFactory;
 
-        public CommandProcessor(
-            IContext context, 
-            ICommandFactory commandFactory)
+        public CommandProcessor(IContext context)
         {
             this.context = context;
-            this.commandFactory = commandFactory;
         }
         
         public void Execute(ICommandModel model)
         {
-            Execute(commandFactory.Create(model));
+            Execute(context.CommandFactory.Create(model));
         }
 
         private void Execute(ICommand command)
